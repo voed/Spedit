@@ -1,7 +1,5 @@
 # SPEdit
-#### _SPEdit - A lightweight sourcepawn editor._
-
-[Thread in Alliedmodders](https://forums.alliedmods.net/showthread.php?t=259917)
+#### _SPEdit - A lightweight AMXX editor based on [Spedit](https://github.com/JulienKluge/Spedit)._
 
 
 ##### List Of Features:
@@ -21,9 +19,6 @@
 * Auto-Indentation (active and passive)
 * Errors/Warnings List
 * Syntax Reformatter (Syntax Tidy)
-* Auto-Updating (by default disabled since it could be dangerous)
-* Lysis Decompiler (Improved Version)
-* smx Dissassembler (Fixed)
 * RCon Querying
 * Dynamic Autocomplete/Intellisense from all opened include-files [NEW]
 * Auto bracket-closing
