@@ -5,17 +5,16 @@ namespace SourcepawnCondenser.Tokenizer
 {
 	public static class Tokenizer
 	{
-		public static List<Token> TokenizeString(string Source, bool IgnoreMultipleEOL)
+		public static List<Token> TokenizeString(string source, bool ignoreMultipleEol)
 		{
-			char[] sArray = Source.ToCharArray();
+			char[] sArray = source.ToCharArray();
 			int sArrayLength = sArray.Length;
-			List<Token> token = new List<Token>((int)Math.Ceiling((float)sArrayLength * 0.20f));
+			List<Token> token = new List<Token>((int)Math.Ceiling(sArrayLength * 0.20f));
 			//the reservation of the capacity is an empirical measured optimization. The average token to text length is 0.19 (with multiple EOL)
 			//To hopefully never extend the inner array, we use 2.3  |  performance gain: around 20%
-			char c;
-			for (int i = 0; i < sArrayLength; ++i)
+            for (int i = 0; i < sArrayLength; ++i)
 			{
-				c = sArray[i];
+				var c = sArray[i];
 
 				#region Whitespace
 				if (c == ' ' || c == '\t')
@@ -26,7 +25,7 @@ namespace SourcepawnCondenser.Tokenizer
 				if (c == '\n' || c == '\r')
 				{
 					token.Add(new Token("\r\n", TokenKind.EOL, i));
-					if (IgnoreMultipleEOL)
+					if (ignoreMultipleEol)
 					{
 						while ((i + 1) < sArrayLength)
 						{
@@ -117,12 +116,12 @@ namespace SourcepawnCondenser.Tokenizer
 							}
 							if (endIndex == -1)
 							{
-								token.Add(new Token(Source.Substring(startIndex), TokenKind.SingleLineComment, startIndex));
+								token.Add(new Token(source.Substring(startIndex), TokenKind.SingleLineComment, startIndex));
 								i = sArrayLength;
 							}
 							else
 							{
-								token.Add(new Token(Source.Substring(startIndex, endIndex - startIndex), TokenKind.SingleLineComment, startIndex));
+								token.Add(new Token(source.Substring(startIndex, endIndex - startIndex), TokenKind.SingleLineComment, startIndex));
 								i = endIndex - 1;
 							}
 							continue;
@@ -147,12 +146,12 @@ namespace SourcepawnCondenser.Tokenizer
 								if (endIndex == -1)
 								{
 									i = sArrayLength;
-									token.Add(new Token(Source.Substring(startIndex), TokenKind.MultiLineComment, startIndex));
+									token.Add(new Token(source.Substring(startIndex), TokenKind.MultiLineComment, startIndex));
 								}
 								else
 								{
 									i = endIndex;
-									token.Add(new Token(Source.Substring(startIndex, endIndex - startIndex + 1), TokenKind.MultiLineComment, startIndex));
+									token.Add(new Token(source.Substring(startIndex, endIndex - startIndex + 1), TokenKind.MultiLineComment, startIndex));
 								}
 								continue;
 							}
@@ -179,7 +178,7 @@ namespace SourcepawnCondenser.Tokenizer
 					}
 					if (endIndex != -1)
 					{
-						token.Add(new Token(Source.Substring(startIndex, endIndex - startIndex + 1), TokenKind.Quote, startIndex));
+						token.Add(new Token(source.Substring(startIndex, endIndex - startIndex + 1), TokenKind.Quote, startIndex));
 						i = endIndex;
 						continue;
 					}
@@ -208,7 +207,7 @@ namespace SourcepawnCondenser.Tokenizer
 					}
 					if ((c != '_') || (c == '_' && ((nextChar >= 'a' && nextChar <= 'z') || (nextChar >= 'A' && nextChar <= 'Z') || (nextChar >= '0' && nextChar <= '9') || nextChar == '_')))
 					{
-						string identString = Source.Substring(startIndex, endIndex - startIndex);
+						string identString = source.Substring(startIndex, endIndex - startIndex);
 						switch (identString)
 						{
 							case "native":
@@ -310,7 +309,7 @@ namespace SourcepawnCondenser.Tokenizer
 					}
 					if (endIndex == -1)
 					{ endIndex = sArrayLength - 1; }
-					token.Add(new Token(Source.Substring(startIndex, endIndex - startIndex + 1), TokenKind.Number, startIndex));
+					token.Add(new Token(source.Substring(startIndex, endIndex - startIndex + 1), TokenKind.Number, startIndex));
 					i = endIndex;
 					continue;
 				}
@@ -334,7 +333,7 @@ namespace SourcepawnCondenser.Tokenizer
 									break;
 								}
 							}
-							string directiveString = Source.Substring(startIndex, endIndex - startIndex);
+							string directiveString = source.Substring(startIndex, endIndex - startIndex);
 							token.Add(new Token(directiveString, TokenKind.PrePocessorDirective, startIndex));
 							i = endIndex - 1;
 							continue;

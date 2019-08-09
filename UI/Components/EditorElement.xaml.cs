@@ -1,20 +1,21 @@
-﻿using ICSharpCode.AvalonEdit.Document;
-using ICSharpCode.AvalonEdit.Folding;
-using ICSharpCode.AvalonEdit.Rendering;
-using ICSharpCode.AvalonEdit.Utils;
-using MahApps.Metro;
-using MahApps.Metro.Controls.Dialogs;
-using Spedit.Utils.SPSyntaxTidy;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Folding;
+using ICSharpCode.AvalonEdit.Rendering;
+using ICSharpCode.AvalonEdit.Utils;
+using MahApps.Metro.Controls.Dialogs;
+using Spedit.Utils.SPSyntaxTidy;
 using Xceed.Wpf.AvalonDock.Layout;
+using Timer = System.Timers.Timer;
 
 namespace Spedit.UI.Components
 {
@@ -35,17 +36,17 @@ namespace Spedit.UI.Components
 
         Timer regularyTimer;
 		public Timer AutoSaveTimer;
-        bool WantFoldingUpdate = false;
-        bool SelectionIsHighlited = false;
+        bool WantFoldingUpdate;
+        bool SelectionIsHighlited;
 
         Storyboard FadeJumpGridIn;
         Storyboard FadeJumpGridOut;
 
-        double LineHeight = 0.0;
+        double LineHeight;
 
         public string FullFilePath
         {
-            get { return _FullFilePath; }
+            get => _FullFilePath;
             set
             {
                 FileInfo fInfo = new FileInfo(value);
@@ -59,13 +60,10 @@ namespace Spedit.UI.Components
         }
         private string _FullFilePath = "";
 
-        private bool _NeedsSave = false;
+        private bool _NeedsSave;
         public bool NeedsSave
         {
-            get
-            {
-                return _NeedsSave;
-            }
+            get => _NeedsSave;
             set
             {
                 if (!(value ^ _NeedsSave)) //when not changed
@@ -81,7 +79,7 @@ namespace Spedit.UI.Components
                     }
                     else
                     {
-                        Parent.Title = Parent.Title.Trim(new char[] { '*' });
+                        Parent.Title = Parent.Title.Trim('*');
                     }
                 }
             }
@@ -99,10 +97,10 @@ namespace Spedit.UI.Components
             bracketHighlightRenderer = new BracketHighlightRenderer(editor.TextArea.TextView);
             editor.TextArea.IndentationStrategy = new EditorIndetationStrategy();
 
-            FadeJumpGridIn = (Storyboard)this.Resources["FadeJumpGridIn"];
-            FadeJumpGridOut = (Storyboard)this.Resources["FadeJumpGridOut"];
+            FadeJumpGridIn = (Storyboard)Resources["FadeJumpGridIn"];
+            FadeJumpGridOut = (Storyboard)Resources["FadeJumpGridOut"];
 
-            this.KeyDown += EditorElement_KeyDown;
+            KeyDown += EditorElement_KeyDown;
 
             editor.TextArea.Caret.PositionChanged += Caret_PositionChanged;
             editor.TextArea.SelectionChanged += TextArea_SelectionChanged;
@@ -114,9 +112,12 @@ namespace Spedit.UI.Components
             FileInfo fInfo = new FileInfo(filePath);
             if (fInfo.Exists)
             {
-                fileWatcher = new FileSystemWatcher(fInfo.DirectoryName) { IncludeSubdirectories = false };
-                fileWatcher.NotifyFilter = NotifyFilters.Size | NotifyFilters.LastWrite;
-                fileWatcher.Filter = "*" + fInfo.Extension;
+                fileWatcher = new FileSystemWatcher(fInfo.DirectoryName)
+                {
+                    IncludeSubdirectories = false,
+                    NotifyFilter = NotifyFilters.Size | NotifyFilters.LastWrite,
+                    Filter = "*" + fInfo.Extension
+                };
                 fileWatcher.Changed += fileWatcher_Changed;
                 fileWatcher.EnableRaisingEvents = true;
             }
@@ -183,14 +184,14 @@ namespace Spedit.UI.Components
 			AutoSaveTimer.Elapsed += AutoSaveTimer_Elapsed;
 			StartAutoSaveTimer();
 
-            CompileBox.IsChecked = (bool?)filePath.EndsWith(".sp");
+            CompileBox.IsChecked = filePath.EndsWith(".sp");
         }
 
 		private void AutoSaveTimer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			if (NeedsSave)
 			{
-				Dispatcher.Invoke(() =>
+				Dispatcher?.Invoke(() =>
 				{
 					Save();
 				});
@@ -205,7 +206,7 @@ namespace Spedit.UI.Components
 				{
 					AutoSaveTimer.Stop();
 				}
-				AutoSaveTimer.Interval = 1000.0 * (double)Program.OptionsObject.Editor_AutoSaveInterval;
+				AutoSaveTimer.Interval = 1000.0 * Program.OptionsObject.Editor_AutoSaveInterval;
 				AutoSaveTimer.Start();
 			}
 		}
@@ -222,7 +223,7 @@ namespace Spedit.UI.Components
             }
         }
 
-        private bool JumpGridIsOpen = false;
+        private bool JumpGridIsOpen;
 
         public void ToggleJumpGrid()
         {
@@ -285,27 +286,27 @@ namespace Spedit.UI.Components
             if (e == null) { return; }
             if (e.FullPath == _FullFilePath)
             {
-                bool ReloadFile = false;
+                bool reloadFile;
                 if (_NeedsSave)
                 {
                     var result = MessageBox.Show(string.Format(Program.Translations.DFileChanged, _FullFilePath) + Environment.NewLine + Program.Translations.FileTryReload,
 						Program.Translations.FileChanged, MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
-                    ReloadFile = (result == MessageBoxResult.Yes);
+                    reloadFile = (result == MessageBoxResult.Yes);
                 }
                 else //when the user didnt changed anything, we just reload the file since we are intelligent...
                 {
-                    ReloadFile = true;
+                    reloadFile = true;
                 }
-                if (ReloadFile)
+                if (reloadFile)
                 {
-                    this.Dispatcher.Invoke(() =>
+                    Dispatcher?.Invoke(() =>
                     {
-                        FileStream stream;
                         bool IsNotAccessed = true;
                         while (IsNotAccessed)
                         {
                             try
                             {
+                                FileStream stream;
                                 using (stream = new FileStream(_FullFilePath, FileMode.OpenOrCreate))
                                 {
                                     editor.Load(stream);
@@ -314,7 +315,7 @@ namespace Spedit.UI.Components
                                 }
                             }
                             catch (Exception) { }
-                            System.Threading.Thread.Sleep(100); //dont include System.Threading in the using directives, cause its onlyused once and the Timer class will double
+                            Thread.Sleep(100); //dont include System.Threading in the using directives, cause its onlyused once and the Timer class will double
                         }
                     });
                 }
@@ -323,7 +324,7 @@ namespace Spedit.UI.Components
 
         private void regularyTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            this.Dispatcher.Invoke(() =>
+            Dispatcher?.Invoke(() =>
                     {
                         if (editor.SelectionLength > 0 && editor.SelectionLength < 50)
                         {
@@ -362,7 +363,7 @@ namespace Spedit.UI.Components
                 WantFoldingUpdate = false;
                 try //this "solves" a racing-conditions error - i wasnt able to fix it till today.. 
                 {
-                    this.Dispatcher.Invoke(() =>
+                    Dispatcher?.Invoke(() =>
                     {
                         foldingStrategy.UpdateFoldings(foldingManager, editor.Document);
                     });
@@ -383,7 +384,7 @@ namespace Spedit.UI.Components
                 {
                     using (FileStream fs = new FileStream(_FullFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
                     {
-                        editor.Save((Stream)fs);
+                        editor.Save(fs);
                     }
                 }
                 catch (Exception e)
@@ -418,17 +419,17 @@ namespace Spedit.UI.Components
 			var line = editor.Document.GetLineByOffset(editor.CaretOffset);
 			string lineText = editor.Document.GetText(line.Offset, line.Length);
 			int leadinggWhiteSpaces = 0;
-			for (int i = 0; i < lineText.Length; ++i)
-			{
-				if (char.IsWhiteSpace(lineText[i]))
-				{
-					leadinggWhiteSpaces++;
-				}
-				else
-				{
-					break;
-				}
-			}
+			foreach (var c in lineText)
+            {
+                if (char.IsWhiteSpace(c))
+                {
+                    leadinggWhiteSpaces++;
+                }
+                else
+                {
+                    break;
+                }
+            }
 			lineText = lineText.Trim();
 			if (lineText.Length > 1)
 			{
@@ -512,7 +513,7 @@ namespace Spedit.UI.Components
                     }
                     else
                     {
-                        var Result = Program.MainWindow.ShowMessageAsync($"{Program.Translations.SavingFile} '" + Parent.Title.Trim(new char[] { '*' }) + "'", "", MessageDialogStyle.AffirmativeAndNegative, Program.MainWindow.MetroDialogOptions);
+                        var Result = Program.MainWindow.ShowMessageAsync($"{Program.Translations.SavingFile} '" + Parent.Title.Trim('*') + "'", "", MessageDialogStyle.AffirmativeAndNegative, Program.MainWindow.MetroDialogOptions);
 						Result.Wait();
 						if (Result.Result == MessageDialogResult.Affirmative)
                         {
@@ -525,9 +526,9 @@ namespace Spedit.UI.Components
 			var childs = Program.MainWindow.DockingPaneGroup.Children;
 			foreach (var c in childs)
 			{
-				if (c is LayoutDocumentPane)
+				if (c is LayoutDocumentPane pane)
 				{
-					((LayoutDocumentPane)c).Children.Remove(this.Parent);
+					pane.Children.Remove(Parent);
 				}
 			}
 			Parent = null; //to prevent a ring depency which disables the GC from work
@@ -745,7 +746,7 @@ namespace Spedit.UI.Components
     public class ColorizeSelection : DocumentColorizingTransformer
     {
         public string SelectionString = string.Empty;
-        public bool HighlightSelection = false;
+        public bool HighlightSelection;
 
         protected override void ColorizeLine(DocumentLine line)
         {
@@ -761,10 +762,10 @@ namespace Spedit.UI.Components
                 int index;
                 while ((index = text.IndexOf(SelectionString, start)) >= 0)
                 {
-                    base.ChangeLinePart(
+                    ChangeLinePart(
                         lineStartOffset + index,
                         lineStartOffset + index + SelectionString.Length,
-                        (VisualLineElement element) =>
+                        element =>
                         {
                             element.BackgroundBrush = Brushes.LightGray;
                         });

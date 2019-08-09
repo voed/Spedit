@@ -12,7 +12,7 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
         public static int SVersion = 11;
         public int Version = 11;
 
-        public byte[] Program_CryptoKey = null;
+        public byte[] Program_CryptoKey;
 		public bool Program_UseHardwareSalts = true;
 
         public bool Program_UseHardwareAcceleration = true;
@@ -33,7 +33,7 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
 		public double Program_ObjectbrowserWidth = 300.0;
 
         public bool UI_Animations = true;
-        public bool UI_ShowToolBar = false;
+        public bool UI_ShowToolBar;
 
         public bool Editor_WordWrap = false;
         public double Editor_FontSize = 16.0;
@@ -41,13 +41,13 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
         public double Editor_ScrollLines = 4.0;
         public bool Editor_AgressiveIndentation = true;
         public bool Editor_ReformatLineAfterSemicolon = true;
-        public bool Editor_ReplaceTabsToWhitespace = false;
+        public bool Editor_ReplaceTabsToWhitespace;
 		public bool Editor_AutoCloseBrackets = true;
 		public bool Editor_AutoCloseStringChars = true;
-		public bool Editor_ShowSpaces = false;
-		public bool Editor_ShowTabs = false;
+		public bool Editor_ShowSpaces;
+		public bool Editor_ShowTabs;
 		public int Editor_IndentationSize = 4;
-		public bool Editor_AutoSave = false;
+		public bool Editor_AutoSave;
 		public int Editor_AutoSaveInterval = 5 * 60;
 
 		public string[] LastOpenFiles = new string[0];
@@ -75,35 +75,35 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
 
         public void FillNullToDefaults()
         {
-            if (this.Program_CryptoKey == null)
+            if (Program_CryptoKey == null)
             {
-                this.ReCreateCryptoKey();
+                ReCreateCryptoKey();
             }
-            if (OptionsControl.SVersion > this.Version)
+            if (SVersion > Version)
             {
 				Program.ClearUpdateFiles();
 				if (Version < 2)
 				{
-					this.UI_ShowToolBar = false;
+					UI_ShowToolBar = false;
 				}
 				if (Version < 3)
 				{
-					this.Editor_ReformatLineAfterSemicolon = true;
-					this.Editor_ScrollLines = 4.0;
-					this.Program_CheckForUpdates = true;
+					Editor_ReformatLineAfterSemicolon = true;
+					Editor_ScrollLines = 4.0;
+					Program_CheckForUpdates = true;
 				}
 				if (Version < 4)
 				{
-					this.Editor_ReplaceTabsToWhitespace = false;
+					Editor_ReplaceTabsToWhitespace = false;
 				}
 				if (Version < 5)
 				{
-					this.Program_DynamicISAC = true;
+					Program_DynamicISAC = true;
 				}
 				if (Version < 7)
 				{
-					this.Program_AccentColor = "Red";
-					this.Program_Theme = "BaseDark";
+					Program_AccentColor = "Red";
+					Program_Theme = "BaseDark";
 					NormalizeSHColors();
 				}
 				if (Version < 8)
@@ -121,7 +121,7 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
 					Program_ObjectbrowserWidth = 300.0;
 					Editor_AutoSave = false;
 					Editor_AutoSaveInterval = 5 * 60;
-					this.ReCreateCryptoKey();
+					ReCreateCryptoKey();
 					Program.MakeRCCKAlert();
                 }
                 if (Version < 10)
@@ -130,11 +130,11 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
                 }
                 if (Version < 11)
                 {
-                    if (this.Program_AccentColor == "Cyan")
-                        this.Program_AccentColor = "Blue";
+                    if (Program_AccentColor == "Cyan")
+                        Program_AccentColor = "Blue";
                 }
                 //new Optionsversion - reset new fields to default
-                this.Version = OptionsControl.SVersion; //then Update Version afterwars
+                Version = SVersion; //then Update Version afterwars
             }
         }
 
@@ -145,7 +145,7 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
             {
                 cryptoRandomProvider.GetBytes(buffer);
             }
-            this.Program_CryptoKey = buffer;
+            Program_CryptoKey = buffer;
         }
 
 		private void NormalizeSHColors()
@@ -172,14 +172,14 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
     [Serializable]
     public class SerializeableColor
     {
-        public SerializeableColor(byte _A, byte _R, byte _G, byte _B)
+        public SerializeableColor(byte a, byte r, byte g, byte b)
         {
-            A = _A; R = _R; G = _G; B = _B;
+            A = a; R = r; G = g; B = b;
         }
-        public byte A = 0x00;
-        public byte R = 0x00;
-        public byte G = 0x00;
-        public byte B = 0x00;
+        public byte A;
+        public byte R;
+        public byte G;
+        public byte B;
         public static implicit operator SerializeableColor(Color c)
         { return new SerializeableColor(c.A, c.R, c.G, c.B ); }
         public static implicit operator Color(SerializeableColor c)
@@ -202,7 +202,7 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
             catch (Exception) { }
         }
 
-        public static OptionsControl Load(out bool ProgramIsNew)
+        public static OptionsControl Load(out bool programIsNew)
         {
             try
             {
@@ -216,7 +216,7 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
                     }
                     OptionsControl oc = (OptionsControl)deserializedOptionsObj;
                     oc.FillNullToDefaults();
-					ProgramIsNew = false;
+					programIsNew = false;
 					return oc;
                 }
             }
@@ -224,7 +224,7 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
             OptionsControl oco = new OptionsControl();
             oco.ReCreateCryptoKey();
 #if DEBUG
-			ProgramIsNew = false;
+			programIsNew = false;
 #else
 			ProgramIsNew = true;
 #endif

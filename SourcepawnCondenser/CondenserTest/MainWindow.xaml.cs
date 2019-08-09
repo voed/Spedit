@@ -42,7 +42,7 @@ namespace CondenserTest
 			watch.Stop();
 			Token[] t = tList.ToArray();
 			double tokenToTextLength = (double)t.Length / (double)text.Length;
-			string subTitle = watch.ElapsedMilliseconds.ToString() + " ms  -  tokenL/textL: " + tokenToTextLength.ToString() + "  (" + t.Length.ToString() + " / " + text.Length.ToString() + ")";
+			string subTitle = watch.ElapsedMilliseconds + " ms  -  tokenL/textL: " + tokenToTextLength + "  (" + t.Length + " / " + text.Length + ")";
 			tokenStack.Children.Clear();
 			int i = 0;
 			if (t.Length < 10000)
@@ -50,9 +50,8 @@ namespace CondenserTest
 				foreach (var token in t)
 				{
 					++i;
-					Grid g = new Grid() { Background = ChooseBackgroundFromTokenKind(token.Kind) };
-					g.Tag = token;
-					g.MouseLeftButtonUp += G_MouseLeftButtonUp;
+                    Grid g = new Grid {Background = ChooseBackgroundFromTokenKind(token.Kind), Tag = token};
+                    g.MouseLeftButtonUp += G_MouseLeftButtonUp;
 					g.HorizontalAlignment = HorizontalAlignment.Stretch;
 					g.Children.Add(new TextBlock() { Text = token.Kind.ToString() + " - '" + token.Value + "'", IsHitTestVisible = false });
 					tokenStack.Children.Add(g);
@@ -65,14 +64,13 @@ namespace CondenserTest
 			var def = c.Condense();
 			watch.Stop();
 			subTitle += "  -  condenser: " + watch.ElapsedMilliseconds.ToString() + " ms";
-			this.Title = subTitle;
+			Title = subTitle;
 			bool expand = ExpandBox.IsChecked.Value;
 			TreeViewItem functionItem = new TreeViewItem() { Header = "functions (" + def.Functions.Count.ToString() + ")", IsExpanded = expand };
 			foreach (var f in def.Functions)
 			{
-				TreeViewItem item = new TreeViewItem() { Header = f.Name, IsExpanded = expand };
-				item.Tag = f;
-				item.MouseLeftButtonUp += ItemFunc_MouseLeftButtonUp;
+                TreeViewItem item = new TreeViewItem {Header = f.Name, IsExpanded = expand, Tag = f};
+                item.MouseLeftButtonUp += ItemFunc_MouseLeftButtonUp;
 				item.Items.Add(new TreeViewItem() { Header = "Index: " + f.Index.ToString(), Background = Brushes.LightGray });
 				item.Items.Add(new TreeViewItem() { Header = "Length: " + f.Length.ToString() });
 				item.Items.Add(new TreeViewItem() { Header = "Kind: " + f.FunctionKind.ToString(), Background = Brushes.LightGray });
@@ -88,9 +86,13 @@ namespace CondenserTest
 			TreeViewItem enumItem = new TreeViewItem() { Header = "enums (" + def.Enums.Count.ToString() + ")", IsExpanded = expand };
 			foreach (var en in def.Enums)
 			{
-				TreeViewItem item = new TreeViewItem() { Header = (string.IsNullOrWhiteSpace(en.Name)) ? "no name" : en.Name, IsExpanded = expand };
-				item.Tag = en;
-				item.MouseLeftButtonUp += ItemEnum_MouseLeftButtonUp;
+                TreeViewItem item = new TreeViewItem
+                {
+                    Header = (string.IsNullOrWhiteSpace(en.Name)) ? "no name" : en.Name,
+                    IsExpanded = expand,
+                    Tag = en
+                };
+                item.MouseLeftButtonUp += ItemEnum_MouseLeftButtonUp;
 				item.Items.Add(new TreeViewItem() { Header = "Index: " + en.Index.ToString(), Background = Brushes.LightGray });
 				item.Items.Add(new TreeViewItem() { Header = "Length: " + en.Length.ToString() });
 				for (int j = 0; j < en.Entries.Length; ++j)
@@ -104,9 +106,8 @@ namespace CondenserTest
 			TreeViewItem dItem = new TreeViewItem() { Header = "defines (" + def.Defines.Count.ToString() + ")", IsExpanded = expand };
 			foreach (var d in def.Defines)
 			{
-				TreeViewItem item = new TreeViewItem() { Header = d.Name, IsExpanded = expand };
-				item.Tag = d;
-				item.MouseLeftButtonUp += Itemppd_MouseLeftButtonUp;
+                TreeViewItem item = new TreeViewItem {Header = d.Name, IsExpanded = expand, Tag = d};
+                item.MouseLeftButtonUp += Itemppd_MouseLeftButtonUp;
 				item.Items.Add(new TreeViewItem() { Header = "Index: " + d.Index.ToString(), Background = Brushes.LightGray });
 				item.Items.Add(new TreeViewItem() { Header = "Length: " + d.Length.ToString() });
 				dItem.Items.Add(item);
@@ -115,8 +116,7 @@ namespace CondenserTest
             TreeViewItem cItem = new TreeViewItem() { Header = "constants (" + def.Constants.Count.ToString() + ")", IsExpanded = expand };
             foreach (var cn in def.Constants)
             {
-                TreeViewItem item = new TreeViewItem() { Header = cn.Name, IsExpanded = expand };
-                item.Tag = cn;
+                TreeViewItem item = new TreeViewItem {Header = cn.Name, IsExpanded = expand, Tag = cn};
                 item.MouseLeftButtonUp += Itemc_MouseLeftButtonUp;
                 item.Items.Add(new TreeViewItem() { Header = "Index: " + cn.Index.ToString(), Background = Brushes.LightGray });
                 item.Items.Add(new TreeViewItem() { Header = "Length: " + cn.Length.ToString() });
@@ -128,53 +128,41 @@ namespace CondenserTest
 		private void ItemFunc_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			var token = ((TreeViewItem)sender).Tag;
-			if (token != null)
-			{
-				if (token is SMFunction)
-				{
-					textBox.Focus();
-					textBox.Select(((SMFunction)token).Index, ((SMFunction)token).Length);
-				}
-			}
-		}
+            if (token is SMFunction function)
+            {
+                textBox.Focus();
+                textBox.Select(function.Index, function.Length);
+            }
+        }
 
 		private void ItemEnum_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			var token = ((TreeViewItem)sender).Tag;
-			if (token != null)
-			{
-				if (token is SMEnum)
-				{
-					textBox.Focus();
-					textBox.Select(((SMEnum)token).Index, ((SMEnum)token).Length);
-				}
-			}
-		}
+            if (token is SMEnum tokenEnum)
+            {
+                textBox.Focus();
+                textBox.Select(tokenEnum.Index, tokenEnum.Length);
+            }
+        }
 
 
 		private void Itemppd_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			var token = ((TreeViewItem)sender).Tag;
-			if (token != null)
-			{
-				if (token is SMDefine)
-				{
-					textBox.Focus();
-					textBox.Select(((SMDefine)token).Index, ((SMDefine)token).Length);
-				}
-			}
-		}
+            if (token is SMDefine define)
+            {
+                textBox.Focus();
+                textBox.Select(define.Index, define.Length);
+            }
+        }
 
         private void Itemc_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var token = ((TreeViewItem)sender).Tag;
-            if (token != null)
+            if (token is SMConstant constant)
             {
-                if (token is SMConstant)
-                {
-                    textBox.Focus();
-                    textBox.Select(((SMConstant)token).Index, ((SMConstant)token).Length);
-                }
+                textBox.Focus();
+                textBox.Select(constant.Index, constant.Length);
             }
         }
 
@@ -182,15 +170,12 @@ namespace CondenserTest
         private void G_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			var token = ((Grid)sender).Tag;
-			if (token != null)
-			{
-				if (token is Token)
-				{
-					textBox.Focus();
-					textBox.Select(((Token)token).Index, ((Token)token).Length);
-				}
-			}
-		}
+            if (token is Token t)
+            {
+                textBox.Focus();
+                textBox.Select(t.Index, t.Length);
+            }
+        }
 
 		private Brush ChooseBackgroundFromTokenKind(TokenKind kind)
 		{

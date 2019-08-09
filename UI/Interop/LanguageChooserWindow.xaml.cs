@@ -1,11 +1,6 @@
 ﻿using MahApps.Metro.Controls;
-using System.Diagnostics;
-using System.Reflection;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Controls;
-using System.Windows.Navigation;
-using MahApps.Metro;
 
 namespace Spedit.UI.Interop
 {
@@ -40,10 +35,9 @@ namespace Spedit.UI.Interop
 			{
 				return;
 			}
-			if (selectedObj is ComboBoxItem)
+			if (selectedObj is ComboBoxItem selectedItem)
 			{
-				ComboBoxItem selectedItem = (ComboBoxItem)selectedObj;
-				SelectedID = (string)selectedItem.Tag;
+                SelectedID = (string)selectedItem.Tag;
 			}
 			Close();
 		}

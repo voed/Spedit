@@ -1,12 +1,12 @@
-﻿using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.Editing;
-using ICSharpCode.AvalonEdit.Rendering;
-using SourcepawnCondenser.SourcemodDefinition;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.Editing;
+using ICSharpCode.AvalonEdit.Rendering;
+using SourcepawnCondenser.SourcemodDefinition;
 
 namespace Spedit.UI.Components
 {
@@ -25,13 +25,13 @@ namespace Spedit.UI.Components
         Regex multilineCommentRegex = new Regex(@"/\*.*?\*/", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.Singleline);
 
 		public ulong LastSMDefUpdateUID = 0;
-        public bool ISAC_Open = false;
-        private bool AC_Open = false;
-        private bool IS_Open = false;
+        public bool ISAC_Open;
+        private bool AC_Open;
+        private bool IS_Open;
 
         private bool AC_IsFuncC = true;
 
-        private bool AnimationsLoaded = false;
+        private bool AnimationsLoaded;
 
         private int LastShowedLine = -1;
 
@@ -44,22 +44,22 @@ namespace Spedit.UI.Components
         {
             if (!AnimationsLoaded)
             {
-                FadeISACIn = (Storyboard)this.Resources["FadeISACIn"];
-                FadeISACOut = (Storyboard)this.Resources["FadeISACOut"];
-                FadeACIn = (Storyboard)this.Resources["FadeACIn"];
-                FadeACOut = (Storyboard)this.Resources["FadeACOut"];
-                FadeAC_FuncC_In = (Storyboard)this.Resources["FadeAC_FuncC_In"];
-                FadeAC_MethodC_In = (Storyboard)this.Resources["FadeAC_MethodC_In"];
+                FadeISACIn = (Storyboard)Resources["FadeISACIn"];
+                FadeISACOut = (Storyboard)Resources["FadeISACOut"];
+                FadeACIn = (Storyboard)Resources["FadeACIn"];
+                FadeACOut = (Storyboard)Resources["FadeACOut"];
+                FadeAC_FuncC_In = (Storyboard)Resources["FadeAC_FuncC_In"];
+                FadeAC_MethodC_In = (Storyboard)Resources["FadeAC_MethodC_In"];
                 FadeISACOut.Completed += FadeISACOut_Completed;
                 FadeACOut.Completed += FadeACOut_Completed;
                 AnimationsLoaded = true;
             }
-			SMDefinition def;
-			if (ISAC_Open)
+
+            if (ISAC_Open)
 			{
 				HideISAC();
 			}
-			def = Program.Configs[Program.SelectedConfig].GetSMDef();
+			var def = Program.Configs[Program.SelectedConfig].GetSMDef();
             funcNames = def.FunctionStrings;
 			funcs = def.Functions.ToArray();
             acEntrys = def.ProduceACNodes();
@@ -80,7 +80,7 @@ namespace Spedit.UI.Components
 
 		public void InterruptLoadAutoCompletes(string[] FunctionStrings, SMFunction[] FunctionArray, ACNode[] acNodes, ISNode[] isNodes)
 		{
-			this.Dispatcher.Invoke(() => {
+			Dispatcher?.Invoke(() => {
 				funcNames = FunctionStrings;
 				funcs = FunctionArray;
 				acEntrys = acNodes;
@@ -149,14 +149,14 @@ namespace Spedit.UI.Components
                     }
                 }
             }
-            for (int i = 0; i < text.Length; ++i)
+            foreach (var c in text)
             {
-                if (text[i] == '#')
+                if (c == '#')
                 {
                     HideISAC();
                     return;
                 }
-                if (!char.IsWhiteSpace(text[i]))
+                if (!char.IsWhiteSpace(c))
                 {
                     break;
                 }
@@ -403,7 +403,7 @@ namespace Spedit.UI.Components
             if (!ISAC_Open)
             {
                 ISAC_Open = true;
-                ISAC_Grid.Visibility = System.Windows.Visibility.Visible;
+                ISAC_Grid.Visibility = Visibility.Visible;
                 SetISACPosition(forcedXPos);
                 if (Program.OptionsObject.UI_Animations)
                 {
@@ -427,7 +427,7 @@ namespace Spedit.UI.Components
                 else
                 {
                     ISAC_Grid.Opacity = 0.0;
-                    ISAC_Grid.Visibility = System.Windows.Visibility.Collapsed;
+                    ISAC_Grid.Visibility = Visibility.Collapsed;
                 }
             }
         }
@@ -561,7 +561,7 @@ namespace Spedit.UI.Components
 
         private void FadeISACOut_Completed(object sender, EventArgs e)
         {
-            ISAC_Grid.Visibility = System.Windows.Visibility.Collapsed;
+            ISAC_Grid.Visibility = Visibility.Collapsed;
         }
 
         private void FadeACOut_Completed(object sender, EventArgs e)

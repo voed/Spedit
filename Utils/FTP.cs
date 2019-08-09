@@ -20,12 +20,9 @@ namespace Spedit.Utils
         {
 			StringBuilder requestUri = new StringBuilder(host);
 			if (host[host.Length - 1] == '/')
-			{
-				if (remoteFile[0] == '/')
-				{ requestUri.Append(remoteFile.Substring(1)); }
-				else
-				{ requestUri.Append(remoteFile); }
-			}
+            {
+                requestUri.Append(remoteFile[0] == '/' ? remoteFile.Substring(1) : remoteFile);
+            }
 			else
 			{
 				if (remoteFile[0] == '/')
@@ -36,7 +33,7 @@ namespace Spedit.Utils
 					requestUri.Append(remoteFile);
 				}
 			}
-            ftpRequest = (FtpWebRequest)FtpWebRequest.Create(requestUri.ToString());
+            ftpRequest = (FtpWebRequest)WebRequest.Create(requestUri.ToString());
             ftpRequest.Credentials = new NetworkCredential(user, pass);
             ftpRequest.UseBinary = true;
             ftpRequest.UsePassive = true;

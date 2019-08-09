@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SourcepawnCondenser;
+﻿using SourcepawnCondenser;
 using SourcepawnCondenser.SourcemodDefinition;
 using System.Threading;
 using System.Timers;
@@ -32,7 +28,7 @@ namespace Spedit.UI
 			if (currentSMDefUID == 0) { return; }
 			EditorElement[] ee = null;
 			EditorElement ce = null;
-			this.Dispatcher.Invoke(() =>
+			Dispatcher.Invoke(() =>
 			{
 				ee = GetAllEditorElements();
 				ce = GetCurrentEditorElement();

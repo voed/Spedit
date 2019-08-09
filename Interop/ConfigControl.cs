@@ -1,12 +1,11 @@
-﻿using SourcepawnCondenser;
-using SourcepawnCondenser.SourcemodDefinition;
-using Spedit.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Xml;
+using SourcepawnCondenser.SourcemodDefinition;
+using Spedit.Utils;
 
 namespace Spedit.Interop
 {
@@ -33,11 +32,11 @@ namespace Spedit.Interop
                     for (int i = 0; i < mainNode.ChildNodes.Count; ++i)
                     {
                         XmlNode node = mainNode.ChildNodes[i];
-                        string _Name = ReadAttributeStringSafe(ref node, "Name", "UNKOWN CONFIG " + (i + 1).ToString());
-                        string _SMDirectoryStr = ReadAttributeStringSafe(ref node, "SMDirectory", "");
-                        string[] SMDirectoriesSplitted = _SMDirectoryStr.Split(';');
+                        string name = ReadAttributeStringSafe(ref node, "Name", "UNKOWN CONFIG " + (i + 1));
+                        string smDirectoryStr = ReadAttributeStringSafe(ref node, "SMDirectory");
+                        string[] smDirectoriesSplitted = smDirectoryStr.Split(';');
                         List<string> SMDirs = new List<string>();
-                        foreach (string dir in SMDirectoriesSplitted)
+                        foreach (string dir in smDirectoriesSplitted)
                         {
                             string d = dir.Trim();
                             if (Directory.Exists(d))
@@ -45,89 +44,77 @@ namespace Spedit.Interop
                                 SMDirs.Add(d);
                             }
                         }
-                        string _Standard = ReadAttributeStringSafe(ref node, "Standard", "0");
-                        bool IsStandardConfig = false;
-                        if (_Standard != "0" && !string.IsNullOrWhiteSpace(_Standard))
-                        {
-                            IsStandardConfig = true;
-                        }
-                        string _AutoCopyStr = ReadAttributeStringSafe(ref node, "AutoCopy", "0");
-                        bool _AutoCopy = false;
-                        if (_AutoCopyStr != "0" && !string.IsNullOrWhiteSpace(_AutoCopyStr))
-                        {
-                            _AutoCopy = true;
-                        }
-                        string _CopyDirectory = ReadAttributeStringSafe(ref node, "CopyDirectory", "");
-                        string _ServerFile = ReadAttributeStringSafe(ref node, "ServerFile", "");
-                        string _ServerArgs = ReadAttributeStringSafe(ref node, "ServerArgs", "");
-                        string _PostCmd = ReadAttributeStringSafe(ref node, "PostCmd", "");
-                        string _PreCmd = ReadAttributeStringSafe(ref node, "PreCmd", "");
-                        int _OptimizationLevel = 2, _VerboseLevel = 1;
+                        string standard = ReadAttributeStringSafe(ref node, "Standard", "0");
+                        bool isStandardConfig = standard != "0" && !string.IsNullOrWhiteSpace(standard);
+                        string autoCopyStr = ReadAttributeStringSafe(ref node, "AutoCopy", "0");
+                        bool autoCopy = autoCopyStr != "0" && !string.IsNullOrWhiteSpace(autoCopyStr);
+                        string copyDirectory = ReadAttributeStringSafe(ref node, "CopyDirectory");
+                        string serverFile = ReadAttributeStringSafe(ref node, "ServerFile");
+                        string serverArgs = ReadAttributeStringSafe(ref node, "ServerArgs");
+                        string postCmd = ReadAttributeStringSafe(ref node, "PostCmd");
+                        string preCmd = ReadAttributeStringSafe(ref node, "PreCmd");
+                        int optimizationLevel = 2, verboseLevel = 1;
                         int subValue;
                         if (int.TryParse(ReadAttributeStringSafe(ref node, "OptimizationLevel", "2"), out subValue))
                         {
-                            _OptimizationLevel = subValue;
+                            optimizationLevel = subValue;
                         }
                         if (int.TryParse(ReadAttributeStringSafe(ref node, "VerboseLevel", "1"), out subValue))
                         {
-                            _VerboseLevel = subValue;
+                            verboseLevel = subValue;
                         }
-                        bool _DeleteAfterCopy = false;
-                        string DeleteAfterCopyStr = ReadAttributeStringSafe(ref node, "DeleteAfterCopy", "0");
-                        if (!(DeleteAfterCopyStr == "0" || string.IsNullOrWhiteSpace(DeleteAfterCopyStr)))
+                        bool deleteAfterCopy = false;
+                        string deleteAfterCopyStr = ReadAttributeStringSafe(ref node, "DeleteAfterCopy", "0");
+                        if (!(deleteAfterCopyStr == "0" || string.IsNullOrWhiteSpace(deleteAfterCopyStr)))
                         {
-                            _DeleteAfterCopy = true;
+                            deleteAfterCopy = true;
                         }
-                        string _FTPHost = ReadAttributeStringSafe(ref node, "FTPHost", "ftp://localhost/");
-                        string _FTPUser = ReadAttributeStringSafe(ref node, "FTPUser", "");
-                        string encryptedFTPPW = ReadAttributeStringSafe(ref node, "FTPPassword", "");
-                        string _FTPPW = ManagedAES.Decrypt(encryptedFTPPW);
-                        string _FTPDir = ReadAttributeStringSafe(ref node, "FTPDir", "");
-                        string _RConEngineSourceStr = ReadAttributeStringSafe(ref node, "RConSourceEngine", "1");
-                        bool _RConEngineTypeSource = false;
-                        if (!(_RConEngineSourceStr == "0" || string.IsNullOrWhiteSpace(_RConEngineSourceStr)))
+                        string ftpHost = ReadAttributeStringSafe(ref node, "FTPHost", "ftp://localhost/");
+                        string ftpUser = ReadAttributeStringSafe(ref node, "FTPUser");
+                        string encryptedFTPPW = ReadAttributeStringSafe(ref node, "FTPPassword");
+                        string ftppw = ManagedAES.Decrypt(encryptedFTPPW);
+                        string ftpDir = ReadAttributeStringSafe(ref node, "FTPDir");
+                        string rConEngineSourceStr = ReadAttributeStringSafe(ref node, "RConSourceEngine", "1");
+                        bool rConEngineTypeSource = !(rConEngineSourceStr == "0" || string.IsNullOrWhiteSpace(rConEngineSourceStr));
+                        string rConIp = ReadAttributeStringSafe(ref node, "RConIP", "127.0.0.1");
+                        string rConPortStr = ReadAttributeStringSafe(ref node, "RConPort", "27015");
+                        ushort rConPort;
+                        if (!ushort.TryParse(rConPortStr, NumberStyles.Any, CultureInfo.InvariantCulture, out rConPort))
                         {
-                            _RConEngineTypeSource = true;
+                            rConPort = 27015;
                         }
-                        string _RConIP = ReadAttributeStringSafe(ref node, "RConIP", "127.0.0.1");
-                        string _RConPortStr = ReadAttributeStringSafe(ref node, "RConPort", "27015");
-                        ushort _RConPort = 27015;
-                        if (!ushort.TryParse(_RConPortStr, NumberStyles.Any, CultureInfo.InvariantCulture, out _RConPort))
+                        string encryptedRConPassword = ReadAttributeStringSafe(ref node, "RConPassword");
+                        string rConPassword = ManagedAES.Decrypt(encryptedRConPassword);
+                        string rConCommands = ReadAttributeStringSafe(ref node, "RConCommands");
+                        Config c = new Config
                         {
-                            _RConPort = 27015;
-                        }
-                        string encryptedRConPassword = ReadAttributeStringSafe(ref node, "RConPassword", "");
-                        string _RConPassword = ManagedAES.Decrypt(encryptedRConPassword);
-                        string _RConCommands = ReadAttributeStringSafe(ref node, "RConCommands", "");
-                        Config c = new Config()
-                        {
-                            Name = _Name,
+                            Name = name,
                             SMDirectories = SMDirs.ToArray(),
-                            Standard = IsStandardConfig
+                            Standard = isStandardConfig
                             ,
-                            AutoCopy = _AutoCopy,
-                            CopyDirectory = _CopyDirectory,
-                            ServerFile = _ServerFile,
-                            ServerArgs = _ServerArgs
+                            AutoCopy = autoCopy,
+                            CopyDirectory = copyDirectory,
+                            ServerFile = serverFile,
+                            ServerArgs = serverArgs
                             ,
-                            PostCmd = _PostCmd,
-                            PreCmd = _PreCmd,
-                            OptimizeLevel = _OptimizationLevel,
-                            VerboseLevel = _VerboseLevel,
-                            DeleteAfterCopy = _DeleteAfterCopy
+                            PostCmd = postCmd,
+                            PreCmd = preCmd,
+                            OptimizeLevel = optimizationLevel,
+                            VerboseLevel = verboseLevel,
+                            DeleteAfterCopy = deleteAfterCopy
                             ,
-                            FTPHost = _FTPHost,
-                            FTPUser = _FTPUser,
-                            FTPPassword = _FTPPW,
-                            FTPDir = _FTPDir
+                            FTPHost = ftpHost,
+                            FTPUser = ftpUser,
+                            FTPPassword = ftppw,
+                            FTPDir = ftpDir
                             ,
-                            RConUseSourceEngine = _RConEngineTypeSource,
-                            RConIP = _RConIP,
-                            RConPort = _RConPort,
-                            RConPassword = _RConPassword,
-                            RConCommands = _RConCommands
+                            RConUseSourceEngine = rConEngineTypeSource,
+                            RConIP = rConIp,
+                            RConPort = rConPort,
+                            RConPassword = rConPassword,
+                            RConCommands = rConCommands
                         };
-                        if (IsStandardConfig)
+                        if (isStandardConfig)
                         {
                             c.LoadSMDef();
                         }
@@ -153,7 +140,7 @@ namespace Spedit.Interop
 
         private static string ReadAttributeStringSafe(ref XmlNode node, string attributeName, string defaultValue = "")
         {
-            for (int i = 0; i < node.Attributes.Count; ++i)
+            for (int i = 0; i < node.Attributes?.Count; ++i)
             {
                 if (node.Attributes[i].Name == attributeName)
                 {
@@ -168,9 +155,9 @@ namespace Spedit.Interop
     {
         public string Name = string.Empty;
 
-        public bool Standard = false;
+        public bool Standard;
 
-        public bool AutoCopy = false;
+        public bool AutoCopy;
 
         public string[] SMDirectories = new string[0];
         public string CopyDirectory = string.Empty;
@@ -180,7 +167,7 @@ namespace Spedit.Interop
         public string PostCmd = string.Empty;
         public string PreCmd = string.Empty;
 
-        public bool DeleteAfterCopy = false;
+        public bool DeleteAfterCopy;
 
         public int OptimizeLevel = 2;
         public int VerboseLevel = 1;
@@ -209,12 +196,12 @@ namespace Spedit.Interop
 
         public void InvalidateSMDef()
         {
-            this.SMDef = null;
+            SMDef = null;
         }
 
         public void LoadSMDef()
         {
-            if (this.SMDef != null)
+            if (SMDef != null)
             {
                 return;
             }
@@ -226,7 +213,7 @@ namespace Spedit.Interop
             }
             catch (Exception)
             {
-                this.SMDef = new SMDefinition(); //this could be dangerous...
+                SMDef = new SMDefinition(); //this could be dangerous...
             }
         }
     }

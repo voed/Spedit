@@ -1,13 +1,5 @@
 ﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
 using Spedit.UI.Components;
-using Spedit.Utils;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Threading;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 
@@ -29,15 +21,12 @@ namespace Spedit.UI
 				((MenuItem)ConfigMenu.Items[ConfigMenu.Items.Count - 1]).Header = Program.Translations.EditConfig;
 				EditorElement[] ee = GetAllEditorElements();
 				if (ee != null)
-				{
-					for (int i = 0; i < ee.Length; ++i)
-					{
-						if (ee[i] != null)
-						{
-							ee[i].Language_Translate();
-						}
-					}
-				}
+                {
+                    foreach (var editor in ee)
+                    {
+                        editor?.Language_Translate();
+                    }
+                }
 			}
 			MenuI_File.Header = Program.Translations.FileStr;
 			MenuI_New.Header = Program.Translations.New;

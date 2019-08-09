@@ -12,8 +12,10 @@ namespace Spedit.UI
             ConfigMenu.Items.Clear();
             for (int i = 0; i < Program.Configs.Length; ++i)
             {
-                MenuItem item = new MenuItem() { Header = Program.Configs[i].Name, IsCheckable = true };
-                item.IsChecked = (i == Program.SelectedConfig);
+                MenuItem item = new MenuItem
+                {
+                    Header = Program.Configs[i].Name, IsCheckable = true, IsChecked = (i == Program.SelectedConfig)
+                };
                 item.Click += item_Click;
                 ConfigMenu.Items.Add(item);
             }
@@ -57,14 +59,14 @@ namespace Spedit.UI
             Program.OptionsObject.Program_SelectedConfig = Program.Configs[Program.SelectedConfig].Name;
             EditorElement[] editors = GetAllEditorElements();
 			if (editors != null)
-			{
-				for (int i = 0; i < editors.Length; ++i)
-				{
-					editors[i].LoadAutoCompletes();
-					editors[i].editor.SyntaxHighlighting = new AeonEditorHighlighting();
-					editors[i].InvalidateVisual();
-				}
-			}
+            {
+                foreach (var editor in editors)
+                {
+                    editor.LoadAutoCompletes();
+                    editor.editor.SyntaxHighlighting = new AeonEditorHighlighting();
+                    editor.InvalidateVisual();
+                }
+            }
         }
         public void ChangeConfig(string name)
         {

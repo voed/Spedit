@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -14,11 +16,11 @@ namespace Spedit.UI.Components
 
         public event RoutedEventHandler ColorChanged
         {
-            add { AddHandler(ColorChangedEvent, value); }
-            remove { RemoveHandler(ColorChangedEvent, value); }
+            add => AddHandler(ColorChangedEvent, value);
+            remove => RemoveHandler(ColorChangedEvent, value);
         }
 
-        bool RaiseEventAllowed = false;
+        bool RaiseEventAllowed;
         public ColorChangeControl()
         {
             InitializeComponent();
@@ -40,15 +42,15 @@ namespace Spedit.UI.Components
 			if (!RaiseEventAllowed) { return; }
             Color c = Color.FromArgb(0xFF, (byte)((int)RSlider.Value), (byte)((int)GSlider.Value), (byte)((int)BSlider.Value));
 			UpdateColor(c, true, false);
-            RoutedEventArgs raiseEvent = new RoutedEventArgs(ColorChangeControl.ColorChangedEvent);
-            this.RaiseEvent(raiseEvent);
+            RoutedEventArgs raiseEvent = new RoutedEventArgs(ColorChangedEvent);
+            RaiseEvent(raiseEvent);
         }
 
 		private void UpdateColor(Color c, bool UpdateTextBox = true, bool UpdateSlider = true)
 		{
 			RaiseEventAllowed = false;
 			BrushRect.Background = new SolidColorBrush(c);
-			double colorChannelMean = (double)(c.R + c.G + c.B) / 3.0;
+			double colorChannelMean = (c.R + c.G + c.B) / 3.0;
 			BrushRect.Foreground = new SolidColorBrush((colorChannelMean > 128.0) ? Colors.Black : Colors.White);
 			if (UpdateTextBox)
 			{
@@ -56,12 +58,12 @@ namespace Spedit.UI.Components
 			}
 			if (UpdateSlider)
 			{
-				RSlider.Value = (double)c.R;
-				GSlider.Value = (double)c.G;
-				BSlider.Value = (double)c.B;
+				RSlider.Value = c.R;
+				GSlider.Value = c.G;
+				BSlider.Value = c.B;
 			}
-			RoutedEventArgs raiseEvent = new RoutedEventArgs(ColorChangeControl.ColorChangedEvent);
-			this.RaiseEvent(raiseEvent);
+			RoutedEventArgs raiseEvent = new RoutedEventArgs(ColorChangedEvent);
+			RaiseEvent(raiseEvent);
 			RaiseEventAllowed = true;
 		}
 
@@ -70,13 +72,13 @@ namespace Spedit.UI.Components
 			if (!RaiseEventAllowed) { return; }
 			int cVal = 0; int result = 0;
 			string parseString = BrushRect.Text.Trim();
-			if (parseString.StartsWith("0x", System.StringComparison.InvariantCultureIgnoreCase) && parseString.Length > 2)
+			if (parseString.StartsWith("0x", StringComparison.InvariantCultureIgnoreCase) && parseString.Length > 2)
 			{
 				parseString = parseString.Substring(2);
 			}
-			if (int.TryParse(parseString, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out result))
+			if (int.TryParse(parseString, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out result))
 			{ cVal = result; }
-			UpdateColor(Color.FromArgb(0xFF, (byte)((cVal >> 16) & 0xFF), (byte)((cVal >> 8) & 0xFF), (byte)(cVal & 0xFF)), false, true);
+			UpdateColor(Color.FromArgb(0xFF, (byte)((cVal >> 16) & 0xFF), (byte)((cVal >> 8) & 0xFF), (byte)(cVal & 0xFF)), false);
 		}
 	}
 }

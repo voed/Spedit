@@ -1,6 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -8,6 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
 using MahApps.Metro;
+using MahApps.Metro.Controls;
+using Microsoft.Win32;
 
 namespace Spedit.UI.Windows
 {
@@ -47,14 +47,14 @@ namespace Spedit.UI.Windows
                                 if (mainNode.ChildNodes[i].Name == "Template")
                                 {
                                     XmlAttributeCollection attributes = mainNode.ChildNodes[i].Attributes;
-                                    string NameStr = attributes["Name"].Value;
-                                    string FileNameStr = attributes["File"].Value;
-                                    string NewNameStr = attributes["NewName"].Value;
-                                    string FilePathStr = Path.Combine("sourcepawn\\templates\\", FileNameStr);
-                                    if (File.Exists(FilePathStr))
+                                    string nameStr = attributes?["Name"].Value;
+                                    string fileNameStr = attributes?["File"].Value;
+                                    string newNameStr = attributes?["NewName"].Value;
+                                    string filePathStr = Path.Combine("sourcepawn\\templates\\", fileNameStr);
+                                    if (File.Exists(filePathStr))
                                     {
-                                        TemplateDictionary.Add(NameStr, new TemplateInfo() { Name = NameStr, FileName = FileNameStr, Path = FilePathStr, NewName = NewNameStr });
-                                        TemplateListBox.Items.Add(NameStr);
+                                        TemplateDictionary.Add(nameStr, new TemplateInfo { Name = nameStr, FileName = fileNameStr, Path = filePathStr, NewName = newNameStr });
+                                        TemplateListBox.Items.Add(nameStr);
                                     }
                                 }
                             }
@@ -77,7 +77,7 @@ namespace Spedit.UI.Windows
             TemplateInfo templateInfo = TemplateDictionary[(string)TemplateListBox.SelectedItem];
             File.Copy(templateInfo.Path, destFile.FullName, true);
             Program.MainWindow.TryLoadSourceFile(destFile.FullName, true, true, true);
-            this.Close();
+            Close();
         }
 
 		private void Language_Translate()
@@ -97,36 +97,35 @@ namespace Spedit.UI.Windows
             set { }
             get
             {
-                if (this.textBoxButtonFileCmd == null)
+                if (textBoxButtonFileCmd == null)
                 {
-                    var cmd = new SimpleCommand();
-                    cmd.CanExecutePredicate = o =>
+                    var cmd = new SimpleCommand
                     {
-                        return true;
-                    };
-                    cmd.ExecuteAction = o =>
-                    {
-                        if (o is TextBox)
+                        CanExecutePredicate = o => true,
+                        ExecuteAction = o =>
                         {
-                            var dialog = new SaveFileDialog();
-                            dialog.AddExtension = true;
-                            dialog.Filter = "Sourcepawn Files (*.sp *.inc)|*.sp;*.inc|All Files (*.*)|*.*";
-                            dialog.OverwritePrompt = true;
-                            dialog.Title = Program.Translations.NewFile;
-                            var result = dialog.ShowDialog();
-                            if (result.Value)
+                            if (o is TextBox box)
                             {
-                                ((TextBox)o).Text = dialog.FileName;
+                                var dialog = new SaveFileDialog
+                                {
+                                    AddExtension = true,
+                                    Filter = "Sourcepawn Files (*.sp *.inc)|*.sp;*.inc|All Files (*.*)|*.*",
+                                    OverwritePrompt = true,
+                                    Title = Program.Translations.NewFile
+                                };
+                                var result = dialog.ShowDialog();
+                                if (result != null && result.Value)
+                                {
+                                    box.Text = dialog.FileName;
+                                }
                             }
                         }
                     };
-                    this.textBoxButtonFileCmd = cmd;
+                    textBoxButtonFileCmd = cmd;
                     return cmd;
                 }
-                else
-                {
-                    return textBoxButtonFileCmd;
-                }
+
+                return textBoxButtonFileCmd;
             }
         }
 
@@ -142,16 +141,13 @@ namespace Spedit.UI.Windows
 
             public event EventHandler CanExecuteChanged
             {
-                add { CommandManager.RequerySuggested += value; }
-                remove { CommandManager.RequerySuggested -= value; }
+                add => CommandManager.RequerySuggested += value;
+                remove => CommandManager.RequerySuggested -= value;
             }
 
             public void Execute(object parameter)
             {
-                if (ExecuteAction != null)
-                {
-                    ExecuteAction(parameter);
-                }
+                ExecuteAction?.Invoke(parameter);
             }
         }
     }

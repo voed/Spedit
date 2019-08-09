@@ -47,18 +47,16 @@ namespace Spedit.Utils
 				byte[] cipherTextBytes = Convert.FromBase64String(encryptedText);
                 var symmetricKey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.None };
                 var decryptor = symmetricKey.CreateDecryptor(SaltKey(Program.OptionsObject.Program_CryptoKey), Encoding.ASCII.GetBytes("SPEdit.Utils.AES"));
-				string outString = string.Empty;
-				using (var memoryStream = new MemoryStream(cipherTextBytes))
+                using (var memoryStream = new MemoryStream(cipherTextBytes))
 				{
 					using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
 					{
 						byte[] plainTextBytes = new byte[cipherTextBytes.Length];
 						int decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
-						outString = Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount).TrimEnd(new char[] { '\0' });
+						return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount).TrimEnd(new char[] { '\0' });
 					}
 				}
-				return outString;
-			}
+            }
             catch (Exception) { }
             return string.Empty;
         }

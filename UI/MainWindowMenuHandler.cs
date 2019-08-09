@@ -1,10 +1,7 @@
 ﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
 using Spedit.UI.Components;
 using Spedit.UI.Windows;
-using System;
 using System.Diagnostics;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -15,17 +12,17 @@ namespace Spedit.UI
         private void FileMenu_Open(object sender, RoutedEventArgs e)
         {
 			var editors = GetAllEditorElements();
-            bool EditorsAreOpen = false;
+            bool editorsAreOpen = false;
 			if (editors != null)
 			{
-				EditorsAreOpen = (editors.Length > 0);
+				editorsAreOpen = (editors.Length > 0);
 			}
-            bool EditorIsSelected = (GetCurrentEditorElement() != null);
-            ((MenuItem)((MenuItem)sender).Items[3]).IsEnabled = EditorIsSelected;
-            ((MenuItem)((MenuItem)sender).Items[5]).IsEnabled = EditorIsSelected;
-            ((MenuItem)((MenuItem)sender).Items[7]).IsEnabled = EditorIsSelected;
-            ((MenuItem)((MenuItem)sender).Items[4]).IsEnabled = EditorsAreOpen;
-            ((MenuItem)((MenuItem)sender).Items[8]).IsEnabled = EditorsAreOpen;
+            bool editorIsSelected = (GetCurrentEditorElement() != null);
+            ((MenuItem)((MenuItem)sender).Items[3]).IsEnabled = editorIsSelected;
+            ((MenuItem)((MenuItem)sender).Items[5]).IsEnabled = editorIsSelected;
+            ((MenuItem)((MenuItem)sender).Items[7]).IsEnabled = editorIsSelected;
+            ((MenuItem)((MenuItem)sender).Items[4]).IsEnabled = editorsAreOpen;
+            ((MenuItem)((MenuItem)sender).Items[8]).IsEnabled = editorsAreOpen;
         }
 
         private void Menu_New(object sender, RoutedEventArgs e)
@@ -68,11 +65,11 @@ namespace Spedit.UI
             MenuItem menu = (MenuItem)sender;
             if (ee == null)
             {
-                for (int i = 0; i < menu.Items.Count; ++i)
+                foreach (var item in menu.Items)
                 {
-                    if (menu.Items[i] is MenuItem)
+                    if (item is MenuItem menuItem)
                     {
-                        ((MenuItem)menu.Items[i]).IsEnabled = false;
+                        menuItem.IsEnabled = false;
                     }
                 }
             }
@@ -213,21 +210,14 @@ namespace Spedit.UI
 
         private void ReportBug_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(@"https://github.com/TheJelle/Spedit/issues/new"));
+            Process.Start(new ProcessStartInfo(@"https://github.com/voed/Spedit.AMXX/issues/new"));
         }
 
 
         private void MenuButton_Compile(object sender, RoutedEventArgs e)
         {
             int selected = CompileButton.SelectedIndex;
-            if (selected == 1)
-            {
-                Compile_SPScripts(false);
-            }
-            else
-            {
-                Compile_SPScripts(true);
-            }
+            Compile_SPScripts(selected != 1);
         }
 
         private void MenuButton_Action(object sender, RoutedEventArgs e)

@@ -24,7 +24,7 @@
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <Grid>
-        <controls:MetroAnimatedSingleRowTabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,15,0,0" controls:TabControlHelper.IsUnderlined="True">
+        <controls:MetroAnimatedSingleRowTabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,15,0,0" controls:TabControlHelper.Underlined="SelectedTabItem">
             <controls:MetroTabItem Name="ProgramHeader" Header=" Program ">
                 <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
                     <Grid>

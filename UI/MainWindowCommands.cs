@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
+using System.Windows;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using Spedit.UI.Components;
 using Spedit.UI.Windows;
 using Spedit.Utils.SPSyntaxTidy;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Windows;
 
 namespace Spedit.UI
 {
@@ -16,18 +15,12 @@ namespace Spedit.UI
         public EditorElement GetCurrentEditorElement()
         {
             EditorElement outElement = null;
-            if (DockingPane.SelectedContent != null)
+            if (DockingPane.SelectedContent?.Content != null)
             {
-                if (DockingPane.SelectedContent.Content != null)
+                var possElement = DockingManager.ActiveContent;
+                if (possElement is EditorElement element)
                 {
-                    var possElement = DockingManager.ActiveContent;
-                    if (possElement != null)
-                    {
-                        if (possElement is EditorElement)
-                        {
-                            outElement = (EditorElement)possElement;
-                        }
-                    }
+                    outElement = element;
                 }
             }
             return outElement;
@@ -35,16 +28,12 @@ namespace Spedit.UI
 
         public EditorElement[] GetAllEditorElements()
         {
-            if (this.EditorsReferences.Count < 1)
-            {
-                return null;
-            }
-            return this.EditorsReferences.ToArray();
+            return EditorsReferences.Count < 1 ? null : EditorsReferences.ToArray();
         }
 
         private void Command_New()
         {
-            NewFileWindow nfWindow = new NewFileWindow() { Owner = this, ShowInTaskbar = false };
+            NewFileWindow nfWindow = new NewFileWindow { Owner = this, ShowInTaskbar = false };
             nfWindow.ShowDialog();
         }
 
@@ -52,7 +41,7 @@ namespace Spedit.UI
         {
             try
             {
-                OpenFileDialog ofd = new OpenFileDialog()
+                OpenFileDialog ofd = new OpenFileDialog
                 {
                     AddExtension = true, CheckFileExists = true, CheckPathExists = true,
                     Filter = "AMXXPawn Files|*.sma;*.inc;*.cfg;*.json;*.txt;*.ini|All Files (*.*)|*.*",
@@ -71,15 +60,15 @@ namespace Spedit.UI
 
                         if (!AnyFileLoaded)
                         {
-                            this.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Theme;
+                            MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Theme;
                             this.ShowMessageAsync(Program.Translations.NoFileOpened,
                                 Program.Translations.NoFileOpenedCap, MessageDialogStyle.Affirmative,
-                                this.MetroDialogOptions);
+                                MetroDialogOptions);
                         }
                     }
                 }
 
-                this.Activate();
+                Activate();
             }
             catch (Exception e)
             {
@@ -102,17 +91,20 @@ namespace Spedit.UI
             EditorElement ee = GetCurrentEditorElement();
             if (ee != null)
             {
-                SaveFileDialog sfd = new SaveFileDialog() { AddExtension = true, Filter = @"AMXXPawn Files|*.sma;*.inc;*.cfg;*.json;*.txt;*.ini|All Files (*.*)|*.*", OverwritePrompt = true, Title = Program.Translations.SaveFileAs };
-                sfd.FileName = ee.Parent.Title.Trim(new char[] { '*' });
-                var result = sfd.ShowDialog(this);
-                if (result.Value)
+                SaveFileDialog sfd = new SaveFileDialog
                 {
-                    if (!string.IsNullOrWhiteSpace(sfd.FileName))
-                    {
-                        ee.FullFilePath = sfd.FileName;
-                        ee.Save(true);
-                        BlendOverEffect.Begin();
-                    }
+                    AddExtension = true,
+                    Filter = @"AMXXPawn Files|*.sma;*.inc;*.cfg;*.json;*.txt;*.ini|All Files (*.*)|*.*",
+                    OverwritePrompt = true,
+                    Title = Program.Translations.SaveFileAs,
+                    FileName = ee.Parent.Title.Trim('*')
+                };
+                var result = sfd.ShowDialog(this);
+                if (result.Value && !string.IsNullOrWhiteSpace(sfd.FileName))
+                {
+                    ee.FullFilePath = sfd.FileName;
+                    ee.Save(true);
+                    BlendOverEffect.Begin();
                 }
             }
         }
@@ -126,10 +118,11 @@ namespace Spedit.UI
             }
             if (editors.Length > 0)
             {
-                for (int i = 0; i < editors.Length; ++i)
+                foreach (var editor in editors)
                 {
-                    editors[i].Save();
+                    editor.Save();
                 }
+
                 BlendOverEffect.Begin();
             }
         }
@@ -137,10 +130,7 @@ namespace Spedit.UI
         private void Command_Close()
         {
             EditorElement ee = GetCurrentEditorElement();
-            if (ee != null)
-            {
-                ee.Close();
-            }
+            ee?.Close();
         }
 
         private async void Command_CloseAll()
@@ -152,31 +142,27 @@ namespace Spedit.UI
             }
             if (editors.Length > 0)
             {
-                bool UnsavedEditorsExisting = false;
-                for (int i = 0; i < editors.Length; ++i)
-                {
-                    UnsavedEditorsExisting |= editors[i].NeedsSave;
-                }
-                bool ForceSave = false;
-                if (UnsavedEditorsExisting)
+                bool unsavedEditorsExisting = editors.Aggregate(false, (current, t) => current | t.NeedsSave);
+                bool forceSave = false;
+                if (unsavedEditorsExisting)
                 {
                     StringBuilder str = new StringBuilder();
                     for (int i = 0; i < editors.Length; ++i)
                     {
                         if (i == 0)
-                        { str.Append(editors[i].Parent.Title.Trim(new char[] { '*' })); }
+                        { str.Append(editors[i].Parent.Title.Trim('*')); }
                         else
-                        { str.AppendLine(editors[i].Parent.Title.Trim(new char[] { '*' })); }
+                        { str.AppendLine(editors[i].Parent.Title.Trim('*')); }
                     }
-                    var Result = await this.ShowMessageAsync(Program.Translations.SaveFollow, str.ToString(), MessageDialogStyle.AffirmativeAndNegative, this.MetroDialogOptions);
-                    if (Result == MessageDialogResult.Affirmative)
+                    var result = await this.ShowMessageAsync(Program.Translations.SaveFollow, str.ToString(), MessageDialogStyle.AffirmativeAndNegative, MetroDialogOptions);
+                    if (result == MessageDialogResult.Affirmative)
                     {
-                        ForceSave = true;
+                        forceSave = true;
                     }
                 }
-                for (int i = 0; i < editors.Length; ++i)
+                foreach (var editor in editors)
                 {
-                    editors[i].Close(ForceSave, ForceSave);
+                    editor.Close(forceSave, forceSave);
                 }
             }
         }
@@ -184,66 +170,48 @@ namespace Spedit.UI
         private void Command_Undo()
         {
             EditorElement ee = GetCurrentEditorElement();
-            if (ee != null)
+            if (ee?.editor.CanUndo == true)
             {
-                if (ee.editor.CanUndo)
-                {
-                    ee.editor.Undo();
-                }
+                ee.editor.Undo();
             }
         }
 
         private void Command_Redo()
         {
             EditorElement ee = GetCurrentEditorElement();
-            if (ee != null)
+            if (ee?.editor.CanRedo == true)
             {
-                if (ee.editor.CanRedo)
-                {
-                    ee.editor.Redo();
-                }
+                ee.editor.Redo();
             }
         }
 
         private void Command_Cut()
         {
             EditorElement ee = GetCurrentEditorElement();
-            if (ee != null)
-            {
-                ee.editor.Cut();
-            }
+            ee?.editor.Cut();
         }
 
         private void Command_Copy()
         {
             EditorElement ee = GetCurrentEditorElement();
-            if (ee != null)
-            {
-                ee.editor.Copy();
-            }
+            ee?.editor.Copy();
         }
 
         private void Command_Paste()
         {
             EditorElement ee = GetCurrentEditorElement();
-            if (ee != null)
-            {
-                ee.editor.Paste();
-            }
+            ee?.editor.Paste();
         }
 
         private void Command_FlushFoldingState(bool state)
         {
             EditorElement ee = GetCurrentEditorElement();
-            if (ee != null)
+            if (ee?.foldingManager != null)
             {
-                if (ee.foldingManager != null)
+                var foldings = ee.foldingManager.AllFoldings;
+                foreach (var folding in foldings)
                 {
-                    var foldings = ee.foldingManager.AllFoldings;
-                    foreach (var folding in foldings)
-                    {
-                        folding.IsFolded = state;
-                    }
+                    folding.IsFolded = state;
                 }
             }
         }
@@ -251,51 +219,30 @@ namespace Spedit.UI
         private void Command_JumpTo()
         {
             EditorElement ee = GetCurrentEditorElement();
-            if (ee != null)
-            {
-                ee.ToggleJumpGrid();
-            }
+            ee?.ToggleJumpGrid();
         }
 
         private void Command_SelectAll()
         {
             EditorElement ee = GetCurrentEditorElement();
-            if (ee != null)
-            {
-                ee.editor.SelectAll();
-            }
+            ee?.editor.SelectAll();
         }
 
 		private void Command_ToggleCommentLine()
 		{
 			EditorElement ee = GetCurrentEditorElement();
-			if (ee != null)
-			{
-				ee.ToggleCommentOnLine();
-			}
-		}
+            ee?.ToggleCommentOnLine();
+        }
 
         private void Command_TidyCode(bool All)
         {
-            EditorElement[] editors;
-            if (All)
+            var editors = All ? GetAllEditorElements() : new[] { GetCurrentEditorElement() };
+            foreach (var ee in editors)
             {
-                editors = GetAllEditorElements();
-            }
-            else
-            {
-                editors = new EditorElement[] { GetCurrentEditorElement() };
-            }
-            for (int i = 0; i < editors.Length; ++i)
-            {
-                EditorElement ee = editors[i];
-                if (ee != null)
-                {
-                    ee.editor.Document.BeginUpdate();
-                    string source = ee.editor.Text;
-                    ee.editor.Document.Replace(0, source.Length, SPSyntaxTidy.TidyUp(source));
-                    ee.editor.Document.EndUpdate();
-                }
+                ee?.editor.Document.BeginUpdate();
+                string source = ee?.editor.Text;
+                ee?.editor.Document.Replace(0, source.Length, SPSyntaxTidy.TidyUp(source));
+                ee?.editor.Document.EndUpdate();
             }
         }
 

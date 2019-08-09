@@ -7,8 +7,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:stheme="clr-namespace:Spedit.UI.STheme"
              mc:Ignorable="d" 
-             Title="Spedit" GlowBrush="{DynamicResource AccentColorBrush}" MinHeight="100" MinWidth="200" KeyDown="MainWindowEvent_KeyDown" Closing="MetroWindow_Closing"
-                      AllowDrop="True" Drop="MetroWindow_Drop" ShowIconOnTitleBar="False" TitleCaps="False">
+             Title="Spedit.AMXX" GlowBrush="{DynamicResource AccentColorBrush}" MinHeight="100" MinWidth="200" KeyDown="MainWindowEvent_KeyDown" Closing="MetroWindow_Closing"
+                      AllowDrop="True" Drop="MetroWindow_Drop" ShowIconOnTitleBar="False" TitleCharacterCasing="Normal">
     <controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

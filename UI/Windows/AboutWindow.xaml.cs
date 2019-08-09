@@ -20,21 +20,17 @@ namespace Spedit.UI.Windows
 			Language_Translate();
 			if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
 			{ ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme)); }
-			Brush gridBrush = null;
-			if (Program.OptionsObject.Program_Theme == "BaseDark")
-			{ gridBrush = new SolidColorBrush(Color.FromArgb(0xC0, 0x10, 0x10, 0x10)); }
-			else
-			{ gridBrush = new SolidColorBrush(Color.FromArgb(0xC0, 0xE0, 0xE0, 0xE0)); }
+
+            Brush gridBrush = Program.OptionsObject.Program_Theme == "BaseDark" ? new SolidColorBrush(Color.FromArgb(0xC0, 0x10, 0x10, 0x10)) : new SolidColorBrush(Color.FromArgb(0xC0, 0xE0, 0xE0, 0xE0));
 			gridBrush.Freeze();
 			foreach (var c in ContentStackPanel.Children)
 			{
-				if (c is Grid)
+				if (c is Grid g)
 				{
-					Grid g = (Grid)c;
-					g.Background = gridBrush;
+                    g.Background = gridBrush;
 				}
 			}
-			TitleBox.Text = $"SPEdit ({Assembly.GetEntryAssembly().GetName().Version.ToString()}) - {Program.Translations.SPEditCap}";
+			TitleBox.Text = $"SPEdit ({Assembly.GetEntryAssembly()?.GetName().Version}) - {Program.Translations.SPEditCap}";
             LicenseField.Text = LicenseString;
         }
 

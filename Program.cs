@@ -1,13 +1,15 @@
-﻿using Spedit.Interop;
-using Spedit.UI;
-using System;
+﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media;
-using System.Runtime;
+using MahApps.Metro;
+using Spedit.Interop;
+using Spedit.UI;
 
 namespace Spedit
 {
@@ -19,9 +21,9 @@ namespace Spedit
         public static OptionsControl OptionsObject;
 		public static TranslationProvider Translations;
         public static Config[] Configs;
-        public static int SelectedConfig = 0;
+        public static int SelectedConfig;
 
-        public static bool RCCKMade = false;
+        public static bool RCCKMade;
 
         [STAThread]
         public static void Main(string[] args)
@@ -47,12 +49,12 @@ namespace Spedit
 						OptionsObject = OptionsControlIOObject.Load(out ProgramIsNew);
 						Translations = new TranslationProvider();
 						Translations.LoadLanguage(OptionsObject.Language, true);
-						for (int i = 0; i < args.Length; ++i)
+						foreach (var arg in args)
                         {
-                            if (args[i].ToLowerInvariant() == "-rcck") //ReCreateCryptoKey
+                            if (arg.ToLowerInvariant() == "-rcck") //ReCreateCryptoKey
                             {
-								OptionsObject.ReCreateCryptoKey();
-								MakeRCCKAlert();
+                                OptionsObject.ReCreateCryptoKey();
+                                MakeRCCKAlert();
                             }
                         }
                         Configs = ConfigLoader.Load();
@@ -60,13 +62,13 @@ namespace Spedit
                         {
                             if (Configs[i].Name == OptionsObject.Program_SelectedConfig)
                             {
-                                Program.SelectedConfig = i;
+                                SelectedConfig = i;
                                 break;
                             }
                         }
                         if (!OptionsObject.Program_UseHardwareAcceleration)
                         {
-                            RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
+                            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 						}
 #if !DEBUG
 						if (ProgramIsNew)
@@ -139,7 +141,8 @@ namespace Spedit
                                 FileInfo fInfo = new FileInfo(args[i]);
                                 if (fInfo.Exists)
                                 {
-                                    string ext = fInfo.Extension.ToLowerInvariant().Trim(new char[] { '.', ' ' });
+                                    string ext = fInfo.Extension.ToLowerInvariant().Trim('.', ' ');
+                                    //todo fix this?
                                     if (ext == "sp" || ext == "inc" || ext == "txt" || ext == "smx")
                                     {
                                         addedFiles = true;
@@ -170,40 +173,40 @@ namespace Spedit
 		}
 
 		public static void ClearUpdateFiles()
-		{
-			string[] files = Directory.GetFiles(Environment.CurrentDirectory, "*.exe", SearchOption.TopDirectoryOnly);
-			for (int i = 0; i < files.Length; ++i)
-			{
-				FileInfo fInfo = new FileInfo(files[i]);
-				if (fInfo.Name.StartsWith("updater_", StringComparison.CurrentCultureIgnoreCase))
-				{
-					fInfo.Delete();
-				}
-			}
-		}
+        {
+            string[] files = Directory.GetFiles(Environment.CurrentDirectory, "*.exe", SearchOption.TopDirectoryOnly);
+            foreach (var file in files)
+            {
+                FileInfo fInfo = new FileInfo(file);
+                if (fInfo.Name.StartsWith("updater_", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    fInfo.Delete();
+                }
+            }
+        }
 
 		private static void App_Startup(object sender, StartupEventArgs e)
 		{
 			
-			Tuple<MahApps.Metro.AppTheme, MahApps.Metro.Accent> appStyle = MahApps.Metro.ThemeManager.DetectAppStyle(Application.Current);
-			MahApps.Metro.ThemeManager.ChangeAppStyle(Application.Current,
-									MahApps.Metro.ThemeManager.GetAccent("Green"),
-									MahApps.Metro.ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1
+			Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
+			ThemeManager.ChangeAppStyle(Application.Current,
+									ThemeManager.GetAccent("Green"),
+									ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1
 		}
 
-		private static string BuildExceptionString(Exception e, string SectionName)
+		private static string BuildExceptionString(Exception e, string sectionName)
         {
             StringBuilder outString = new StringBuilder();
-            outString.AppendLine("Section: " + SectionName);
+            outString.AppendLine("Section: " + sectionName);
             outString.AppendLine(".NET Version: " + Environment.Version);
             outString.AppendLine("OS: " + Environment.OSVersion.VersionString);
             outString.AppendLine("64 bit OS: " + ((Environment.Is64BitOperatingSystem) ? "TRUE" : "FALSE"));
             outString.AppendLine("64 bit mode: " + ((Environment.Is64BitProcess) ? "TRUE" : "FALSE"));
             outString.AppendLine("Dir: " + Environment.CurrentDirectory);
-            outString.AppendLine("Working Set: " + (Environment.WorkingSet / 1024).ToString() + " kb");
-            outString.AppendLine("Installed UI Culture: " + System.Globalization.CultureInfo.InstalledUICulture ?? "null");
-            outString.AppendLine("Current UI Culture: " + System.Globalization.CultureInfo.CurrentUICulture ?? "null");
-            outString.AppendLine("Current Culture: " + System.Globalization.CultureInfo.CurrentCulture ?? "null");
+            outString.AppendLine("Working Set: " + (Environment.WorkingSet / 1024) + " kb");
+            outString.AppendLine("Installed UI Culture: " + CultureInfo.InstalledUICulture);
+            outString.AppendLine("Current UI Culture: " + CultureInfo.CurrentUICulture);
+            outString.AppendLine("Current Culture: " + CultureInfo.CurrentCulture);
             outString.AppendLine();
             Exception current = e;
             int eNumber = 1;
@@ -213,7 +216,7 @@ namespace Spedit
                 {
                     break;
                 }
-                outString.AppendLine("Exception " + eNumber.ToString());
+                outString.AppendLine("Exception " + eNumber);
                 outString.AppendLine("Message:");
                 outString.AppendLine(e.Message);
                 outString.AppendLine("Stacktrace:");
@@ -232,7 +235,7 @@ namespace Spedit
                 e = e.InnerException;
                 eNumber++;
             }
-            return (eNumber - 1).ToString() + Environment.NewLine + outString.ToString();
+            return (eNumber - 1) + Environment.NewLine + outString;
         }
     }
 }

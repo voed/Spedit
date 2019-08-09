@@ -1,16 +1,16 @@
-﻿using Spedit.UI.Components;
-using System;
+﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
-using Xceed.Wpf.AvalonDock.Layout;
+using Spedit.UI.Components;
 
 namespace Spedit.UI
 {
     public partial class MainWindow
     {
-        bool IsSearchFieldOpen = false;
+        bool IsSearchFieldOpen;
 
         public void ToggleSearchField()
         {
@@ -114,7 +114,7 @@ namespace Spedit.UI
         }
         private void FindReplaceGrid_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Escape)
+            if (e.Key == Key.Escape)
             {
                 ToggleSearchField();
             }
@@ -122,8 +122,7 @@ namespace Spedit.UI
 
         private void Search()
         {
-            int editorIndex = 0;
-            EditorElement[] editors = GetEditorElementsForFRAction(out editorIndex);
+            EditorElement[] editors = GetEditorElementsForFRAction(out var editorIndex);
             if (editors == null) { return; }
             if (editors.Length < 1) { return; }
             if (editors[0] == null) { return; }
@@ -145,14 +144,7 @@ namespace Spedit.UI
                 }
                 else if (i == (editors.Length + editorIndex))
                 {
-                    if (startFileCaretOffset == 0)
-                    {
-                        searchText = string.Empty;
-                    }
-                    else
-                    {
-                        searchText = editors[index].editor.Text.Substring(0, startFileCaretOffset);
-                    }
+                    searchText = startFileCaretOffset == 0 ? string.Empty : editors[index].editor.Text.Substring(0, startFileCaretOffset);
                 }
                 else
                 {
@@ -166,7 +158,7 @@ namespace Spedit.UI
                         if (m.Success)
                         {
                             foundOccurence = true;
-                            ((LayoutDocument)editors[index].Parent).IsSelected = true;
+                            editors[index].Parent.IsSelected = true;
                             editors[index].editor.CaretOffset = m.Index + addToOffset + m.Length;
                             editors[index].editor.Select(m.Index + addToOffset, m.Length);
                             var location = editors[index].editor.Document.GetLocation(m.Index + addToOffset);
@@ -186,8 +178,7 @@ namespace Spedit.UI
 
         private void Replace()
         {
-            int editorIndex = 0;
-            EditorElement[] editors = GetEditorElementsForFRAction(out editorIndex);
+            EditorElement[] editors = GetEditorElementsForFRAction(out var editorIndex);
             if (editors == null) { return; }
             if (editors.Length < 1) { return; }
             if (editors[0] == null) { return; }
@@ -210,39 +201,31 @@ namespace Spedit.UI
                 }
                 else if (i == (editors.Length + editorIndex))
                 {
-                    if (startFileCaretOffset == 0)
-                    {
-                        searchText = string.Empty;
-                    }
-                    else
-                    {
-                        searchText = editors[index].editor.Text.Substring(0, startFileCaretOffset);
-                    }
+                    searchText = startFileCaretOffset == 0 ? string.Empty : editors[index].editor.Text.Substring(0, startFileCaretOffset);
                 }
                 else
                 {
                     searchText = editors[index].editor.Text;
                 }
-                if (!string.IsNullOrWhiteSpace(searchText))
-                {
-                    Match m = regex.Match(searchText);
-                    if (m != null)
-                    {
-                        if (m.Success)
-                        {
-                            foundOccurence = true;
-                            ((LayoutDocument)editors[index].Parent).IsSelected = true;
-                            string result = m.Result(replaceString);
-                            editors[index].editor.Document.Replace(m.Index + addToOffset, m.Length, result);
-                            editors[index].editor.CaretOffset = m.Index + addToOffset + result.Length;
-                            editors[index].editor.Select(m.Index + addToOffset, result.Length);
-                            var location = editors[index].editor.Document.GetLocation(m.Index + addToOffset);
-                            editors[index].editor.ScrollTo(location.Line, location.Column);
-                            FindResultBlock.Text = string.Format(Program.Translations.ReplacedOff, MinHeight + addToOffset);
-                            break;
-                        }
-                    }
-                }
+
+                if (string.IsNullOrWhiteSpace(searchText))
+                    continue;
+
+                Match m = regex.Match(searchText);
+
+                if (m?.Success != true)
+                    continue;
+
+                foundOccurence = true;
+                editors[index].Parent.IsSelected = true;
+                string result = m.Result(replaceString);
+                editors[index].editor.Document.Replace(m.Index + addToOffset, m.Length, result);
+                editors[index].editor.CaretOffset = m.Index + addToOffset + result.Length;
+                editors[index].editor.Select(m.Index + addToOffset, result.Length);
+                var location = editors[index].editor.Document.GetLocation(m.Index + addToOffset);
+                editors[index].editor.ScrollTo(location.Line, location.Column);
+                FindResultBlock.Text = string.Format(Program.Translations.ReplacedOff, MinHeight + addToOffset);
+                break;
             }
             if (!foundOccurence)
             {
@@ -254,30 +237,35 @@ namespace Spedit.UI
         {
             int editorIndex = 0;
             EditorElement[] editors = GetEditorElementsForFRAction(out editorIndex);
-            if (editors == null) { return; }
-            if (editors.Length < 1) { return; }
-            if (editors[0] == null) { return; }
+            if (editors?.Length < 1)
+                return; 
+
+            if (editors?[0] == null)
+                return;
+
             Regex regex = GetSearchRegex();
-            if (regex == null) { return; }
+            if (regex == null)
+                return;
             int count = 0;
             int fileCount = 0;
             string replaceString = ReplaceBox.Text;
-            for (int i = 0; i < editors.Length; ++i)
+            foreach (var editor in editors)
             {
-                MatchCollection mc = regex.Matches(editors[i].editor.Text);
-                if (mc.Count > 0)
+                MatchCollection mc = regex.Matches(editor.editor.Text);
+
+                if (mc.Count <= 0)
+                    continue;
+
+                fileCount++;
+                count += mc.Count;
+                editor.editor.BeginChange();
+                for (int j = mc.Count - 1; j >= 0; --j)
                 {
-                    fileCount++;
-                    count += mc.Count;
-                    editors[i].editor.BeginChange();
-                    for (int j = mc.Count - 1; j >= 0; --j)
-                    {
-                        string replace = mc[j].Result(replaceString);
-                        editors[i].editor.Document.Replace(mc[j].Index, mc[j].Length, replace);
-                    }
-                    editors[i].editor.EndChange();
-                    editors[i].NeedsSave = true;
+                    string replace = mc[j].Result(replaceString);
+                    editor.editor.Document.Replace(mc[j].Index, mc[j].Length, replace);
                 }
+                editor.editor.EndChange();
+                editor.NeedsSave = true;
             }
 			//FindResultBlock.Text = "Replaced " + count.ToString() + " occurences in " + fileCount.ToString() + " documents";
 			FindResultBlock.Text = string.Format(Program.Translations.ReplacedOcc, count, fileCount);
@@ -287,18 +275,17 @@ namespace Spedit.UI
         {
             int editorIndex = 0;
             EditorElement[] editors = GetEditorElementsForFRAction(out editorIndex);
-            if (editors == null) { return; }
-            if (editors.Length < 1) { return; }
-            if (editors[0] == null) { return; }
+
+            if (editors?.Length < 1)
+                return;
+
+            if (editors?[0] == null)
+                return;
+
             Regex regex = GetSearchRegex();
             if (regex == null) { return; }
-            int count = 0;
-            for (int i = 0; i < editors.Length; ++i)
-            {
-                MatchCollection mc = regex.Matches(editors[i].editor.Text);
-                count += mc.Count;
-            }
-            FindResultBlock.Text = count.ToString() + Program.Translations.OccFound;
+            int count = editors.Select(editor => regex.Matches(editor.editor.Text)).Select(mc => mc.Count).Sum();
+            FindResultBlock.Text = count + Program.Translations.OccFound;
         }
 
         private Regex GetSearchRegex()
@@ -311,17 +298,17 @@ namespace Spedit.UI
             }
             Regex regex;
             RegexOptions regexOptions = RegexOptions.Compiled | RegexOptions.CultureInvariant;
-            if (!CCBox.IsChecked.Value)
+            if (CCBox.IsChecked != null && !CCBox.IsChecked.Value)
             { regexOptions |= RegexOptions.IgnoreCase; }
-            if (NSearch_RButton.IsChecked.Value)
+            if (NSearch_RButton.IsChecked != null && NSearch_RButton.IsChecked.Value)
             {
                 regex = new Regex(Regex.Escape(findString), regexOptions);
             }
-            else if (WSearch_RButton.IsChecked.Value)
+            else if (WSearch_RButton.IsChecked != null && WSearch_RButton.IsChecked.Value)
             {
                 regex = new Regex("\\b" + Regex.Escape(findString) + "\\b", regexOptions);
             }
-            else if (ASearch_RButton.IsChecked.Value)
+            else if (ASearch_RButton.IsChecked != null && ASearch_RButton.IsChecked.Value)
             {
                 findString = findString.Replace("\\t", "\t").Replace("\\r", "\r").Replace("\\n", "\n");
                 Regex rx = new Regex(@"\\[uUxX]([0-9A-F]{4})");
@@ -331,8 +318,10 @@ namespace Spedit.UI
             else //if (RSearch_RButton.IsChecked.Value)
             {
                 regexOptions |= RegexOptions.Multiline;
-                if (MLRBox.IsChecked.Value)
-                { regexOptions |= RegexOptions.Singleline; } //paradox, isn't it? ^^
+                if (MLRBox.IsChecked != null && MLRBox.IsChecked.Value)
+                {
+                    regexOptions |= RegexOptions.Singleline;
+                } //paradox, isn't it? ^^
                 try
                 {
                     regex = new Regex(findString, regexOptions);
@@ -345,26 +334,20 @@ namespace Spedit.UI
         private EditorElement[] GetEditorElementsForFRAction(out int editorIndex)
         {
             int editorStartIndex = 0;
-            EditorElement[] editors = null;
+            EditorElement[] editors;
             if (FindDestinies.SelectedIndex == 0)
-            { editors = new EditorElement[] { GetCurrentEditorElement() }; }
+                editors = new[] { GetCurrentEditorElement() };
             else
             {
                 editors = GetAllEditorElements();
-                if (DockingPane.SelectedContent != null)
+                object checkElement = DockingPane.SelectedContent?.Content;
+                if (checkElement is EditorElement)
                 {
-                    object checkElement = DockingPane.SelectedContent.Content;
-                    if (checkElement != null)
+                    for (int i = 0; i < editors.Length; ++i)
                     {
-                        if (checkElement is EditorElement)
+                        if (editors[i] == checkElement)
                         {
-                            for (int i = 0; i < editors.Length; ++i)
-                            {
-                                if (editors[i] == checkElement)
-                                {
-                                    editorStartIndex = i;
-                                }
-                            }
+                            editorStartIndex = i;
                         }
                     }
                 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using SourcepawnCondenser.SourcemodDefinition;
 using SourcepawnCondenser.Tokenizer;
 
@@ -155,21 +153,21 @@ namespace SourcepawnCondenser
 					{
 						outTokenIndex = iteratePosition;
 						parameterDeclIndexEnd = t[iteratePosition].Index;
-						int length = (t[iteratePosition].Index - 1) - (lastParameterIndex + 1);
+						int len = (t[iteratePosition].Index - 1) - (lastParameterIndex + 1);
 						if (gotCommaBreak)
 						{
-							if (length == 0)
+							if (len == 0)
 							{
 								functionParameters.Add(string.Empty);
 							}
 							else
 							{
-								functionParameters.Add((source.Substring(lastParameterIndex + 1, length + 1)).Trim());
+								functionParameters.Add((source.Substring(lastParameterIndex + 1, len + 1)).Trim());
 							}
 						}
-						else if (length > 0)
+						else if (len > 0)
 						{
-							string singleParameterString = source.Substring(lastParameterIndex + 1, length + 1);
+							string singleParameterString = source.Substring(lastParameterIndex + 1, len + 1);
 							if (!string.IsNullOrWhiteSpace(singleParameterString))
 							{
 								functionParameters.Add(singleParameterString);
@@ -190,14 +188,14 @@ namespace SourcepawnCondenser
 				if (t[iteratePosition].Kind == TokenKind.Comma && braceState == 0)
 				{
 					gotCommaBreak = true;
-					int length = (t[iteratePosition].Index - 1) - (lastParameterIndex + 1);
-					if (length == 0)
+					int len = (t[iteratePosition].Index - 1) - (lastParameterIndex + 1);
+					if (len == 0)
 					{
 						functionParameters.Add(string.Empty);
 					}
 					else
 					{
-						functionParameters.Add((source.Substring(lastParameterIndex + 1, length + 1)).Trim());
+						functionParameters.Add((source.Substring(lastParameterIndex + 1, len + 1)).Trim());
 					}
 					lastParameterIndex = t[iteratePosition].Index;
 				}
@@ -214,7 +212,7 @@ namespace SourcepawnCondenser
 				Name = functionName,
 				FullName = TrimFullname(source.Substring(t[startPosition].Index, (parameterDeclIndexEnd - t[startPosition].Index) + 1)),
 				ReturnType = functionReturnType,
-				CommentString = Condenser.TrimComments(functionCommentString),
+				CommentString = TrimComments(functionCommentString),
 				Parameters = functionParameters.ToArray() });
 			if ((outTokenIndex + 1) < length)
 			{

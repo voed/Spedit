@@ -1,6 +1,6 @@
-﻿using ICSharpCode.AvalonEdit.Document;
+﻿using System.Collections.Generic;
+using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
-using System.Collections.Generic;
 
 namespace Spedit.UI.Components
 {
@@ -11,8 +11,8 @@ namespace Spedit.UI.Components
 
         public SPFoldingStrategy()
 		{
-			this.OpeningBrace = '{';
-			this.ClosingBrace = '}';
+			OpeningBrace = '{';
+			ClosingBrace = '}';
 		}
 
         public void UpdateFoldings(FoldingManager manager, TextDocument document)

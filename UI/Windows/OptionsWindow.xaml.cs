@@ -1,11 +1,10 @@
-﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using Spedit.UI.Components;
-using Spedit.UI;
+﻿using System;
 using System.Windows;
 using System.Windows.Media;
 using MahApps.Metro;
-using System;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using Spedit.UI.Components;
 
 namespace Spedit.UI.Windows
 {
@@ -16,8 +15,8 @@ namespace Spedit.UI.Windows
     {
 		string[] AvailableAccents = { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber",
 			"Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
-        bool RestartTextIsShown = false;
-        bool AllowChanging = false;
+        bool RestartTextIsShown;
+        bool AllowChanging;
         public OptionsWindow()
         {
             InitializeComponent();
@@ -36,8 +35,8 @@ namespace Spedit.UI.Windows
                 Program.OptionsObject = new OptionsControl();
 				Program.OptionsObject.ReCreateCryptoKey();
                 Program.MainWindow.OptionMenuEntry.IsEnabled = false;
-                await this.ShowMessageAsync(Program.Translations.RestartEditor, Program.Translations.YRestartEditor, MessageDialogStyle.Affirmative, this.MetroDialogOptions);
-                this.Close();
+                await this.ShowMessageAsync(Program.Translations.RestartEditor, Program.Translations.YRestartEditor, MessageDialogStyle.Affirmative, MetroDialogOptions);
+                Close();
             }
         }
 
@@ -76,15 +75,10 @@ namespace Spedit.UI.Windows
         private void ShowToolbar_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
-            Program.OptionsObject.UI_ShowToolBar = ShowToolBar.IsChecked.Value;
-            if (Program.OptionsObject.UI_ShowToolBar)
-            {
-                Program.MainWindow.Win_ToolBar.Height = double.NaN;
-            }
-            else
-            {
-                Program.MainWindow.Win_ToolBar.Height = 0.0;
-            }
+
+            if (ShowToolBar.IsChecked != null)
+                Program.OptionsObject.UI_ShowToolBar = ShowToolBar.IsChecked.Value;
+            Program.MainWindow.Win_ToolBar.Height = Program.OptionsObject.UI_ShowToolBar ? double.NaN : 0.0;
         }
 
 		private void DynamicISAC_Changed(object sender, RoutedEventArgs e)
@@ -120,12 +114,12 @@ namespace Spedit.UI.Windows
             Program.OptionsObject.Editor_FontSize = size;
             EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
 			if (editors != null)
-			{
-				for (int i = 0; i < editors.Length; ++i)
-				{
-					editors[i].UpdateFontSize(size);
-				}
-			}
+            {
+                foreach (var editor in editors)
+                {
+                    editor.UpdateFontSize(size);
+                }
+            }
         }
 
         private void ScrollSpeed_Changed(object sender, RoutedEventArgs e)
@@ -141,12 +135,12 @@ namespace Spedit.UI.Windows
             Program.OptionsObject.Editor_WordWrap = wrapping;
             EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
 			if (editors != null)
-			{
-				for (int i = 0; i < editors.Length; ++i)
-				{
-					editors[i].editor.WordWrap = wrapping;
-				}
-			}
+            {
+                foreach (var editor in editors)
+                {
+                    editor.editor.WordWrap = wrapping;
+                }
+            }
         }
 
         private void AIndentation_Changed(object sender, RoutedEventArgs e)
@@ -220,31 +214,31 @@ namespace Spedit.UI.Windows
         {
             if (!AllowChanging) { return; }
             FontFamily family = (FontFamily)FontFamilyCB.SelectedItem;
-            string FamilyString = family.Source;
-            Program.OptionsObject.Editor_FontFamily = FamilyString;
-            FontFamilyTB.Text = "Font (" + FamilyString + "):";
+            string familyString = family.Source;
+            Program.OptionsObject.Editor_FontFamily = familyString;
+            FontFamilyTB.Text = "Font (" + familyString + "):";
             EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
 			if (editors != null)
-			{
-				for (int i = 0; i < editors.Length; ++i)
-				{
-					editors[i].editor.FontFamily = family;
-				}
-			}
+            {
+                foreach (var editor in editors)
+                {
+                    editor.editor.FontFamily = family;
+                }
+            }
         }
 
 		private void IndentationSize_Changed(object sender, RoutedEventArgs e)
 		{
 			if (!AllowChanging) { return; }
-			int indentationSizeValue = Program.OptionsObject.Editor_IndentationSize = (int)System.Math.Round(IndentationSize.Value);
+			int indentationSizeValue = Program.OptionsObject.Editor_IndentationSize = (int)Math.Round(IndentationSize.Value);
 			EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
 			if (editors != null)
-			{
-				for (int i = 0; i < editors.Length; ++i)
-				{
-					editors[i].editor.Options.IndentationSize = indentationSizeValue;
-				}
-			}
+            {
+                foreach (var editor in editors)
+                {
+                    editor.editor.Options.IndentationSize = indentationSizeValue;
+                }
+            }
 		}
 
 
@@ -313,21 +307,21 @@ namespace Spedit.UI.Windows
 				else
 					Program.OptionsObject.Editor_AutoSaveInterval = (newIndex - 1) * 60;
 				if (editors != null)
-				{
-					for (int i = 0; i < editors.Length; ++i)
-					{
-						editors[i].StartAutoSaveTimer();
-					}
-				}
+                {
+                    foreach (var editor in editors)
+                    {
+                        editor.StartAutoSaveTimer();
+                    }
+                }
 			}
 		}
 
 		private void LoadSettings()
         {
-			for (int i = 0; i < AvailableAccents.Length; ++i)
-			{
-				AccentColor.Items.Add(AvailableAccents[i]);
-			}
+			foreach (var accent in AvailableAccents)
+            {
+                AccentColor.Items.Add(accent);
+            }
             HardwareAcc.IsChecked = Program.OptionsObject.Program_UseHardwareAcceleration;
             UIAnimation.IsChecked = Program.OptionsObject.UI_Animations;
             OpenIncludes.IsChecked = Program.OptionsObject.Program_OpenCustomIncludes;
@@ -385,20 +379,17 @@ namespace Spedit.UI.Windows
 			ShowTabs.IsChecked = Program.OptionsObject.Editor_ShowTabs;
 			FontFamilyTB.Text = $"{Program.Translations.FontFamily} ({Program.OptionsObject.Editor_FontFamily}):";
             FontFamilyCB.SelectedValue = new FontFamily(Program.OptionsObject.Editor_FontFamily);
-			IndentationSize.Value = (double)Program.OptionsObject.Editor_IndentationSize;
+			IndentationSize.Value = Program.OptionsObject.Editor_IndentationSize;
 			HardwareSalts.IsChecked = Program.OptionsObject.Program_UseHardwareSalts;
             LoadSH();
         }
 
         private void ToggleRestartText(bool FullEffect = false)
         {
-            if (AllowChanging)
+            if (AllowChanging && !RestartTextIsShown)
             {
-                if (!RestartTextIsShown)
-                {
-                    StatusTextBlock.Content = (FullEffect) ? Program.Translations.RestartEdiFullEff : Program.Translations.RestartEdiEff;
-                    RestartTextIsShown = true;
-                }
+                StatusTextBlock.Content = (FullEffect) ? Program.Translations.RestartEdiFullEff : Program.Translations.RestartEdiEff;
+                RestartTextIsShown = true;
             }
         }
 

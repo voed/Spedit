@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using SourcepawnCondenser.SourcemodDefinition;
 using SourcepawnCondenser.Tokenizer;
 
@@ -10,13 +7,12 @@ namespace SourcepawnCondenser
 {
 	public partial class Condenser
 	{
-		Token[] t = null;
-		int position = 0;
-		int length = 0;
-		SMDefinition def = null;
-		string source = string.Empty;
-		
-		string FileName = string.Empty;
+		Token[] t;
+		int position;
+		int length;
+		SMDefinition def;
+		string source;
+        string FileName;
 
 		public Condenser(string sourceCode, string fileName)
 		{
@@ -34,7 +30,7 @@ namespace SourcepawnCondenser
 
 		public SMDefinition Condense()
 		{
-			Token ct = null;
+			Token ct;
 			while ((ct = t[position]).Kind != TokenKind.EOF)
 			{
 				if (ct.Kind == TokenKind.FunctionIndicator)
@@ -81,19 +77,19 @@ namespace SourcepawnCondenser
 			return def;
 		}
 
-		private int BacktraceTestForToken(int StartPosition, TokenKind TestKind, bool IgnoreEOL, bool IgnoreOtherTokens)
+		private int BacktraceTestForToken(int startPosition, TokenKind testKind, bool ignoreEol, bool ignoreOtherTokens)
 		{
-			for (int i = StartPosition; i >= 0; --i)
+			for (int i = startPosition; i >= 0; --i)
 			{
-				if (t[i].Kind == TestKind)
+				if (t[i].Kind == testKind)
 				{
 					return i;
 				}
-				else if (IgnoreOtherTokens)
+				else if (ignoreOtherTokens)
 				{
 					continue;
 				}
-				else if (t[i].Kind == TokenKind.EOL && IgnoreEOL)
+				else if (t[i].Kind == TokenKind.EOL && ignoreEol)
 				{
 					continue;
 				}
@@ -101,19 +97,19 @@ namespace SourcepawnCondenser
 			}
 			return -1;
 		}
-		private int FortraceTestForToken(int StartPosition, TokenKind TestKind, bool IgnoreEOL, bool IgnoreOtherTokens)
+		private int FortraceTestForToken(int startPosition, TokenKind testKind, bool ignoreEol, bool ignoreOtherTokens)
 		{
-			for (int i = StartPosition; i < length; ++i)
+			for (int i = startPosition; i < length; ++i)
 			{
-				if (t[i].Kind == TestKind)
+				if (t[i].Kind == testKind)
 				{
 					return i;
 				}
-				else if (IgnoreOtherTokens)
+				else if (ignoreOtherTokens)
 				{
 					continue;
 				}
-				else if (t[i].Kind == TokenKind.EOL && IgnoreEOL)
+				else if (t[i].Kind == TokenKind.EOL && ignoreEol)
 				{
 					continue;
 				}
@@ -126,21 +122,14 @@ namespace SourcepawnCondenser
         {
             StringBuilder outString = new StringBuilder();
             string[] lines = comment.Split('\r', '\n');
-            string line;
             for (int i = 0; i < lines.Length; ++i)
             {
-                line = (lines[i].Trim()).TrimStart('/', '*', ' ', '\t');
+                var line = (lines[i].Trim()).TrimStart('/', '*', ' ', '\t');
                 if (!string.IsNullOrWhiteSpace(line))
-				{
-					if (i > 0) { outString.AppendLine(); }
-					if (line.StartsWith("@param"))
-					{
-						outString.Append(FormatParamLineString(line));
-					}
-					else
-					{
-						outString.Append(line);
-					}
+                {
+                    if (i > 0) { outString.AppendLine(); }
+
+                    outString.Append(line.StartsWith("@param") ? FormatParamLineString(line) : line);
                 }
             }
             return outString.ToString().Trim();
@@ -165,7 +154,7 @@ namespace SourcepawnCondenser
 
 		private static string FormatParamLineString(string line)
 		{
-			string[] split = line.Replace('\t', ' ').Split(new char[] { ' ' }, 3);
+			string[] split = line.Replace('\t', ' ').Split(new[] { ' ' }, 3);
 			if (split.Length > 2)
 			{
 				return ("@param " + split[1]).PadRight(24, ' ') + " " + split[2].Trim(' ', '\t');

@@ -1,7 +1,5 @@
 ﻿using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Indentation;
-using ICSharpCode.AvalonEdit.Rendering;
-using System.Windows.Media;
 
 namespace Spedit.UI.Components
 {
@@ -45,14 +43,7 @@ namespace Spedit.UI.Components
                     }
                     else if (currentLineFirstNonWhitespaceChar == '}')
                     {
-                        if (indentation.Length > 0)
-                        {
-                            indentation = indentation.Substring(0, indentation.Length - 1);
-                        }
-                        else
-                        {
-                            indentation = string.Empty;
-                        }
+                        indentation = indentation.Length > 0 ? indentation.Substring(0, indentation.Length - 1) : string.Empty;
                     }
                     //TODO fix this
                     /*if (lastLineTextTrimmed == "{" && currentLineTextTrimmed != "}")

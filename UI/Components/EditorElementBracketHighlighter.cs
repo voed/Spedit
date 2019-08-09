@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ICSharpCode.AvalonEdit;
 using System.Windows.Media;
-using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Rendering;
 using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Rendering;
 
 namespace Spedit.UI.Components
 {
@@ -22,42 +17,33 @@ namespace Spedit.UI.Components
             if (this.result != result)
             {
                 this.result = result;
-                textView.InvalidateLayer(this.Layer);
+                textView.InvalidateLayer(Layer);
             }
         }
 
         public BracketHighlightRenderer(TextView textView)
         {
-            if (textView == null)
-                throw new ArgumentNullException("textView");
-
-            this.textView = textView;
+            this.textView = textView ?? throw new ArgumentNullException(nameof(textView));
 
             this.textView.BackgroundRenderers.Add(this);
         }
 
-        public KnownLayer Layer
-        {
-            get
-            {
-                return KnownLayer.Selection;
-            }
-        }
+        public KnownLayer Layer => KnownLayer.Selection;
 
         public void Draw(TextView textView, DrawingContext drawingContext)
         {
-            if (this.result == null)
+            if (result == null)
                 return;
 
-            BackgroundGeometryBuilder builder = new BackgroundGeometryBuilder();
+            BackgroundGeometryBuilder builder = new BackgroundGeometryBuilder
+            {
+                CornerRadius = 1, AlignToWholePixels = true, BorderThickness = 0.0
+            };
 
-            builder.CornerRadius = 1;
-			builder.AlignToWholePixels = true;
-			builder.BorderThickness = 0.0;
 
-            builder.AddSegment(textView, new TextSegment() { StartOffset = result.OpeningBracketOffset, Length = result.OpeningBracketLength });
+            builder.AddSegment(textView, new TextSegment { StartOffset = result.OpeningBracketOffset, Length = result.OpeningBracketLength });
             builder.CloseFigure();
-            builder.AddSegment(textView, new TextSegment() { StartOffset = result.ClosingBracketOffset, Length = result.ClosingBracketLength });
+            builder.AddSegment(textView, new TextSegment { StartOffset = result.ClosingBracketOffset, Length = result.ClosingBracketLength });
 
             Geometry geometry = builder.CreateGeometry();
             if (geometry != null)
@@ -88,10 +74,10 @@ namespace Spedit.UI.Components
         public BracketSearchResult(int openingBracketOffset, int openingBracketLength,
                                    int closingBracketOffset, int closingBracketLength)
         {
-            this.OpeningBracketOffset = openingBracketOffset;
-            this.OpeningBracketLength = openingBracketLength;
-            this.ClosingBracketOffset = closingBracketOffset;
-            this.ClosingBracketLength = closingBracketLength;
+            OpeningBracketOffset = openingBracketOffset;
+            OpeningBracketLength = openingBracketLength;
+            ClosingBracketOffset = closingBracketOffset;
+            ClosingBracketLength = closingBracketLength;
         }
     }
 
@@ -323,7 +309,7 @@ namespace Spedit.UI.Components
                         break;
                 }
             }
-            if (bracketStack.Count > 0) return (int)bracketStack.Pop();
+            if (bracketStack.Count > 0) return bracketStack.Pop();
             return -1;
         }
         #endregion

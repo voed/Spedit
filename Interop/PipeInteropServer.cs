@@ -38,7 +38,7 @@ namespace Spedit.Interop
                 pipeServer = null;
             }
             pipeServer = new NamedPipeServerStream("SpeditNamedPipeServer", PipeDirection.In, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
-            pipeServer.BeginWaitForConnection(new AsyncCallback(PipeConnection_MessageIn), null);
+            pipeServer.BeginWaitForConnection(PipeConnection_MessageIn, null);
         }
 
         private void PipeConnection_MessageIn(IAsyncResult iar)
@@ -52,17 +52,17 @@ namespace Spedit.Interop
             string data = Encoding.UTF8.GetString(byteBuffer);
             string[] files = data.Split('|');
 			bool SelectIt = true;
-            for (int i = 0; i < files.Length; ++i)
+            foreach (var file in files)
             {
                 _window.Dispatcher.Invoke(() =>
                 {
                     if (_window.IsLoaded)
                     {
-                        if (_window.TryLoadSourceFile(files[i], SelectIt) && _window.WindowState == System.Windows.WindowState.Minimized)
+                        if (_window.TryLoadSourceFile(file, SelectIt) && _window.WindowState == System.Windows.WindowState.Minimized)
                         {
                             _window.WindowState = System.Windows.WindowState.Normal;
-							SelectIt = false;
-						}
+                            SelectIt = false;
+                        }
                     }
                 });
             }
