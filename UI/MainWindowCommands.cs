@@ -1,12 +1,13 @@
-﻿using MahApps.Metro.Controls.Dialogs;
+﻿using System;
+using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using Spedit.UI.Components;
 using Spedit.UI.Windows;
 using Spedit.Utils.SPSyntaxTidy;
 using System.Text;
 using System.Threading.Tasks;
-using Lysis;
 using System.IO;
+using System.Windows;
 
 namespace Spedit.UI
 {
@@ -49,25 +50,41 @@ namespace Spedit.UI
 
         private void Command_Open()
         {
-            OpenFileDialog ofd = new OpenFileDialog() { AddExtension = true, CheckFileExists = true, CheckPathExists = true, Filter = @"Sourcepawn Files (*.sp *.inc)|*.sp;*.inc|Sourcemod Plugins (*.smx)|*.smx|All Files (*.*)|*.*", Multiselect = true, Title = Program.Translations.OpenNewFile };
-            var result = ofd.ShowDialog(this);
-            if (result.Value)
+            try
             {
-                bool AnyFileLoaded = false;
-                if (ofd.FileNames.Length > 0)
+                OpenFileDialog ofd = new OpenFileDialog()
                 {
-                    for (int i = 0; i < ofd.FileNames.Length; ++i)
+                    AddExtension = true, CheckFileExists = true, CheckPathExists = true,
+                    Filter = "AMXXPawn Files|*.sma;*.inc;*.cfg;*.json;*.txt;*.ini|All Files (*.*)|*.*",
+                    Multiselect = true, Title = Program.Translations.OpenNewFile
+                };
+                var result = ofd.ShowDialog();//this);
+                if (result.Value)
+                {
+                    bool AnyFileLoaded = false;
+                    if (ofd.FileNames.Length > 0)
                     {
-                        AnyFileLoaded |= TryLoadSourceFile(ofd.FileNames[i], (i == 0), true, (i == 0));
-                    }
-                    if (!AnyFileLoaded)
-                    {
-                        this.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Theme;
-                        this.ShowMessageAsync(Program.Translations.NoFileOpened, Program.Translations.NoFileOpenedCap, MessageDialogStyle.Affirmative, this.MetroDialogOptions);
+                        for (int i = 0; i < ofd.FileNames.Length; ++i)
+                        {
+                            AnyFileLoaded |= TryLoadSourceFile(ofd.FileNames[i], (i == 0), true, (i == 0));
+                        }
+
+                        if (!AnyFileLoaded)
+                        {
+                            this.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Theme;
+                            this.ShowMessageAsync(Program.Translations.NoFileOpened,
+                                Program.Translations.NoFileOpenedCap, MessageDialogStyle.Affirmative,
+                                this.MetroDialogOptions);
+                        }
                     }
                 }
+
+                this.Activate();
             }
-            this.Activate();
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
         }
 
         private void Command_Save()
@@ -85,7 +102,7 @@ namespace Spedit.UI
             EditorElement ee = GetCurrentEditorElement();
             if (ee != null)
             {
-                SaveFileDialog sfd = new SaveFileDialog() { AddExtension = true, Filter = @"Sourcepawn Files (*.sp *.inc)|*.sp;*.inc|All Files (*.*)|*.*", OverwritePrompt = true, Title = Program.Translations.SaveFileAs };
+                SaveFileDialog sfd = new SaveFileDialog() { AddExtension = true, Filter = @"AMXXPawn Files|*.sma;*.inc;*.cfg;*.json;*.txt;*.ini|All Files (*.*)|*.*", OverwritePrompt = true, Title = Program.Translations.SaveFileAs };
                 sfd.FileName = ee.Parent.Title.Trim(new char[] { '*' });
                 var result = sfd.ShowDialog(this);
                 if (result.Value)
@@ -278,37 +295,6 @@ namespace Spedit.UI
                     string source = ee.editor.Text;
                     ee.editor.Document.Replace(0, source.Length, SPSyntaxTidy.TidyUp(source));
                     ee.editor.Document.EndUpdate();
-                }
-            }
-        }
-
-        private async void Command_Decompile(MainWindow win)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Sourcepawn Plugins (*.smx)|*.smx";
-            ofd.Title = Program.Translations.ChDecomp;
-            var result = ofd.ShowDialog();
-            if (result.Value)
-            {
-                if (!string.IsNullOrWhiteSpace(ofd.FileName))
-                {
-                    FileInfo fInfo = new FileInfo(ofd.FileName);
-                    if (fInfo.Exists)
-                    {
-                        ProgressDialogController task = null;
-                        if (win != null)
-                        {
-                            task = await this.ShowProgressAsync(Program.Translations.Decompiling, fInfo.FullName, false, this.MetroDialogOptions);
-                            MainWindow.ProcessUITasks();
-                        }
-                        string destFile = fInfo.FullName + ".sp";
-                        File.WriteAllText(destFile, LysisDecompiler.Analyze(fInfo), Encoding.UTF8);
-                        TryLoadSourceFile(destFile, true, false);
-                        if (task != null)
-                        {
-                            await task.CloseAsync();
-                        }
-                    }
                 }
             }
         }

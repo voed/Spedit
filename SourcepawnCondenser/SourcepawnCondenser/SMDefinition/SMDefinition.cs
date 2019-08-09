@@ -10,11 +10,8 @@ namespace SourcepawnCondenser.SourcemodDefinition
 	{
 		public List<SMFunction> Functions = new List<SMFunction>();
 		public List<SMEnum> Enums = new List<SMEnum>();
-		public List<SMStruct> Structs = new List<SMStruct>();
-		public List<SMDefine> Defines = new List<SMDefine>();
+        public List<SMDefine> Defines = new List<SMDefine>();
 		public List<SMConstant> Constants = new List<SMConstant>();
-		public List<SMMethodmap> Methodmaps = new List<SMMethodmap>();
-		public List<SMTypedef> Typedefs = new List<SMTypedef>();
 
 		public string[] FunctionStrings = new string[0];
 		//public string[] EnumStrings = new string[0]; NOT NEEDED
@@ -33,9 +30,7 @@ namespace SourcepawnCondenser.SourcemodDefinition
 				Functions.Sort((a, b) => { return string.Compare(a.Name, b.Name); });
 				//Enums = Enums.Distinct(new SMEnumComparer()).ToList(); //enums can have the same name but not be the same...
 				Enums.Sort((a, b) => { return string.Compare(a.Name, b.Name); });
-				Structs = Structs.Distinct(new SMStructComparer()).ToList();
-				Structs.Sort((a, b) => { return string.Compare(a.Name, b.Name); });
-				Defines = Defines.Distinct(new SMDefineComparer()).ToList();
+                Defines = Defines.Distinct(new SMDefineComparer()).ToList();
 				Defines.Sort((a, b) => { return string.Compare(a.Name, b.Name); });
 				Constants = Constants.Distinct(new SMConstantComparer()).ToList();
 				Constants.Sort((a, b) => { return string.Compare(a.Name, b.Name); });
@@ -57,12 +52,9 @@ namespace SourcepawnCondenser.SourcemodDefinition
 						var subDefinition = subCondenser.Condense();
 						Functions.AddRange(subDefinition.Functions);
 						Enums.AddRange(subDefinition.Enums);
-						Structs.AddRange(subDefinition.Structs);
-						Defines.AddRange(subDefinition.Defines);
+                        Defines.AddRange(subDefinition.Defines);
 						Constants.AddRange(subDefinition.Constants);
-						Methodmaps.AddRange(subDefinition.Methodmaps);
-						Typedefs.AddRange(subDefinition.Typedefs);
-					}
+                    }
 				}
 			}
 			Sort();
@@ -76,24 +68,7 @@ namespace SourcepawnCondenser.SourcemodDefinition
 			{
 				FunctionStrings[i] = Functions[i].Name;
 			}
-			List<string> methodNames = new List<string>();
-			List<string> fieldNames = new List<string>();
-			List<string> methodmapNames = new List<string>();
-			foreach (var mm in Methodmaps)
-			{
-				methodmapNames.Add(mm.Name);
-				foreach (var m in mm.Methods)
-				{
-					methodNames.Add(m.Name);
-				}
-				foreach (var f in mm.Fields)
-				{
-					fieldNames.Add(f.Name);
-				}
-			}
-			MethodsStrings = methodNames.ToArray();
-			FieldStrings = fieldNames.ToArray();
-			MethodmapsStrings = methodmapNames.ToArray();
+
 			List<string> constantNames = new List<string>();
 			foreach (var i in Constants) { constantNames.Add(i.Name); }
 			foreach (var e in Enums) { constantNames.AddRange(e.Entries); }
@@ -101,12 +76,9 @@ namespace SourcepawnCondenser.SourcemodDefinition
 			constantNames.Sort((a, b) => string.Compare(a, b));
 			ConstantsStrings = constantNames.ToArray();
 			List<string> typeNames = new List<string>();
-			typeNames.Capacity = Enums.Count + Structs.Count + Methodmaps.Count;
+			typeNames.Capacity = Enums.Count;
 			foreach (var i in Enums) { typeNames.Add(i.Name); }
-			foreach (var i in Structs) { typeNames.Add(i.Name); }
-			foreach (var i in Methodmaps) { typeNames.Add(i.Name); }
-			foreach (var i in Typedefs) { typeNames.Add(i.Name); }
-			typeNames.Sort((a, b) => string.Compare(a, b));
+            typeNames.Sort((a, b) => string.Compare(a, b));
 			TypeStrings = typeNames.ToArray();
 		}
 
@@ -115,7 +87,7 @@ namespace SourcepawnCondenser.SourcemodDefinition
 			List<ACNode> nodes = new List<ACNode>();
 			try
 			{
-				nodes.Capacity = Enums.Count + Structs.Count + Constants.Count + Functions.Count;
+				nodes.Capacity = Enums.Count + Constants.Count + Functions.Count;
 				nodes.AddRange(ACNode.ConvertFromStringArray(FunctionStrings, true, "▲ "));
 				nodes.AddRange(ACNode.ConvertFromStringArray(TypeStrings, false, "♦ "));
 				nodes.AddRange(ACNode.ConvertFromStringArray(ConstantsStrings, false, "• "));
@@ -144,11 +116,9 @@ namespace SourcepawnCondenser.SourcemodDefinition
 			{
 				Functions.AddRange(def.Functions);
 				Enums.AddRange(def.Enums);
-				Structs.AddRange(def.Structs);
-				Defines.AddRange(def.Defines);
+                Defines.AddRange(def.Defines);
 				Constants.AddRange(def.Constants);
-				Methodmaps.AddRange(def.Methodmaps);
-			}
+            }
 			catch (Exception) { }
 		}
 
@@ -187,15 +157,7 @@ namespace SourcepawnCondenser.SourcemodDefinition
 			public int GetHashCode(SMEnum sm)
 			{ return sm.Name.GetHashCode(); }
 		}
-		private class SMStructComparer : IEqualityComparer<SMStruct>
-		{
-			public bool Equals(SMStruct left, SMStruct right)
-			{ return left.Name == right.Name; }
-
-			public int GetHashCode(SMStruct sm)
-			{ return sm.Name.GetHashCode(); }
-		}
-		private class SMDefineComparer : IEqualityComparer<SMDefine>
+        private class SMDefineComparer : IEqualityComparer<SMDefine>
 		{
 			public bool Equals(SMDefine left, SMDefine right)
 			{ return left.Name == right.Name; }
@@ -211,23 +173,15 @@ namespace SourcepawnCondenser.SourcemodDefinition
 			public int GetHashCode(SMConstant sm)
 			{ return sm.Name.GetHashCode(); }
 		}
-		private class SMMethodmapsComparer : IEqualityComparer<SMMethodmap>
-		{
-			public bool Equals(SMMethodmap left, SMMethodmap right)
-			{ return left.Name == right.Name; }
 
-			public int GetHashCode(SMMethodmap sm)
-			{ return sm.Name.GetHashCode(); }
-		}
+        /*public class ACNodeEqualityComparer : IEqualityComparer<ACNode>
+        {
+            public bool Equals(ACNode nodeA, ACNode nodeB)
+            { return nodeA.EntryName == nodeB.EntryName; }
 
-		/*public class ACNodeEqualityComparer : IEqualityComparer<ACNode>
-		{
-			public bool Equals(ACNode nodeA, ACNode nodeB)
-			{ return nodeA.EntryName == nodeB.EntryName; }
-
-			public int GetHashCode(ACNode node)
-			{ return node.EntryName.GetHashCode(); }
-		}*/
+            public int GetHashCode(ACNode node)
+            { return node.EntryName.GetHashCode(); }
+        }*/
 		public class ISNodeEqualityComparer : IEqualityComparer<ISNode>
 		{
 			public bool Equals(ISNode nodeA, ISNode nodeB)

@@ -19,14 +19,10 @@
 		FunctionIndicator,		//d
 		Constant,				//d
 		Enum,					//d
-		Struct,					//d
-		MethodMap,				//d
-		Property,				//d
+        Property,				//d
 		PrePocessorDirective,	//d
-		TypeDef,				//d
-		TypeSet,				//d
 
-		EOL,					//d
+        EOL,					//d
 		EOF,					//d
 	}
 }

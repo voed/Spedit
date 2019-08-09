@@ -1,5 +1,4 @@
 ﻿using Spedit.Interop;
-using Spedit.Interop.Updater;
 using Spedit.UI;
 using System;
 using System.IO;
@@ -22,9 +21,7 @@ namespace Spedit
         public static Config[] Configs;
         public static int SelectedConfig = 0;
 
-        public static UpdateInfo UpdateStatus;
-
-		public static bool RCCKMade = false;
+        public static bool RCCKMade = false;
 
         [STAThread]
         public static void Main(string[] args)
@@ -46,7 +43,7 @@ namespace Spedit
 						ProfileOptimization.SetProfileRoot(Environment.CurrentDirectory);
 						ProfileOptimization.StartProfile("Startup.Profile");
 #endif
-						UpdateStatus = new UpdateInfo();
+						//todo implement own updater
 						OptionsObject = OptionsControlIOObject.Load(out ProgramIsNew);
 						Translations = new TranslationProvider();
 						Translations.LoadLanguage(OptionsObject.Language, true);

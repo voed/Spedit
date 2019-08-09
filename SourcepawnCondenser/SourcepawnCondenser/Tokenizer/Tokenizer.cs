@@ -226,39 +226,17 @@ namespace SourcepawnCondenser.Tokenizer
 									token.Add(new Token(identString, TokenKind.Enum, startIndex));
 									break;
 								}
-							case "struct":
-								{
-									token.Add(new Token(identString, TokenKind.Struct, startIndex));
-									break;
-								}
-							case "const":
+                            case "const":
 								{
 									token.Add(new Token(identString, TokenKind.Constant, startIndex));
 									break;
 								}
-							case "methodmap":
-								{
-									token.Add(new Token(identString, TokenKind.MethodMap, startIndex));
-									break;
-								}
-							case "property":
+                            case "property":
 								{
 									token.Add(new Token(identString, TokenKind.Property, startIndex));
 									break;
 								}
-							case "typeset":
-							case "funcenum":
-								{
-									token.Add(new Token(identString, TokenKind.TypeSet, startIndex));
-									break;
-								}
-							case "typedef":
-							case "functag":
-								{
-									token.Add(new Token(identString, TokenKind.TypeDef, startIndex));
-									break;
-								}
-							default:
+                            default:
 								{
 									token.Add(new Token(identString, TokenKind.Identifier, startIndex));
 									break;

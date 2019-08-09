@@ -1,6 +1,5 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using Spedit.Interop.Updater;
 using Spedit.UI.Components;
 using Spedit.UI.Windows;
 using System;
@@ -211,49 +210,12 @@ namespace Spedit.UI
             Command_TidyCode(true);
         }
 
-        private void Menu_DecompileLysis(object sender, RoutedEventArgs e)
-        {
-            Command_Decompile(this);
-        }
 
         private void ReportBug_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo(@"https://github.com/TheJelle/Spedit/issues/new"));
         }
 
-        private void UpdateCheck_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateCheck.Check(false);
-            var status = Program.UpdateStatus;
-            if (status.IsAvailable)
-            {
-                UpdateWindow uWindow = new UpdateWindow(status) { Owner = this };
-                uWindow.ShowDialog();
-                if (uWindow.Succeeded)
-                {
-                    Command_SaveAll();
-                    lock (Program.UpdateStatus)
-                    {
-                        Program.UpdateStatus.WriteAble = false;
-                        Program.UpdateStatus.IsAvailable = false;
-                    }
-                    this.Close();
-                }
-            }
-            else
-            {
-                if (status.GotException)
-                {
-                    this.ShowMessageAsync(Program.Translations.FailedCheck, Program.Translations.ErrorUpdate + Environment.NewLine + $"{Program.Translations.Details}: " + status.ExceptionMessage
-                        , MessageDialogStyle.Affirmative, this.MetroDialogOptions);
-                }
-                else
-                {
-                    this.ShowMessageAsync(Program.Translations.VersUpToDate, string.Format(Program.Translations.VersionYour, Assembly.GetEntryAssembly().GetName().Version.ToString())
-                        , MessageDialogStyle.Affirmative, this.MetroDialogOptions);
-                }
-            }
-        }
 
         private void MenuButton_Compile(object sender, RoutedEventArgs e)
         {

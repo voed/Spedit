@@ -54,6 +54,7 @@ namespace Spedit.UI.Components
                             indentation = string.Empty;
                         }
                     }
+                    //TODO fix this
                     /*if (lastLineTextTrimmed == "{" && currentLineTextTrimmed != "}")
                     {
                         indentation += "\t";

@@ -55,16 +55,7 @@ namespace SourcepawnCondenser
 						continue;
 					}
 				}
-				if (ct.Kind == TokenKind.Struct)
-				{
-					int newIndex = ConsumeSMStruct();
-					if (newIndex != -1)
-					{
-						position = newIndex + 1;
-						continue;
-					}
-				}
-				if (ct.Kind == TokenKind.PrePocessorDirective)
+                if (ct.Kind == TokenKind.PrePocessorDirective)
 				{
 					int newIndex = ConsumeSMPPDirective();
 					if (newIndex != -1)
@@ -73,44 +64,18 @@ namespace SourcepawnCondenser
 						continue;
 					}
 				}
-				if (ct.Kind == TokenKind.Constant)
-				{
-					int newIndex = ConsumeSMConstant();
-					if (newIndex != -1)
-					{
-						position = newIndex + 1;
-						continue;
-					}
-				}
-				if (ct.Kind == TokenKind.MethodMap)
-				{
-					int newIndex = ConsumeSMMethodmap();
-					if (newIndex != -1)
-					{
-						position = newIndex + 1;
-						continue;
-					}
-				}
-				if (ct.Kind == TokenKind.TypeSet)
-				{
-					int newIndex = ConsumeSMTypeset();
-					if (newIndex != -1)
-					{
-						position = newIndex + 1;
-						continue;
-					}
-				}
-				if (ct.Kind == TokenKind.TypeDef)
-				{
-					int newIndex = ConsumeSMTypedef();
-					if (newIndex != -1)
-					{
-						position = newIndex + 1;
-						continue;
-					}
-				}
 
-				++position;
+                if (ct.Kind == TokenKind.Constant)
+                {
+                    int newIndex = ConsumeSMConstant();
+                    if (newIndex != -1)
+                    {
+                        position = newIndex + 1;
+                        continue;
+                    }
+                }
+
+                ++position;
 			}
 			def.Sort();
 			return def;

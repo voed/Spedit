@@ -80,10 +80,8 @@ namespace Spedit.UI
 			MenuI_Reformatter.Header = Program.Translations.Reformatter;
 			MenuI_ReformattCurr.Header = Program.Translations.ReformatCurr;
 			MenuI_ReformattAll.Header = Program.Translations.ReformatAll;
-			MenuI_Decompile.Header = $"{Program.Translations.Decompile}  .smx (Lysis)";
-			MenuI_ReportBugGit.Header = Program.Translations.ReportBugGit;
-			UpdateCheckItem.Header = Program.Translations.CheckUpdates;
-			MenuI_About.Header = Program.Translations.About;
+            MenuI_ReportBugGit.Header = Program.Translations.ReportBugGit;
+            MenuI_About.Header = Program.Translations.About;
 
 			MenuC_FileName.Header = Program.Translations.FileName;
 			MenuC_Line.Header = Program.Translations.Line;

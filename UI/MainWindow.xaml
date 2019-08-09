@@ -112,10 +112,8 @@
                         <MenuItem Name="MenuI_ReformattCurr" Header="Reformat Current" InputGestureText="Ctrl+R" Click="Menu_ReFormatCurrent" />
                         <MenuItem Name="MenuI_ReformattAll" Header="Reformat All" Click="Menu_ReFormatAll" />
                     </MenuItem>
-                    <MenuItem Name="MenuI_Decompile" Header="Decompile .smx (Lysis)" Click="Menu_DecompileLysis" />
                     <Separator />
                     <MenuItem Name="MenuI_ReportBugGit" Header="Report a Bug on GitHub" Click="ReportBug_Click" />
-                    <MenuItem Name="UpdateCheckItem" Header="Check for Updates" Click="UpdateCheck_Click" />
                     <MenuItem Name="MenuI_About" Header="About" Click="Menu_About" />
                 </MenuItem>
             </Menu>

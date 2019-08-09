@@ -208,8 +208,9 @@ namespace Spedit.UI
 		private List<TreeViewItem> BuildDirectoryItems(string dir)
 		{
 			List<TreeViewItem> itemList = new List<TreeViewItem>();
-			string[] spFiles = Directory.GetFiles(dir, "*.sp", SearchOption.TopDirectoryOnly);
+			string[] spFiles = Directory.GetFiles(dir, "*.sma", SearchOption.TopDirectoryOnly);
 			string[] incFiles = Directory.GetFiles(dir, "*.inc", SearchOption.TopDirectoryOnly);
+            //TODO: add cfg and ini files
 			string[] directories = Directory.GetDirectories(dir, "*", SearchOption.TopDirectoryOnly);
 			foreach (string d in directories)
 			{

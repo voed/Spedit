@@ -34,7 +34,7 @@ namespace Spedit.UI
 			bool PressedEscape = false;
             foreach (string dir in c.SMDirectories)
             {
-                spCompInfo = new FileInfo(Path.Combine(dir, "spcomp.exe"));
+                spCompInfo = new FileInfo(Path.Combine(dir, "amxxpc.exe"));
                 if (spCompInfo.Exists)
                 {
                     SpCompFound = true;
@@ -73,7 +73,7 @@ namespace Spedit.UI
                     ** and only compile if it's checked or should it be ignored and compiled anyway?
                     ** I decided, to compile anyway but give me feedback/opinions.
                     */
-                    if (ee.FullFilePath.EndsWith(".sp"))
+                    if (ee.FullFilePath.EndsWith(".sma"))
                     {
                         filesToCompile.Add(ee.FullFilePath);
                     }
@@ -110,7 +110,7 @@ namespace Spedit.UI
                                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                                 process.StartInfo.CreateNoWindow = true;
                                 process.StartInfo.FileName = spCompInfo.FullName;
-                                destinationFileName = ShortenScriptFileName(fileInfo.Name) + ".smx";
+                                destinationFileName = ShortenScriptFileName(fileInfo.Name) + "amxx";
                                 outFile = Path.Combine(fileInfo.DirectoryName, destinationFileName);
                                 if (File.Exists(outFile)) { File.Delete(outFile); }
                                 string errorFile = Environment.CurrentDirectory + @"\sourcepawn\errorfiles\error_" + Environment.TickCount.ToString() + "_" + file.GetHashCode().ToString("X") + "_" + i.ToString() + ".txt";
@@ -119,13 +119,14 @@ namespace Spedit.UI
                                 StringBuilder includeDirectories = new StringBuilder();
                                 foreach (string dir in c.SMDirectories)
                                 {
-                                    includeDirectories.Append(" -i=\"" + dir + "\"");
+                                    includeDirectories.Append(" -i\"" + dir + "\\include\"");
                                 }
 
                                 string includeStr = string.Empty;
                                 includeStr = includeDirectories.ToString();
 
-                                process.StartInfo.Arguments = "\"" + fileInfo.FullName + "\" -o=\"" + outFile + "\" -e=\"" + errorFile + "\"" + includeStr + " -O=" + c.OptimizeLevel.ToString() + " -v=" + c.VerboseLevel.ToString();
+                                process.StartInfo.Arguments =
+                                    "\"" + fileInfo.FullName + "\" -o\"" + outFile + "\" -e\"" + errorFile + "\"" + includeStr;// + " -O" + c.OptimizeLevel.ToString() + " -v" + c.VerboseLevel.ToString();
                                 progressTask.SetProgress((((double)(i + 1)) - 0.5d) / ((double)compileCount));
                                 string execResult = ExecuteCommandLine(c.PreCmd, fileInfo.DirectoryName, c.CopyDirectory, fileInfo.FullName, fileInfo.Name, outFile, destinationFileName);
                                 if (!string.IsNullOrWhiteSpace(execResult))
@@ -395,7 +396,7 @@ namespace Spedit.UI
 
         private string ShortenScriptFileName(string fileName)
         {
-            if (fileName.EndsWith(".sp", StringComparison.InvariantCultureIgnoreCase))
+            if (fileName.EndsWith(".sma", StringComparison.InvariantCultureIgnoreCase))
             {
                 return fileName.Substring(0, fileName.Length - 3);
             }

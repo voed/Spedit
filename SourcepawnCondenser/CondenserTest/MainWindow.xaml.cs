@@ -100,17 +100,7 @@ namespace CondenserTest
 				enumItem.Items.Add(item);
 			}
 			termTree.Items.Add(enumItem);
-			TreeViewItem structItem = new TreeViewItem() { Header = "structs (" + def.Structs.Count.ToString() + ")", IsExpanded = expand };
-			foreach (var s in def.Structs)
-			{
-				TreeViewItem item = new TreeViewItem() { Header = (string.IsNullOrWhiteSpace(s.Name)) ? "no name" : s.Name, IsExpanded = expand };
-				item.Tag = s;
-				item.MouseLeftButtonUp += ItemStruct_MouseLeftButtonUp;
-				item.Items.Add(new TreeViewItem() { Header = "Index: " + s.Index.ToString(), Background = Brushes.LightGray });
-				item.Items.Add(new TreeViewItem() { Header = "Length: " + s.Length.ToString() });
-				structItem.Items.Add(item);
-			}
-			termTree.Items.Add(structItem);
+
 			TreeViewItem dItem = new TreeViewItem() { Header = "defines (" + def.Defines.Count.ToString() + ")", IsExpanded = expand };
 			foreach (var d in def.Defines)
 			{
@@ -133,50 +123,6 @@ namespace CondenserTest
                 cItem.Items.Add(item);
             }
             termTree.Items.Add(cItem);
-            TreeViewItem mItem = new TreeViewItem() { Header = "methodmaps (" + def.Methodmaps.Count.ToString() + ")", IsExpanded = expand };
-            foreach (var m in def.Methodmaps)
-            {
-                TreeViewItem item = new TreeViewItem() { Header = m.Name, IsExpanded = expand };
-                item.Tag = m;
-                item.MouseLeftButtonUp += ItemMM_MouseLeftButtonUp;
-                item.Items.Add(new TreeViewItem() { Header = "Index: " + m.Index.ToString(), Background = Brushes.LightGray });
-                item.Items.Add(new TreeViewItem() { Header = "Length: " + m.Length.ToString() });
-                item.Items.Add(new TreeViewItem() { Header = "Type: " + m.Type, Background = Brushes.LightGray });
-                item.Items.Add(new TreeViewItem() { Header = "InheritedType: " + m.InheritedType });
-                TreeViewItem subItem = new TreeViewItem() { Header = "Methods", Background = Brushes.LightGray };
-                for (int j = 0; j < m.Methods.Count; ++j)
-                {
-                    TreeViewItem subSubItem = new TreeViewItem() { Header = m.Methods[j].Name, Background = (j % 2 == 0) ? Brushes.LightGray : Brushes.White };
-                    subSubItem.Items.Add(new TreeViewItem() { Header = "Index: " + m.Methods[j].Index.ToString() });
-                    subSubItem.Items.Add(new TreeViewItem() { Header = "Length: " + m.Methods[j].Length.ToString(), Background = Brushes.LightGray });
-                    subSubItem.Items.Add(new TreeViewItem() { Header = "Comment: >>" + m.Methods[j].CommentString + "<<" });
-                    subSubItem.Items.Add(new TreeViewItem() { Header = "Return: " + m.Methods[j].ReturnType, Background = Brushes.LightGray });
-                    int k = 0;
-                    for (; k < m.Methods[j].MethodKind.Length; ++k)
-                    {
-                        subSubItem.Items.Add(new TreeViewItem() { Header = "MethodKind" + (k + 1).ToString() + ": " + m.Methods[j].MethodKind[k], Background = (k % 2 == 0) ? Brushes.LightGray : Brushes.White });
-                    }
-                    for (int l = 0; l < m.Methods[j].Parameters.Length; ++l)
-                    {
-                        ++k;
-                        subSubItem.Items.Add(new TreeViewItem() { Header = "Parameter" + (l + 1).ToString() + ": " + m.Methods[j].Parameters[l], Background = (k % 2 == 0) ? Brushes.LightGray : Brushes.White });
-                    }
-                    subItem.Items.Add(subSubItem);
-                }
-                item.Items.Add(subItem);
-                subItem = new TreeViewItem() { Header = "Fields" };
-                for (int j = 0; j < m.Fields.Count; ++j)
-                {
-                    TreeViewItem subSubItem = new TreeViewItem() { Header = m.Fields[j].Name, Background = (j % 2 == 0) ? Brushes.LightGray : Brushes.White };
-                    subSubItem.Items.Add(new TreeViewItem() { Header = "Index: " + m.Fields[j].Index.ToString() });
-                    subSubItem.Items.Add(new TreeViewItem() { Header = "Length: " + m.Fields[j].Length.ToString(), Background = Brushes.LightGray });
-                    //subSubItem.Items.Add(new TreeViewItem() { Header = "Type: " + m.Fields[j].Type });
-                    subItem.Items.Add(subSubItem);
-                }
-                item.Items.Add(subItem);
-                mItem.Items.Add(item);
-            }
-            termTree.Items.Add(mItem);
         }
 
 		private void ItemFunc_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -205,18 +151,6 @@ namespace CondenserTest
 			}
 		}
 
-		private void ItemStruct_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		{
-			var token = ((TreeViewItem)sender).Tag;
-			if (token != null)
-			{
-				if (token is SMStruct)
-				{
-					textBox.Focus();
-					textBox.Select(((SMStruct)token).Index, ((SMStruct)token).Length);
-				}
-			}
-		}
 
 		private void Itemppd_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
@@ -244,18 +178,6 @@ namespace CondenserTest
             }
         }
 
-        private void ItemMM_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            var token = ((TreeViewItem)sender).Tag;
-            if (token != null)
-            {
-                if (token is SMMethodmap)
-                {
-                    textBox.Focus();
-                    textBox.Select(((SMMethodmap)token).Index, ((SMMethodmap)token).Length);
-                }
-            }
-        }
 
         private void G_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{

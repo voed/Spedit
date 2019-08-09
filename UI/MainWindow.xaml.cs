@@ -12,7 +12,6 @@ using System.ComponentModel;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using Xceed.Wpf.AvalonDock.Layout;
-using Spedit.Interop.Updater; //not delete!
 
 namespace Spedit.UI
 {
@@ -50,10 +49,12 @@ namespace Spedit.UI
 			CActionButton.SelectedIndex = 0;
             ReplaceButton.ItemsSource = findReplaceButtonDict;
 			ReplaceButton.SelectedIndex = 0;
+
             if (Program.OptionsObject.UI_ShowToolBar)
             {
                 Win_ToolBar.Height = double.NaN;
             }
+
             this.MetroDialogOptions.AnimateHide = this.MetroDialogOptions.AnimateShow = false;
             BlendOverEffect = (Storyboard)this.Resources["BlendOverEffect"];
             FadeFindReplaceGridIn = (Storyboard)this.Resources["FadeFindReplaceGridIn"];
@@ -62,14 +63,12 @@ namespace Spedit.UI
             DisableServerAnim = (Storyboard)this.Resources["DisableServerAnim"];
 			ChangeObjectBrowserToDirectory(Program.OptionsObject.Program_ObjectBrowserDirectory);
 			Language_Translate(true);
-#if DEBUG
-            TryLoadSourceFile(@"C:\Users\Jelle\Desktop\scripting\AeroControler.sp", false);
-#endif
+
             if (Program.OptionsObject.LastOpenFiles != null)
             {
-                for (int i = 0; i < Program.OptionsObject.LastOpenFiles.Length; ++i)
+                foreach (var t in Program.OptionsObject.LastOpenFiles)
                 {
-                    TryLoadSourceFile(Program.OptionsObject.LastOpenFiles[i], false, true, false);
+                    TryLoadSourceFile(t, false, true, false);
                 }
             }
             string[] args = Environment.GetCommandLineArgs();
@@ -91,7 +90,7 @@ namespace Spedit.UI
             if (fileInfo.Exists)
             {
                 string extension = fileInfo.Extension.ToLowerInvariant().Trim(new char[] { '.', ' ' });
-                if (extension == "sp" || extension == "inc" || extension == "txt" || extension == "cfg" || extension == "ini")
+                if (extension == "inc" || extension == "txt" || extension == "cfg" || extension == "ini" || extension == "sma" || extension == "vdf" || extension == "json")
                 {
                     string finalPath = fileInfo.FullName;
                     try
@@ -130,9 +129,11 @@ namespace Spedit.UI
                                 try
                                 {
                                     string fileName = mc[i].Groups["name"].Value;
-                                    if (!(fileName.EndsWith(".inc", StringComparison.InvariantCultureIgnoreCase) || fileName.EndsWith(".sp", StringComparison.InvariantCultureIgnoreCase)))
+                                    if (!(fileName.EndsWith(".inc", StringComparison.InvariantCultureIgnoreCase) || fileName.EndsWith(".sma", StringComparison.InvariantCultureIgnoreCase)))
                                     {
-                                        fileName = fileName + ".inc";
+                                        //wtf?
+                                        //fileName = fileName + ".inc";
+                                        continue;
                                     }
                                     fileName = System.IO.Path.Combine(fileInfo.DirectoryName, fileName);
                                     TryLoadSourceFile(fileName, false, Program.OptionsObject.Program_OpenIncludesRecursively);
@@ -142,14 +143,10 @@ namespace Spedit.UI
                         }
                     }
                 }
-                else if (extension == "smx")
+                else
                 {
-                    LayoutDocument layoutDocument = new LayoutDocument();
-                    layoutDocument.Title = "DASM: " + fileInfo.Name;
-                    DASMElement dasmElement = new DASMElement(fileInfo);
-                    layoutDocument.Content = dasmElement;
-                    DockingPane.Children.Add(layoutDocument);
-                    DockingPane.SelectedContentIndex = DockingPane.ChildrenCount - 1;
+                    //TODO sugar it
+                    MessageBox.Show("This file type is not supported");
                 }
                 if (UseBlendoverEffect)
                 {
