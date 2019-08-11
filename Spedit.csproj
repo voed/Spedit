@@ -66,6 +66,7 @@
     <None Include="Deploy\FileAssociation.nsh" />
     <None Include="Deploy\SPEdit.nsi" />
     <None Include="packages.config" />
+    <None Include="Resources\Misc\Configurations\configs.json" />
     <None Include="Resources\Misc\Templates\EmptyPluginTemplate.sma" />
     <None Include="Resources\Misc\Templates\PluginTemplate.sma" />
     <None Include="Resources\Misc\Templates\ReapiPluginTemplate.sma" />
@@ -265,9 +266,6 @@
     <None Include="Deploy\icon.ico" />
     <Resource Include="Resources\AboutImages\smlib.png" />
     <Resource Include="Resources\AboutImages\alliedmodders.png" />
-    <None Include="Resources\Misc\Configurations\Configs.xml">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Resources\Misc\Templates\IncludeTemplate.inc" />
     <None Include="Resources\Misc\Templates\Templates.xml" />
   </ItemGroup>

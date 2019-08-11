@@ -36,9 +36,11 @@ namespace Spedit.Interop
                         MessageBoxImage.Warning);
                     //todo open settings
                 }
+
+                MessageBox.Show(e.ToString());
             }
             
-            return new ConfigList();
+            return new ConfigList(){Configs = {new Config(){Name = "Default config"}}};
         }
 
         public static bool Save(ConfigList list)
@@ -136,10 +138,6 @@ namespace Spedit.Interop
         {
             Configs = new List<Config>()
             {
-                new Config()
-                {
-                    Name = "Default config"
-                }
             };
         }
     }
