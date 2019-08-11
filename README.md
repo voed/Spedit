@@ -24,6 +24,3 @@
 * Object Browser
 * Translations in multiple languages
 
-![Screen of SPEdit](http://i.imgur.com/69M45hz.png)
-
-![Screen of SPEdit-Themes](http://i.imgur.com/HfkpVut.png)
