@@ -164,7 +164,7 @@ namespace Spedit.UI
                             var location = editors[index].editor.Document.GetLocation(m.Index + addToOffset);
                             editors[index].editor.ScrollTo(location.Line, location.Column);
 							//FindResultBlock.Text = "Found in offset " + (m.Index + addToOffset).ToString() + " with length " + m.Length.ToString();
-							FindResultBlock.Text = string.Format(Program.Translations.FoundInOff, m.Index + addToOffset, m.Length);
+							FindResultBlock.Text = string.Format(Properties.Resources.FoundInOff, m.Index + addToOffset, m.Length);
                             break;
                         }
                     }
@@ -172,7 +172,7 @@ namespace Spedit.UI
             }
             if (!foundOccurence)
             {
-                FindResultBlock.Text = Program.Translations.FoundNothing;
+                FindResultBlock.Text = Properties.Resources.FoundNothing;
             }
         }
 
@@ -224,12 +224,12 @@ namespace Spedit.UI
                 editors[index].editor.Select(m.Index + addToOffset, result.Length);
                 var location = editors[index].editor.Document.GetLocation(m.Index + addToOffset);
                 editors[index].editor.ScrollTo(location.Line, location.Column);
-                FindResultBlock.Text = string.Format(Program.Translations.ReplacedOff, MinHeight + addToOffset);
+                FindResultBlock.Text = string.Format(Properties.Resources.ReplacedOff, MinHeight + addToOffset);
                 break;
             }
             if (!foundOccurence)
             {
-                FindResultBlock.Text = Program.Translations.FoundNothing;
+                FindResultBlock.Text = Properties.Resources.FoundNothing;
             }
         }
 
@@ -268,7 +268,7 @@ namespace Spedit.UI
                 editor.NeedsSave = true;
             }
 			//FindResultBlock.Text = "Replaced " + count.ToString() + " occurences in " + fileCount.ToString() + " documents";
-			FindResultBlock.Text = string.Format(Program.Translations.ReplacedOcc, count, fileCount);
+			FindResultBlock.Text = string.Format(Properties.Resources.ReplacedOcc, count, fileCount);
         }
 
         private void Count()
@@ -285,7 +285,7 @@ namespace Spedit.UI
             Regex regex = GetSearchRegex();
             if (regex == null) { return; }
             int count = editors.Select(editor => regex.Matches(editor.editor.Text)).Select(mc => mc.Count).Sum();
-            FindResultBlock.Text = count + Program.Translations.OccFound;
+            FindResultBlock.Text = count + Properties.Resources.OccFound;
         }
 
         private Regex GetSearchRegex()
@@ -293,7 +293,7 @@ namespace Spedit.UI
             string findString = FindBox.Text;
             if (string.IsNullOrEmpty(findString))
             {
-                FindResultBlock.Text = Program.Translations.EmptyPatt;
+                FindResultBlock.Text = Properties.Resources.EmptyPatt;
                 return null;
             }
             Regex regex;
@@ -326,7 +326,7 @@ namespace Spedit.UI
                 {
                     regex = new Regex(findString, regexOptions);
                 }
-                catch (Exception) { FindResultBlock.Text = Program.Translations.NoValidRegex; return null; }
+                catch (Exception) { FindResultBlock.Text = Properties.Resources.NoValidRegex; return null; }
             }
             return regex;
         }

@@ -19,10 +19,10 @@ namespace Spedit.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Spedit.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Spedit.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Spedit.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,12 +61,1749 @@ namespace Spedit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced search.
+        /// </summary>
+        public static string AdvancSearch {
+            get {
+                return ResourceManager.GetString("AdvancSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Agressive Indentation.
+        /// </summary>
+        public static string AggIndentation {
+            get {
+                return ResourceManager.GetString("AggIndentation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All open documents.
+        /// </summary>
+        public static string AllDoc {
+            get {
+                return ResourceManager.GetString("AllDoc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto close brackets.
+        /// </summary>
+        public static string AutoCloseBrack {
+            get {
+                return ResourceManager.GetString("AutoCloseBrack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto close Strings, Chars.
+        /// </summary>
+        public static string AutoCloseStrChr {
+            get {
+                return ResourceManager.GetString("AutoCloseStrChr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto copy after compile.
+        /// </summary>
+        public static string AutoCopy {
+            get {
+                return ResourceManager.GetString("AutoCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto save (min).
+        /// </summary>
+        public static string AutoSaveMin {
+            get {
+                return ResourceManager.GetString("AutoSaveMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search automatically for updates.
+        /// </summary>
+        public static string AutoUpdate {
+            get {
+                return ResourceManager.GetString("AutoUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Build.
+        /// </summary>
+        public static string Build {
+            get {
+                return ResourceManager.GetString("Build", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot delete config.
+        /// </summary>
+        public static string CannotDelConf {
+            get {
+                return ResourceManager.GetString("CannotDelConf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Case sensitive.
+        /// </summary>
+        public static string CaseSen {
+            get {
+                return ResourceManager.GetString("CaseSen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select plugin to decompile.
+        /// </summary>
+        public static string ChDecomp {
+            get {
+                return ResourceManager.GetString("ChDecomp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for updates.
+        /// </summary>
+        public static string CheckUpdates {
+            get {
+                return ResourceManager.GetString("CheckUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close all.
+        /// </summary>
+        public static string CloseAll {
+            get {
+                return ResourceManager.GetString("CloseAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Commandline variables.
+        /// </summary>
+        public static string CMDLineCom {
+            get {
+                return ResourceManager.GetString("CMDLineCom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Col.
+        /// </summary>
+        public static string ColAbb {
+            get {
+                return ResourceManager.GetString("ColAbb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collapse all.
+        /// </summary>
+        public static string CollapseAll {
+            get {
+                return ResourceManager.GetString("CollapseAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Directory where the smx should be copied.
+        /// </summary>
+        public static string ComCopyDir {
+            get {
+                return ResourceManager.GetString("ComCopyDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Directory of the SPEdit binary.
+        /// </summary>
+        public static string ComEditorDir {
+            get {
+                return ResourceManager.GetString("ComEditorDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile.
+        /// </summary>
+        public static string Compile {
+            get {
+                return ResourceManager.GetString("Compile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile all.
+        /// </summary>
+        public static string CompileAll {
+            get {
+                return ResourceManager.GetString("CompileAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile current.
+        /// </summary>
+        public static string CompileCurr {
+            get {
+                return ResourceManager.GetString("CompileCurr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile error file could not be accessed..
+        /// </summary>
+        public static string CompileErroFileError {
+            get {
+                return ResourceManager.GetString("CompileErroFileError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compiling.
+        /// </summary>
+        public static string Compiling {
+            get {
+                return ResourceManager.GetString("Compiling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full Directory and Name of the compiled script.
+        /// </summary>
+        public static string ComPluginFile {
+            get {
+                return ResourceManager.GetString("ComPluginFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Name of the compiled script.
+        /// </summary>
+        public static string ComPluginName {
+            get {
+                return ResourceManager.GetString("ComPluginName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loads all compiled plugins.
+        /// </summary>
+        public static string ComPluginsLoad {
+            get {
+                return ResourceManager.GetString("ComPluginsLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reloads all compiled plugins.
+        /// </summary>
+        public static string ComPluginsReload {
+            get {
+                return ResourceManager.GetString("ComPluginsReload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unloads all compiled plugins.
+        /// </summary>
+        public static string ComPluginsUnload {
+            get {
+                return ResourceManager.GetString("ComPluginsUnload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Directory of the Compiling script.
+        /// </summary>
+        public static string ComScriptDir {
+            get {
+                return ResourceManager.GetString("ComScriptDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full Directory and Name of the script.
+        /// </summary>
+        public static string ComScriptFile {
+            get {
+                return ResourceManager.GetString("ComScriptFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Name of the script.
+        /// </summary>
+        public static string ComScriptName {
+            get {
+                return ResourceManager.GetString("ComScriptName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configuration.
+        /// </summary>
+        public static string Config {
+            get {
+                return ResourceManager.GetString("Config", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The config was not able to parse a sourcepawn definiton..
+        /// </summary>
+        public static string ConfigWrongPars {
+            get {
+                return ResourceManager.GetString("ConfigWrongPars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copied.
+        /// </summary>
+        public static string Copied {
+            get {
+                return ResourceManager.GetString("Copied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        public static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy directory.
+        /// </summary>
+        public static string CopyDir {
+            get {
+                return ResourceManager.GetString("CopyDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy Plugins.
+        /// </summary>
+        public static string CopyPlugin {
+            get {
+                return ResourceManager.GetString("CopyPlugin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Count.
+        /// </summary>
+        public static string Count {
+            get {
+                return ResourceManager.GetString("Count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current document.
+        /// </summary>
+        public static string CurrDoc {
+            get {
+                return ResourceManager.GetString("CurrDoc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cut.
+        /// </summary>
+        public static string Cut {
+            get {
+                return ResourceManager.GetString("Cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark theme.
+        /// </summary>
+        public static string DarkTheme {
+            get {
+                return ResourceManager.GetString("DarkTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Decompile.
+        /// </summary>
+        public static string Decompile {
+            get {
+                return ResourceManager.GetString("Decompile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Decompiling.
+        /// </summary>
+        public static string Decompiling {
+            get {
+                return ResourceManager.GetString("Decompiling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted.
+        /// </summary>
+        public static string Deleted {
+            get {
+                return ResourceManager.GetString("Deleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete old .smx after copy.
+        /// </summary>
+        public static string DeleteOldSMX {
+            get {
+                return ResourceManager.GetString("DeleteOldSMX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delimit with.
+        /// </summary>
+        public static string DelimiedWi {
+            get {
+                return ResourceManager.GetString("DelimiedWi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has changed..
+        /// </summary>
+        public static string DFileChanged {
+            get {
+                return ResourceManager.GetString("DFileChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string Done {
+            get {
+                return ResourceManager.GetString("Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occured while saving..
+        /// </summary>
+        public static string DSaveError {
+            get {
+                return ResourceManager.GetString("DSaveError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dynamic Autocompletition/Intellisense.
+        /// </summary>
+        public static string DynamicISAC {
+            get {
+                return ResourceManager.GetString("DynamicISAC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Configurations.
+        /// </summary>
+        public static string EditConfig {
+            get {
+                return ResourceManager.GetString("EditConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Editor.
+        /// </summary>
+        public static string Editor {
+            get {
+                return ResourceManager.GetString("Editor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Empty search pattern.
+        /// </summary>
+        public static string EmptyPatt {
+            get {
+                return ResourceManager.GetString("EmptyPatt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while loading and processing the file..
+        /// </summary>
+        public static string ErrorFileLoadProc {
+            get {
+                return ResourceManager.GetString("ErrorFileLoadProc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while checking for updates..
+        /// </summary>
+        public static string ErrorUpdate {
+            get {
+                return ResourceManager.GetString("ErrorUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while uploading files.
+        /// </summary>
+        public static string ErrorUpload {
+            get {
+                return ResourceManager.GetString("ErrorUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while uploading file: {0} to {1}.
+        /// </summary>
+        public static string ErrorUploadFile {
+            get {
+                return ResourceManager.GetString("ErrorUploadFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expand all.
+        /// </summary>
+        public static string ExpandAll {
+            get {
+                return ResourceManager.GetString("ExpandAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to copy.
+        /// </summary>
+        public static string FailCopy {
+            get {
+                return ResourceManager.GetString("FailCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to check.
+        /// </summary>
+        public static string FailedCheck {
+            get {
+                return ResourceManager.GetString("FailedCheck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File changed.
+        /// </summary>
+        public static string FileChanged {
+            get {
+                return ResourceManager.GetString("FileChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Name.
+        /// </summary>
+        public static string FileName {
+            get {
+                return ResourceManager.GetString("FileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string FileStr {
+            get {
+                return ResourceManager.GetString("FileStr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Try reloading file?.
+        /// </summary>
+        public static string FileTryReload {
+            get {
+                return ResourceManager.GetString("FileTryReload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find.
+        /// </summary>
+        public static string Find {
+            get {
+                return ResourceManager.GetString("Find", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find &amp; Replace.
+        /// </summary>
+        public static string FindReplace {
+            get {
+                return ResourceManager.GetString("FindReplace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Foldings.
+        /// </summary>
+        public static string Folding {
+            get {
+                return ResourceManager.GetString("Folding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font.
+        /// </summary>
+        public static string FontFamily {
+            get {
+                return ResourceManager.GetString("FontFamily", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font size.
+        /// </summary>
+        public static string FontSize {
+            get {
+                return ResourceManager.GetString("FontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Found in offset {0} with length {1}.
+        /// </summary>
+        public static string FoundInOff {
+            get {
+                return ResourceManager.GetString("FoundInOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Found nothing.
+        /// </summary>
+        public static string FoundNothing {
+            get {
+                return ResourceManager.GetString("FoundNothing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FTP upload-directory.
+        /// </summary>
+        public static string FTPDir {
+            get {
+                return ResourceManager.GetString("FTPDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FTP host.
+        /// </summary>
+        public static string FTPHost {
+            get {
+                return ResourceManager.GetString("FTPHost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FTP password.
+        /// </summary>
+        public static string FTPPw {
+            get {
+                return ResourceManager.GetString("FTPPw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FTP Upload.
+        /// </summary>
+        public static string FTPUp {
+            get {
+                return ResourceManager.GetString("FTPUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FTP user.
+        /// </summary>
+        public static string FTPUser {
+            get {
+                return ResourceManager.GetString("FTPUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use hardware acceleration (if available).
+        /// </summary>
+        public static string HardwareAcc {
+            get {
+                return ResourceManager.GetString("HardwareAcc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Highlight deprecated (&lt;1.7) syntax.
+        /// </summary>
+        public static string HighDeprecat {
+            get {
+                return ResourceManager.GetString("HighDeprecat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon Icon {
+        public static System.Drawing.Icon Icon {
             get {
                 object obj = ResourceManager.GetObject("Icon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indentation size.
+        /// </summary>
+        public static string IndentationSize {
+            get {
+                return ResourceManager.GetString("IndentationSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to inherited from.
+        /// </summary>
+        public static string InheritedFrom {
+            get {
+                return ResourceManager.GetString("InheritedFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jump to.
+        /// </summary>
+        public static string JumpTo {
+            get {
+                return ResourceManager.GetString("JumpTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string LanguageStr {
+            get {
+                return ResourceManager.GetString("LanguageStr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Len.
+        /// </summary>
+        public static string LenAbb {
+            get {
+                return ResourceManager.GetString("LenAbb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License.
+        /// </summary>
+        public static string License {
+            get {
+                return ResourceManager.GetString("License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line.
+        /// </summary>
+        public static string Line {
+            get {
+                return ResourceManager.GetString("Line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ln.
+        /// </summary>
+        public static string LnAbb {
+            get {
+                return ResourceManager.GetString("LnAbb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Match whole words.
+        /// </summary>
+        public static string MatchWholeWords {
+            get {
+                return ResourceManager.GetString("MatchWholeWords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method from.
+        /// </summary>
+        public static string MethodFrom {
+            get {
+                return ResourceManager.GetString("MethodFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiline Regex.
+        /// </summary>
+        public static string MultilineRegex {
+            get {
+                return ResourceManager.GetString("MultilineRegex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string New {
+            get {
+                return ResourceManager.GetString("New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New API webside.
+        /// </summary>
+        public static string NewAPIWeb {
+            get {
+                return ResourceManager.GetString("NewAPIWeb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New config.
+        /// </summary>
+        public static string NewConfig {
+            get {
+                return ResourceManager.GetString("NewConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New file.
+        /// </summary>
+        public static string NewFile {
+            get {
+                return ResourceManager.GetString("NewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No files opened.
+        /// </summary>
+        public static string NoFileOpened {
+            get {
+                return ResourceManager.GetString("NoFileOpened", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None of the selected files could be opened..
+        /// </summary>
+        public static string NoFileOpenedCap {
+            get {
+                return ResourceManager.GetString("NoFileOpenedCap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No files copied.
+        /// </summary>
+        public static string NoFilesCopy {
+            get {
+                return ResourceManager.GetString("NoFilesCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to no name.
+        /// </summary>
+        public static string NoName {
+            get {
+                return ResourceManager.GetString("NoName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normal search.
+        /// </summary>
+        public static string NormalSearch {
+            get {
+                return ResourceManager.GetString("NormalSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not disassemble method {0}: {1}.
+        /// </summary>
+        public static string NotDissMethod {
+            get {
+                return ResourceManager.GetString("NotDissMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No valid regex pattern.
+        /// </summary>
+        public static string NoValidRegex {
+            get {
+                return ResourceManager.GetString("NoValidRegex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Config Dir..
+        /// </summary>
+        public static string OBTextConfig {
+            get {
+                return ResourceManager.GetString("OBTextConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Dir..
+        /// </summary>
+        public static string OBTextFile {
+            get {
+                return ResourceManager.GetString("OBTextFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item Dir..
+        /// </summary>
+        public static string OBTextItem {
+            get {
+                return ResourceManager.GetString("OBTextItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to occurences found.
+        /// </summary>
+        public static string OccFound {
+            get {
+                return ResourceManager.GetString("OccFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old API webside.
+        /// </summary>
+        public static string OldAPIWeb {
+            get {
+                return ResourceManager.GetString("OldAPIWeb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        public static string Open {
+            get {
+                return ResourceManager.GetString("Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto open includes.
+        /// </summary>
+        public static string OpenInc {
+            get {
+                return ResourceManager.GetString("OpenInc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Includes Recursively.
+        /// </summary>
+        public static string OpenIncRec {
+            get {
+                return ResourceManager.GetString("OpenIncRec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open new file.
+        /// </summary>
+        public static string OpenNewFile {
+            get {
+                return ResourceManager.GetString("OpenNewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optimization level.
+        /// </summary>
+        public static string OptimizeLvl {
+            get {
+                return ResourceManager.GetString("OptimizeLvl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        public static string Options {
+            get {
+                return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parsed from include directory.
+        /// </summary>
+        public static string ParsedIncDir {
+            get {
+                return ResourceManager.GetString("ParsedIncDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste.
+        /// </summary>
+        public static string Paste {
+            get {
+                return ResourceManager.GetString("Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to People involved.
+        /// </summary>
+        public static string PeopleInv {
+            get {
+                return ResourceManager.GetString("PeopleInv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (pos: {0} - len: {1}).
+        /// </summary>
+        public static string PosLen {
+            get {
+                return ResourceManager.GetString("PosLen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Post-Build commandline.
+        /// </summary>
+        public static string PostBuildCom {
+            get {
+                return ResourceManager.GetString("PostBuildCom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre-Build commandline.
+        /// </summary>
+        public static string PreBuildCom {
+            get {
+                return ResourceManager.GetString("PreBuildCom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preview.
+        /// </summary>
+        public static string Preview {
+            get {
+                return ResourceManager.GetString("Preview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program.
+        /// </summary>
+        public static string Program {
+            get {
+                return ResourceManager.GetString("Program", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property from.
+        /// </summary>
+        public static string PropertyFrom {
+            get {
+                return ResourceManager.GetString("PropertyFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to pt.
+        /// </summary>
+        public static string PtAbb {
+            get {
+                return ResourceManager.GetString("PtAbb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rcon commandline variables.
+        /// </summary>
+        public static string RConCMDLineCom {
+            get {
+                return ResourceManager.GetString("RConCMDLineCom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RCon Server commands.
+        /// </summary>
+        public static string RconCom {
+            get {
+                return ResourceManager.GetString("RconCom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RCon server engine.
+        /// </summary>
+        public static string RConEngine {
+            get {
+                return ResourceManager.GetString("RConEngine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RCon server IP.
+        /// </summary>
+        public static string RConIP {
+            get {
+                return ResourceManager.GetString("RConIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RCon server port.
+        /// </summary>
+        public static string RconPort {
+            get {
+                return ResourceManager.GetString("RconPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RCon server password.
+        /// </summary>
+        public static string RconPw {
+            get {
+                return ResourceManager.GetString("RconPw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Redo.
+        /// </summary>
+        public static string Redo {
+            get {
+                return ResourceManager.GetString("Redo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reformatting line after semicolon.
+        /// </summary>
+        public static string ReformatAfterSem {
+            get {
+                return ResourceManager.GetString("ReformatAfterSem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reformat all.
+        /// </summary>
+        public static string ReformatAll {
+            get {
+                return ResourceManager.GetString("ReformatAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reformat current.
+        /// </summary>
+        public static string ReformatCurr {
+            get {
+                return ResourceManager.GetString("ReformatCurr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Syntax reformatter.
+        /// </summary>
+        public static string Reformatter {
+            get {
+                return ResourceManager.GetString("Reformatter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Regex search.
+        /// </summary>
+        public static string RegexSearch {
+            get {
+                return ResourceManager.GetString("RegexSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace.
+        /// </summary>
+        public static string Replace {
+            get {
+                return ResourceManager.GetString("Replace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace all.
+        /// </summary>
+        public static string ReplaceAll {
+            get {
+                return ResourceManager.GetString("ReplaceAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replaced {0} occurences in {1} documents.
+        /// </summary>
+        public static string ReplacedOcc {
+            get {
+                return ResourceManager.GetString("ReplacedOcc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replaced in offset {0}.
+        /// </summary>
+        public static string ReplacedOff {
+            get {
+                return ResourceManager.GetString("ReplacedOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report bug on GitHub.
+        /// </summary>
+        public static string ReportBugGit {
+            get {
+                return ResourceManager.GetString("ReportBugGit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset options.
+        /// </summary>
+        public static string ResetOptions {
+            get {
+                return ResourceManager.GetString("ResetOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure, you want to reset the options?.
+        /// </summary>
+        public static string ResetOptQues {
+            get {
+                return ResourceManager.GetString("ResetOptQues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart editor to take effect....
+        /// </summary>
+        public static string RestartEdiEff {
+            get {
+                return ResourceManager.GetString("RestartEdiEff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart editor to take full effect....
+        /// </summary>
+        public static string RestartEdiFullEff {
+            get {
+                return ResourceManager.GetString("RestartEdiFullEff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart Editor.
+        /// </summary>
+        public static string RestartEditor {
+            get {
+                return ResourceManager.GetString("RestartEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save all.
+        /// </summary>
+        public static string SaveAll {
+            get {
+                return ResourceManager.GetString("SaveAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save as.
+        /// </summary>
+        public static string SaveAs {
+            get {
+                return ResourceManager.GetString("SaveAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save error.
+        /// </summary>
+        public static string SaveError {
+            get {
+                return ResourceManager.GetString("SaveError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save file as.
+        /// </summary>
+        public static string SaveFileAs {
+            get {
+                return ResourceManager.GetString("SaveFileAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save following files.
+        /// </summary>
+        public static string SaveFollow {
+            get {
+                return ResourceManager.GetString("SaveFollow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saving.
+        /// </summary>
+        public static string Saving {
+            get {
+                return ResourceManager.GetString("Saving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saving file.
+        /// </summary>
+        public static string SavingFile {
+            get {
+                return ResourceManager.GetString("SavingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save all unsaved files?.
+        /// </summary>
+        public static string SavingUFiles {
+            get {
+                return ResourceManager.GetString("SavingUFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scripting directories.
+        /// </summary>
+        public static string ScriptDir {
+            get {
+                return ResourceManager.GetString("ScriptDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scroll speed.
+        /// </summary>
+        public static string ScrollSpeed {
+            get {
+                return ResourceManager.GetString("ScrollSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to search.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select all.
+        /// </summary>
+        public static string SelectAll {
+            get {
+                return ResourceManager.GetString("SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select executable.
+        /// </summary>
+        public static string SelectExe {
+            get {
+                return ResourceManager.GetString("SelectExe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Senc RCon commands.
+        /// </summary>
+        public static string SendRCon {
+            get {
+                return ResourceManager.GetString("SendRCon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server executable.
+        /// </summary>
+        public static string ServerExe {
+            get {
+                return ResourceManager.GetString("ServerExe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server running.
+        /// </summary>
+        public static string ServerRunning {
+            get {
+                return ResourceManager.GetString("ServerRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server-start arguments.
+        /// </summary>
+        public static string serverStartArgs {
+            get {
+                return ResourceManager.GetString("serverStartArgs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show spaces.
+        /// </summary>
+        public static string ShowSpaces {
+            get {
+                return ResourceManager.GetString("ShowSpaces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show tabs.
+        /// </summary>
+        public static string ShowTabs {
+            get {
+                return ResourceManager.GetString("ShowTabs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show toolbar.
+        /// </summary>
+        public static string ShowToolbar {
+            get {
+                return ResourceManager.GetString("ShowToolbar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The spcomp.exe compiler could not be found..
+        /// </summary>
+        public static string SPCompNotFound {
+            get {
+                return ResourceManager.GetString("SPCompNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The spcomp.exe compiler did not started correctly..
+        /// </summary>
+        public static string SPCompNotStarted {
+            get {
+                return ResourceManager.GetString("SPCompNotStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a lightweight sourcepawn editor.
+        /// </summary>
+        public static string SPEditCap {
+            get {
+                return ResourceManager.GetString("SPEditCap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start server.
+        /// </summary>
+        public static string StartServer {
+            get {
+                return ResourceManager.GetString("StartServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Syntaxhighlighting.
+        /// </summary>
+        public static string SyntaxHigh {
+            get {
+                return ResourceManager.GetString("SyntaxHigh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace tabs with spaces.
+        /// </summary>
+        public static string TabsToSpace {
+            get {
+                return ResourceManager.GetString("TabsToSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme Color.
+        /// </summary>
+        public static string ThemeColor {
+            get {
+                return ResourceManager.GetString("ThemeColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle comment.
+        /// </summary>
+        public static string TogglComment {
+            get {
+                return ResourceManager.GetString("TogglComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tools.
+        /// </summary>
+        public static string Tools {
+            get {
+                return ResourceManager.GetString("Tools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string TypeStr {
+            get {
+                return ResourceManager.GetString("TypeStr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UI animations.
+        /// </summary>
+        public static string UIAnim {
+            get {
+                return ResourceManager.GetString("UIAnim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undo.
+        /// </summary>
+        public static string Undo {
+            get {
+                return ResourceManager.GetString("Undo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uploaded.
+        /// </summary>
+        public static string Uploaded {
+            get {
+                return ResourceManager.GetString("Uploaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verbose level.
+        /// </summary>
+        public static string VerboseLvl {
+            get {
+                return ResourceManager.GetString("VerboseLvl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your program version {0} is up to date..
+        /// </summary>
+        public static string VersionYour {
+            get {
+                return ResourceManager.GetString("VersionYour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version up to date.
+        /// </summary>
+        public static string VersUpToDate {
+            get {
+                return ResourceManager.GetString("VersUpToDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Word wrap.
+        /// </summary>
+        public static string WordWrap {
+            get {
+                return ResourceManager.GetString("WordWrap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to written by: {0}.
+        /// </summary>
+        public static string WrittenBy {
+            get {
+                return ResourceManager.GetString("WrittenBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You cannot delete this config..
+        /// </summary>
+        public static string YCannotDelConf {
+            get {
+                return ResourceManager.GetString("YCannotDelConf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have to restart the editor for the changes to have effect..
+        /// </summary>
+        public static string YRestartEditor {
+            get {
+                return ResourceManager.GetString("YRestartEditor", resourceCulture);
             }
         }
     }

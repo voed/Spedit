@@ -133,7 +133,7 @@ namespace Spedit.UI.Components
             editor.Options.EnableHyperlinks = false;
 			editor.Options.EnableEmailHyperlinks = false;
             editor.Options.HighlightCurrentLine = true;
-            editor.Options.AllowScrollBelowDocument = true;
+            editor.Options.AllowScrollBelowDocument = false;
 			editor.Options.ShowSpaces = Program.OptionsObject.Editor_ShowSpaces;
 			editor.Options.ShowTabs = Program.OptionsObject.Editor_ShowTabs;
 			editor.Options.IndentationSize = Program.OptionsObject.Editor_IndentationSize;
@@ -291,8 +291,9 @@ namespace Spedit.UI.Components
                 bool reloadFile;
                 if (_NeedsSave)
                 {
-                    var result = MessageBox.Show(string.Format(Program.Translations.DFileChanged, _FullFilePath) + Environment.NewLine + Program.Translations.FileTryReload,
-						Program.Translations.FileChanged, MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
+                    
+                    var result = MessageBox.Show(string.Format(Properties.Resources.DFileChanged, _FullFilePath) + Environment.NewLine + Properties.Resources.FileTryReload,
+						Properties.Resources.FileChanged, MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
                     reloadFile = (result == MessageBoxResult.Yes);
                 }
                 else //when the user didnt changed anything, we just reload the file since we are intelligent...
@@ -391,7 +392,7 @@ namespace Spedit.UI.Components
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(Program.MainWindow, Program.Translations.DSaveError + Environment.NewLine + "(" + e.Message + ")", Program.Translations.SaveError,
+                    MessageBox.Show(Program.MainWindow, Properties.Resources.DSaveError + Environment.NewLine + "(" + e.Message + ")", Properties.Resources.SaveError,
 						MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
@@ -408,7 +409,7 @@ namespace Spedit.UI.Components
             if (size > 2 && size < 31)
             {
                 editor.FontSize = size;
-                Main.StatusLine_FontSize.Text = size.ToString("n0") + $" {Program.Translations.PtAbb}";
+                Main.StatusLine_FontSize.Text = size.ToString("n0") + $" {Properties.Resources.PtAbb}";
             }
             if (UpdateLineHeight)
             {
@@ -515,7 +516,7 @@ namespace Spedit.UI.Components
                     }
                     else
                     {
-                        var Result = Program.MainWindow.ShowMessageAsync($"{Program.Translations.SavingFile} '" + Parent.Title.Trim('*') + "'", "", MessageDialogStyle.AffirmativeAndNegative, Program.MainWindow.MetroDialogOptions);
+                        var Result = Program.MainWindow.ShowMessageAsync($"{Properties.Resources.SavingFile} '" + Parent.Title.Trim('*') + "'", "", MessageDialogStyle.AffirmativeAndNegative, Program.MainWindow.MetroDialogOptions);
 						Result.Wait();
 						if (Result.Result == MessageDialogResult.Affirmative)
                         {
@@ -544,8 +545,8 @@ namespace Spedit.UI.Components
 
         private void Caret_PositionChanged(object sender, EventArgs e)
         {
-            Main.StatusLine_Coloumn.Text = $"{Program.Translations.ColAbb} {editor.TextArea.Caret.Column}";
-            Main.StatusLine_Line.Text = $"{Program.Translations.LnAbb} {editor.TextArea.Caret.Line}";
+            Main.StatusLine_Coloumn.Text = $"{Properties.Resources.ColAbb} {editor.TextArea.Caret.Column}";
+            Main.StatusLine_Line.Text = $"{Properties.Resources.LnAbb} {editor.TextArea.Caret.Line}";
             EvaluateIntelliSense();
             var result = bracketSearcher.SearchBracket(editor.Document, editor.CaretOffset);
             bracketHighlightRenderer.SetHighlight(result);
@@ -626,7 +627,7 @@ namespace Spedit.UI.Components
 
         private void TextArea_SelectionChanged(object sender, EventArgs e)
         {
-            Main.StatusLine_SelectionLength.Text = $"{Program.Translations.LenAbb} {editor.SelectionLength}";
+            Main.StatusLine_SelectionLength.Text = $"{Properties.Resources.LenAbb} {editor.SelectionLength}";
         }
 
         private void PrevMouseWheel(object sender, MouseWheelEventArgs e)
@@ -725,22 +726,19 @@ namespace Spedit.UI.Components
 
 		public void Language_Translate(bool Initial = false)
 		{
-			if (Program.Translations.IsDefault)
-			{
-				return;
-			}
-			MenuC_Undo.Header = Program.Translations.Undo;
-			MenuC_Redo.Header = Program.Translations.Redo;
-			MenuC_Cut.Header = Program.Translations.Cut;
-			MenuC_Copy.Header = Program.Translations.Copy;
-			MenuC_Paste.Header = Program.Translations.Paste;
-			MenuC_SelectAll.Header = Program.Translations.SelectAll;
-			Main.CompileBox.Content = Program.Translations.Compile;
+            //todo remove this?
+            MenuC_Undo.Header = Properties.Resources.Undo;
+			MenuC_Redo.Header = Properties.Resources.Redo;
+			MenuC_Cut.Header = Properties.Resources.Cut;
+			MenuC_Copy.Header = Properties.Resources.Copy;
+			MenuC_Paste.Header = Properties.Resources.Paste;
+			MenuC_SelectAll.Header = Properties.Resources.SelectAll;
+			Main.CompileBox.Content = Properties.Resources.Compile;
 			if (!Initial)
 			{
-                Main.StatusLine_Coloumn.Text = $"{Program.Translations.ColAbb} {editor.TextArea.Caret.Column}";
-                Main.StatusLine_Line.Text = $"{Program.Translations.LnAbb} {editor.TextArea.Caret.Line}";
-                Main.StatusLine_FontSize.Text = editor.FontSize.ToString("n0") + $" {Program.Translations.PtAbb}";
+                Main.StatusLine_Coloumn.Text = $"{Properties.Resources.ColAbb} {editor.TextArea.Caret.Column}";
+                Main.StatusLine_Line.Text = $"{Properties.Resources.LnAbb} {editor.TextArea.Caret.Line}";
+                Main.StatusLine_FontSize.Text = editor.FontSize.ToString("n0") + $" {Properties.Resources.PtAbb}";
 			}
 		}
     }

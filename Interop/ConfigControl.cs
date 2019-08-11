@@ -34,7 +34,7 @@ namespace Spedit.Interop
                         "Error while reading configs.",
                         MessageBoxButton.OK,
                         MessageBoxImage.Warning);
-                    //todo open settings
+                    //todo open config settings
                 }
 
                 MessageBox.Show(e.ToString());
@@ -136,9 +136,7 @@ namespace Spedit.Interop
 
         public ConfigList()
         {
-            Configs = new List<Config>()
-            {
-            };
+            Configs = new List<Config>();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Spedit.UI.Windows
             var def = Program.ConfigList.Current.GetSMDef();
             if (def == null)
             {
-                MessageBox.Show(Program.Translations.ConfigWrongPars, Program.Translations.Error, MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Properties.Resources.ConfigWrongPars, Properties.Resources.Error, MessageBoxButton.OK, MessageBoxImage.Warning);
                 Close();
                 return;
             }
@@ -43,7 +43,7 @@ namespace Spedit.UI.Windows
 			{
 				if (string.IsNullOrWhiteSpace(e.Name))
 				{
-					e.Name = $"--{Program.Translations.NoName}--";
+					e.Name = $"--{Properties.Resources.NoName}--";
 				}
 			}
 			defList.Sort((a, b) => string.Compare(a.Name, b.Name));
@@ -78,7 +78,7 @@ namespace Spedit.UI.Windows
                     {
                         SPNameBlock.Text = sm.Name;
                         SPFullNameBlock.Text = sm.FullName;
-                        SPFileBlock.Text = sm.File + ".inc" + $" ({string.Format(Program.Translations.PosLen, sm.Index, sm.Length)})";
+                        SPFileBlock.Text = sm.File + ".inc" + $" ({string.Format(Properties.Resources.PosLen, sm.Index, sm.Length)})";
                         SPTypeBlock.Text = "Function";
                         SPCommentBox.Text = sm.CommentString;
                         return;
@@ -88,7 +88,7 @@ namespace Spedit.UI.Windows
                     {
                         SPNameBlock.Text = sm.Name;
                         SPFullNameBlock.Text = string.Empty;
-                        SPFileBlock.Text = sm.File + ".inc" + $" ({string.Format(Program.Translations.PosLen, sm.Index, sm.Length)})";
+                        SPFileBlock.Text = sm.File + ".inc" + $" ({string.Format(Properties.Resources.PosLen, sm.Index, sm.Length)})";
                         SPTypeBlock.Text = "Constant";
                         SPCommentBox.Text = string.Empty;
                         return;
@@ -98,7 +98,7 @@ namespace Spedit.UI.Windows
                     {
                         SPNameBlock.Text = sm.Name;
                         SPFullNameBlock.Text = string.Empty;
-                        SPFileBlock.Text = sm.File + ".inc" + $" ({string.Format(Program.Translations.PosLen, sm.Index, sm.Length)})";
+                        SPFileBlock.Text = sm.File + ".inc" + $" ({string.Format(Properties.Resources.PosLen, sm.Index, sm.Length)})";
                         SPTypeBlock.Text = "Enum " + sm.Entries.Length + " entries";
                         StringBuilder outString = new StringBuilder();
                         for (int i = 0; i < sm.Entries.Length; ++i)
@@ -114,7 +114,7 @@ namespace Spedit.UI.Windows
                     {
                         SPNameBlock.Text = sm.Name;
                         SPFullNameBlock.Text = string.Empty;
-                        SPFileBlock.Text = sm.File + ".inc" + $" ({string.Format(Program.Translations.PosLen, sm.Index, sm.Length)})";
+                        SPFileBlock.Text = sm.File + ".inc" + $" ({string.Format(Properties.Resources.PosLen, sm.Index, sm.Length)})";
                         SPTypeBlock.Text = "Definition";
                         SPCommentBox.Text = string.Empty;
                         return;
@@ -173,8 +173,8 @@ namespace Spedit.UI.Windows
 
 		private void Language_Translate()
 		{
-			TextBoxHelper.SetWatermark(SPSearchBox, Program.Translations.Search);
-			/*if (Program.Translations.IsDefault)
+			TextBoxHelper.SetWatermark(SPSearchBox, Properties.Resources.Search);
+			/*if (Properties.Resources.IsDefault)
 			{
 				return;
 			}*/

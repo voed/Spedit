@@ -5,7 +5,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:stheme="clr-namespace:Spedit.UI.STheme"
+             xmlns:resx="clr-namespace:Spedit.Properties"
+             xmlns:sTheme="clr-namespace:Spedit.UI.STheme"
              mc:Ignorable="d" 
              Title="Spedit.AMXX" GlowBrush="{DynamicResource AccentColorBrush}" MinHeight="100" MinWidth="200" KeyDown="MainWindowEvent_KeyDown" Closing="MetroWindow_Closing"
                       AllowDrop="True" Drop="MetroWindow_Drop" ShowIconOnTitleBar="False" TitleCharacterCasing="Normal">
@@ -55,66 +56,66 @@
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
             <Menu>
-                <MenuItem Name="MenuI_File" Header="File" SubmenuOpened="FileMenu_Open">
-                    <MenuItem Name="MenuI_New" Header="New" Click="Menu_New" InputGestureText="Ctrl+N" />
-                    <MenuItem Name="MenuI_Open" Header="Open" Click="Menu_Open" InputGestureText="Ctrl+O" />
+                <MenuItem Name="MenuI_File" Header="{x:Static resx:Resources.FileStr}" SubmenuOpened="FileMenu_Open">
+                    <MenuItem Name="MenuI_New" Header="{x:Static resx:Resources.New}" Click="Menu_New" InputGestureText="Ctrl+N" />
+                    <MenuItem Name="MenuI_Open" Header="{x:Static resx:Resources.Open}" Click="Menu_Open" InputGestureText="Ctrl+O" />
                     <Separator />
-                    <MenuItem Name="MenuI_Save" Header="Save" Click="Menu_Save" InputGestureText="Ctrl+S" />
-                    <MenuItem Name="MenuI_SaveAll" Header="Save All" Click="Menu_SaveAll" InputGestureText="Ctrl+Shift+S" />
-                    <MenuItem Name="MenuI_SaveAs" Header="Save As" Click="Menu_SaveAs" InputGestureText="Ctrl+Alt+S" />
+                    <MenuItem Name="MenuI_Save" Header="{x:Static resx:Resources.Save}" Click="Menu_Save" InputGestureText="Ctrl+S" />
+                    <MenuItem Name="MenuI_SaveAll" Header="{x:Static resx:Resources.SaveAll}" Click="Menu_SaveAll" InputGestureText="Ctrl+Shift+S" />
+                    <MenuItem Name="MenuI_SaveAs" Header="{x:Static resx:Resources.SaveAs}" Click="Menu_SaveAs" InputGestureText="Ctrl+Alt+S" />
                     <Separator />
-                    <MenuItem Name="MenuI_Close" Header="Close" Click="Menu_Close" InputGestureText="Ctrl+W" />
-                    <MenuItem Name="MenuI_CloseAll" Header="Close All" Click="Menu_CloseAll" InputGestureText="Ctrl+Shift+W" />
+                    <MenuItem Name="MenuI_Close" Header="{x:Static resx:Resources.Close}" Click="Menu_Close" InputGestureText="Ctrl+W" />
+                    <MenuItem Name="MenuI_CloseAll" Header="{x:Static resx:Resources.CloseAll}" Click="Menu_CloseAll" InputGestureText="Ctrl+Shift+W" />
                 </MenuItem>
 
-                <MenuItem Name="MenuI_Edit" Header="Edit" SubmenuOpened="EditMenu_Open">
-                    <MenuItem Name="MenuI_Undo" Header="Undo" Click="Menu_Undo" InputGestureText="Ctrl+Z" />
-                    <MenuItem Name="MenuI_Redo" Header="Redo" Click="Menu_Redo" InputGestureText="Ctrl+Y" />
+                <MenuItem Name="MenuI_Edit" Header="{x:Static resx:Resources.Edit}" SubmenuOpened="EditMenu_Open">
+                    <MenuItem Name="MenuI_Undo" Header="{x:Static resx:Resources.Undo}" Click="Menu_Undo" InputGestureText="Ctrl+Z" />
+                    <MenuItem Name="MenuI_Redo" Header="{x:Static resx:Resources.Redo}" Click="Menu_Redo" InputGestureText="Ctrl+Y" />
                     <Separator />
-                    <MenuItem Name="MenuI_Cut" Header="Cut" Click="Menu_Cut" InputGestureText="Ctrl+X" />
-                    <MenuItem Name="MenuI_Copy" Header="Copy" Click="Menu_Copy" InputGestureText="Ctrl+C" />
-                    <MenuItem Name="MenuI_Paste" Header="Paste" Click="Menu_Paste" InputGestureText="Ctrl+V" />
+                    <MenuItem Name="MenuI_Cut" Header="{x:Static resx:Resources.Cut}" Click="Menu_Cut" InputGestureText="Ctrl+X" />
+                    <MenuItem Name="MenuI_Copy" Header="{x:Static resx:Resources.Copy}" Click="Menu_Copy" InputGestureText="Ctrl+C" />
+                    <MenuItem Name="MenuI_Paste" Header="{x:Static resx:Resources.Paste}" Click="Menu_Paste" InputGestureText="Ctrl+V" />
                     <Separator />
-                    <MenuItem Name="MenuI_Folding" Header="Foldings">
-                        <MenuItem Name="MenuI_ExpandAll" Header="Expand All" InputGestureText="Ctrl+P" Click="Menu_ExpandAll" />
-                        <MenuItem Name="MenuI_CollapseAll" Header="Collapse All" InputGestureText="Ctrl+Shift+P" Click="Menu_CollapseAll" />
+                    <MenuItem Name="MenuI_Folding" Header="{x:Static resx:Resources.Folding}">
+                        <MenuItem Name="MenuI_ExpandAll" Header="{x:Static resx:Resources.ExpandAll}" InputGestureText="Ctrl+P" Click="Menu_ExpandAll" />
+                        <MenuItem Name="MenuI_CollapseAll" Header="{x:Static resx:Resources.CollapseAll}" InputGestureText="Ctrl+Shift+P" Click="Menu_CollapseAll" />
                     </MenuItem>
-                    <MenuItem Name="MenuI_JumpTo" Header="Jump To" Click="Menu_JumpTo" InputGestureText="Ctrl+G" />
-                    <MenuItem Name="MenuI_ToggleComment" Header="Toggle comment (//)" Click="Menu_ToggleCommentLine" InputGestureText="Ctrl+/" />
-                    <MenuItem Name="MenuI_SelectAll" Header="Select All" Click="Menu_SelectAll" InputGestureText="Ctrl+A" />
+                    <MenuItem Name="MenuI_JumpTo" Header="{x:Static resx:Resources.JumpTo}" Click="Menu_JumpTo" InputGestureText="Ctrl+G" />
+                    <MenuItem Name="MenuI_ToggleComment" Header="{x:Static resx:Resources.TogglComment}" Click="Menu_ToggleCommentLine" InputGestureText="Ctrl+/" />
+                    <MenuItem Name="MenuI_SelectAll" Header="{x:Static resx:Resources.SelectAll}" Click="Menu_SelectAll" InputGestureText="Ctrl+A" />
                     <Separator />
-                    <MenuItem Name="MenuI_FindReplace" Header="Find &amp; Replace" Click="Menu_FindAndReplace" InputGestureText="Ctrl+F" />
+                    <MenuItem Name="MenuI_FindReplace" Header="{x:Static resx:Resources.FindReplace}" Click="Menu_FindAndReplace" InputGestureText="Ctrl+F" />
                 </MenuItem>
 
-                <MenuItem Name="MenuI_Build" Header="Build">
-                    <MenuItem Name="MenuI_CompileAll" Header="Compile All" Click="Menu_CompileAll" InputGestureText="F5" />
-                    <MenuItem Name="MenuI_Compile" Header="Compile Current" Click="Menu_Compile" InputGestureText="F6" />
+                <MenuItem Name="MenuI_Build" Header="{x:Static resx:Resources.Build}">
+                    <MenuItem Name="MenuI_CompileAll" Header="{x:Static resx:Resources.CompileAll}" Click="Menu_CompileAll" InputGestureText="F5" />
+                    <MenuItem Name="MenuI_Compile" Header="{x:Static resx:Resources.Compile}" Click="Menu_Compile" InputGestureText="F6" />
                     <Separator/>
-                    <MenuItem Name="MenuI_CopyPlugin" Header="Copy Plugins" Click="Menu_CopyPlugin" InputGestureText="F7" />
-                    <MenuItem Name="MenuI_FTPUpload" Header="FTP Upload Plugins" Click="Menu_FTPUpload" InputGestureText="F8" />
+                    <MenuItem Name="MenuI_CopyPlugin" Header="{x:Static resx:Resources.CopyPlugin}" Click="Menu_CopyPlugin" InputGestureText="F7" />
+                    <MenuItem Name="MenuI_FTPUpload" Header="{x:Static resx:Resources.FTPUp}" Click="Menu_FTPUpload" InputGestureText="F8" />
                     <Separator/>
-                    <MenuItem Name="MenuI_StartServer" Header="Start Server" Click="Menu_StartServer" InputGestureText="F9" />
-                    <MenuItem Name="MenuI_SendRCon" Header="Send RCon Commands" Click="Menu_SendRCon" InputGestureText="F10" />
+                    <MenuItem Name="MenuI_StartServer" Header="{x:Static resx:Resources.StartServer}" Click="Menu_StartServer" InputGestureText="F9" />
+                    <MenuItem Name="MenuI_SendRCon" Header="{x:Static resx:Resources.SendRCon}" Click="Menu_SendRCon" InputGestureText="F10" />
                 </MenuItem>
 
-                <MenuItem Name="ConfigMenu" Header="Configuration">
+                <MenuItem Name="ConfigMenu" Header="{x:Static resx:Resources.Config}">
                 </MenuItem>
 
-                <MenuItem Name="MenuI_Tools" Header="Tools">
-                    <MenuItem Name="OptionMenuEntry" Header="Options" Click="Menu_OpenOptions" />
+                <MenuItem Name="MenuI_Tools" Header="{x:Static resx:Resources.Tools}">
+                    <MenuItem Name="OptionMenuEntry" Header="{x:Static resx:Resources.Options}" Click="Menu_OpenOptions" />
                     <Separator />
                     <MenuItem Header="Sourcepawn API">
                         <MenuItem Name="MenuI_ParsedIncDir" Header="Parsed from Include Directory" Click="Menu_OpenSPDef" />
                         <MenuItem Name="MenuI_OldApiWeb" Header="Old Api Website" Click="Menu_OpenWebsiteFromTag" Tag="https://sm.alliedmods.net/api/" />
                         <MenuItem Name="MenuI_NewApiWeb" Header="New Api Website" Click="Menu_OpenWebsiteFromTag" Tag="https://sm.alliedmods.net/new-api/" />
                     </MenuItem>
-                    <MenuItem Name="MenuI_Reformatter" Header="Syntax Reformatter">
-                        <MenuItem Name="MenuI_ReformattCurr" Header="Reformat Current" InputGestureText="Ctrl+R" Click="Menu_ReFormatCurrent" />
-                        <MenuItem Name="MenuI_ReformattAll" Header="Reformat All" Click="Menu_ReFormatAll" />
+                    <MenuItem Name="MenuI_Reformatter" Header="{x:Static resx:Resources.Reformatter}">
+                        <MenuItem Name="MenuI_ReformattCurr" Header="{x:Static resx:Resources.ReformatCurr}" InputGestureText="Ctrl+R" Click="Menu_ReFormatCurrent" />
+                        <MenuItem Name="MenuI_ReformattAll" Header="{x:Static resx:Resources.ReformatAll}" Click="Menu_ReFormatAll" />
                     </MenuItem>
                     <Separator />
-                    <MenuItem Name="MenuI_ReportBugGit" Header="Report a Bug on GitHub" Click="ReportBug_Click" />
-                    <MenuItem Name="MenuI_About" Header="About" Click="Menu_About" />
+                    <MenuItem Name="MenuI_ReportBugGit" Header="{x:Static resx:Resources.ReportBugGit}" Click="ReportBug_Click" />
+                    <MenuItem Name="MenuI_About" Header="{x:Static resx:Resources.About}" Click="Menu_About" />
                 </MenuItem>
             </Menu>
         </controls:WindowCommands>
@@ -132,17 +133,17 @@
         <Grid Grid.Row="0">
             <ToolBarTray Name="Win_ToolBar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="0">
                 <ToolBar>
-                    <Button ToolTip="New" Height="26" Width="26" Click="Menu_New">
+                    <Button ToolTip="{x:Static resx:Resources.New}" Height="26" Width="26" Click="Menu_New">
                         <Canvas Width="14" Height="16" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
                             <Path Width="14" Height="16" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 43,30L 50.75,30L 43,22.25L 43,30 Z M 52,34L 39,34L 39,21L 24,21L 24,45L 20,45L 20,17L 43.25,17L 56,29.75L 56,59L 34,59L 34,55L 52,55L 52,34 Z M 28,38L 33,38L 33,46L 41,46L 41,51L 33,51L 33,59L 28,59L 28,51L 20,51L 20,46L 28,46L 28,38 Z M 20,59L 20,52L 24,52L 24,55L 27,55L 27,59L 20,59 Z "/>
                         </Canvas>
                     </Button>
-                    <Button ToolTip="Open" Height="26" Width="26" Click="Menu_Open">
+                    <Button ToolTip="{x:Static resx:Resources.Open}" Height="26" Width="26" Click="Menu_Open">
                         <Canvas Width="14" Height="16" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
                             <Path Width="14" Height="16" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 20,17L 44,17L 56,29L 56,59L 20,59L 20,17 Z M 24,21L 24,55L 52,55L 52,34L 39,34L 39,21L 24,21 Z M 43,21L 43,30L 52,30L 43,21 Z "/>
                         </Canvas>
                     </Button>
-                    <Button ToolTip="Save" Height="26" Width="26" Click="Menu_Save">
+                    <Button ToolTip="{x:Static resx:Resources.Save}" Height="26" Width="26" Click="Menu_Save">
                         <Canvas Width="14" Height="16" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
                             <Path Width="14" Height="16" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 20,20L 50.25,20L 56,25.75L 56,56L 20,56L 20,20 Z M 52,27.25L 48.75,24L 48,24L 48,37L 28,37L 28,24L 24,24L 24,52L 52,52L 52,27.25 Z M 39,24L 39,34L 44,34L 44,24L 39,24 Z "/>
                         </Canvas>
@@ -214,7 +215,7 @@
                 <dock:DockingManager Grid.Column="0" x:Name="DockingManager" Margin="0,0,5,0" AllowMixedOrientation="True" Background="{DynamicResource WhiteColorBrush}" Foreground="{DynamicResource BlackColorBrush}"
                                  ActiveContentChanged="DockingManager_ActiveContentChanged" DocumentClosing="DockingManager_DocumentClosing">
                     <dock:DockingManager.Theme>
-                        <stheme:SMetroTheme />
+                        <sTheme:SMetroTheme />
                     </dock:DockingManager.Theme>
                     <dock:LayoutRoot>
                         <dock:LayoutPanel>
@@ -235,19 +236,19 @@
                     </ListView.ItemsPanel>
                     <ListViewItem Selected="ListViewOBItem_SelectFile">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Name="OBItemText_File" Text="File Dir." />
+                            <Label Name="OBItemText_File" Content="{x:Static resx:Resources.OBTextFile}" />
                             <Image Source="/Spedit;component/Resources/iconmonstr-code-fork-1-20.png" Width="20" Height="20" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem Selected="ListViewOBItem_SelectConfig">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Name="OBItemText_Config" Text="Config Dir." />
+                            <TextBlock Name="OBItemText_Config" Text="{x:Static resx:Resources.OBTextConfig}" />
                             <Image Source="/Spedit;component/Resources/iconmonstr-code-fork-2-20.png" Width="20" Height="20" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem Selected="ListViewOBItem_SelectOBItem">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock  Name="OBItemText_Item" Text="Item Dir." />
+                            <TextBlock  Name="OBItemText_Item" Text="{x:Static resx:Resources.OBTextItem}" />
                             <Image Source="/Spedit;component/Resources/iconmonstr-code-fork-4-20.png" Width="20" Height="20" />
                         </StackPanel>
                     </ListViewItem>
@@ -293,8 +294,8 @@
             <RadioButton Name="RSearch_RButton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,165,5,5" Content="Regex Search" Foreground="{DynamicResource BlackBrush}" />
             <ComboBox Name="FindDestinies" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="180,105,0,0" Width="150">
                 <ComboBox.Items>
-                    <ComboBoxItem x:Name="MenuFR_CurrDoc" IsSelected="True" Content="Current Document" />
-                    <ComboBoxItem x:Name="MenuFR_AllDoc" Content="All Open Documents" />
+                    <ComboBoxItem x:Name="MenuFR_CurrDoc" IsSelected="True" Content="{x:Static resx:Resources.CurrDoc}" />
+                    <ComboBoxItem x:Name="MenuFR_AllDoc" Content="{x:Static resx:Resources.AllDoc}" />
                 </ComboBox.Items>
             </ComboBox>
             <Button Name="Find_Button" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,105,5,0" Content="Find (F3)" Width="150" Click="SearchButtonClicked" Style="{DynamicResource MetroFlatButton}"  />

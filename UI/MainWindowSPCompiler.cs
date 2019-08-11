@@ -89,7 +89,7 @@ namespace Spedit.UI
 						}
                         FileInfo fileInfo = new FileInfo(file);
                         stringOutput.AppendLine(fileInfo.Name);
-                        StatusLite_StatusText.Text = $"{Translations.Compiling} \"{fileInfo.Name}...\"";
+                        StatusLite_StatusText.Text = $"{Properties.Resources.Compiling} \"{fileInfo.Name}...\"";
                         ProcessUITasks();
                         if (fileInfo.Exists)
                         {
@@ -139,7 +139,7 @@ namespace Spedit.UI
                                 }
                                 if (!InCompiling) //cannot await in catch
                                 {
-                                    await this.ShowMessageAsync(Translations.SPCompNotStarted, Translations.Error, MessageDialogStyle.Affirmative, MetroDialogOptions);
+                                    await this.ShowMessageAsync(Properties.Resources.SPCompNotStarted, Properties.Resources.Error, MessageDialogStyle.Affirmative, MetroDialogOptions);
 									return;
                                 }
                                 if (File.Exists(errorFile))
@@ -163,10 +163,10 @@ namespace Spedit.UI
                                     }
                                     catch (Exception)
                                     {
-                                        stringOutput.AppendLine(Translations.CompileErroFileError);
+                                        stringOutput.AppendLine(Properties.Resources.CompileErroFileError);
                                     }
                                 }
-                                stringOutput.AppendLine(Translations.Done);
+                                stringOutput.AppendLine(Properties.Resources.Done);
                                 if (File.Exists(outFile))
                                 {
                                     compiledFiles.Add(outFile);
@@ -200,7 +200,7 @@ namespace Spedit.UI
             }
             else
             {
-                await this.ShowMessageAsync(Translations.Error, Translations.SPCompNotFound, MessageDialogStyle.Affirmative, MetroDialogOptions);
+                await this.ShowMessageAsync(Properties.Resources.Error, Properties.Resources.SPCompNotFound, MessageDialogStyle.Affirmative, MetroDialogOptions);
             }
             InCompiling = false;
         }
@@ -226,23 +226,23 @@ namespace Spedit.UI
                                 string copyFileDestination = Path.Combine(c.CopyDirectory, destinationFileName);
                                 File.Copy(t, copyFileDestination, true);
                                 nonUploadedFiles.Add(copyFileDestination);
-                                stringOutput.AppendLine($"{Translations.Copied}: " + t);
+                                stringOutput.AppendLine($"{Properties.Resources.Copied}: " + t);
                                 ++copyCount;
                                 if (c.DeleteAfterCopy)
                                 {
                                     File.Delete(t);
-                                    stringOutput.AppendLine($"{Translations.Deleted}: " + t);
+                                    stringOutput.AppendLine($"{Properties.Resources.Deleted}: " + t);
                                 }
                             }
                         }
                         catch (Exception)
                         {
-                            stringOutput.AppendLine($"{Translations.FailCopy}: " + t);
+                            stringOutput.AppendLine($"{Properties.Resources.FailCopy}: " + t);
                         }
                     }
                     if (copyCount == 0)
                     {
-                        stringOutput.AppendLine(Translations.NoFilesCopy);
+                        stringOutput.AppendLine(Properties.Resources.NoFilesCopy);
                     }
                     if (OvertakeOutString)
                     {
@@ -293,22 +293,22 @@ namespace Spedit.UI
                         try
                         {
                             ftp.upload(uploadDir, file);
-                            stringOutput.AppendLine($"{Translations.Uploaded}: " + file);
+                            stringOutput.AppendLine($"{Properties.Resources.Uploaded}: " + file);
                         }
                         catch (Exception e)
                         {
-                            stringOutput.AppendLine(string.Format(Translations.ErrorUploadFile, file, uploadDir));
-                            stringOutput.AppendLine($"{Translations.Details}: " + e.Message);
+                            stringOutput.AppendLine(string.Format(Properties.Resources.ErrorUploadFile, file, uploadDir));
+                            stringOutput.AppendLine($"{Properties.Resources.Details}: " + e.Message);
                         }
                     }
                 }
             }
             catch (Exception e)
             {
-                stringOutput.AppendLine(Translations.ErrorUpload);
-                stringOutput.AppendLine($"{Translations.Details}: " + e.Message);
+                stringOutput.AppendLine(Properties.Resources.ErrorUpload);
+                stringOutput.AppendLine($"{Properties.Resources.Details}: " + e.Message);
             }
-            stringOutput.AppendLine(Translations.Done);
+            stringOutput.AppendLine(Properties.Resources.Done);
             CompileOutput.Text = stringOutput.ToString();
             if (CompileOutputRow.Height.Value < 11.0)
             {

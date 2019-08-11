@@ -11,6 +11,7 @@ using System.Windows.Media;
 using MahApps.Metro;
 using Spedit.Interop;
 using Spedit.UI;
+using Spedit.Properties;
 
 namespace Spedit
 {
@@ -20,7 +21,6 @@ namespace Spedit
 
         public static MainWindow MainWindow;
         public static OptionsControl OptionsObject;
-		public static TranslationProvider Translations;
         public static ConfigList ConfigList;
 
         public static bool RCCKMade;
@@ -38,8 +38,6 @@ namespace Spedit
                     try
                     {
 #endif
-						SplashScreen splashScreen = new SplashScreen("Resources/Icon256x.png");
-                        splashScreen.Show(false, true);
                         Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 #if !DEBUG
 						ProfileOptimization.SetProfileRoot(Environment.CurrentDirectory);
@@ -47,8 +45,7 @@ namespace Spedit
 #endif
 						//todo implement own updater
 						OptionsObject = OptionsControlIOObject.Load(out ProgramIsNew);
-						Translations = new TranslationProvider();
-						Translations.LoadLanguage(OptionsObject.Language, true);
+
 						foreach (var arg in args)
                         {
                             if (arg.ToLowerInvariant() == "-rcck") //ReCreateCryptoKey
@@ -85,9 +82,8 @@ namespace Spedit
 							}
 						}
 #endif
-						MainWindow = new MainWindow(splashScreen);
-                        PipeInteropServer pipeServer = new PipeInteropServer(MainWindow);
-                        pipeServer.Start();
+						MainWindow = new MainWindow();
+                        new PipeInteropServer(MainWindow).Start();
 #if !DEBUG
                     }
                     catch (Exception e)
@@ -205,7 +201,6 @@ namespace Spedit
             outString.AppendLine("Current UI Culture: " + CultureInfo.CurrentUICulture);
             outString.AppendLine("Current Culture: " + CultureInfo.CurrentCulture);
             outString.AppendLine();
-            Exception current = e;
             int eNumber = 1;
             for (; ; )
             {
@@ -227,7 +222,7 @@ namespace Spedit
                 if (e.TargetSite != null)
                 {
                     outString.AppendLine("Targetsite Name:");
-                    outString.AppendLine(e.TargetSite.Name ?? "null");
+                    outString.AppendLine(e.TargetSite.Name);
                 }
                 e = e.InnerException;
                 eNumber++;

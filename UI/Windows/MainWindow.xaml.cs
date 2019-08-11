@@ -14,6 +14,7 @@ using Spedit.UI.Components;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout;
 
+
 namespace Spedit.UI
 {
     /// <summary>
@@ -22,7 +23,7 @@ namespace Spedit.UI
     public partial class MainWindow : MetroWindow
     {
         public List<EditorElement> EditorsReferences = new List<EditorElement>();
-
+        
         Storyboard BlendOverEffect;
         Storyboard FadeFindReplaceGridIn;
         Storyboard FadeFindReplaceGridOut;
@@ -34,11 +35,7 @@ namespace Spedit.UI
         public MainWindow()
         {
             InitializeComponent();
-        }
-        public MainWindow(SplashScreen sc)
-        {
-            InitializeComponent();
-			if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
+            if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
 			{ ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme)); }
 			ObjectBrowserColumn.Width = new GridLength(Program.OptionsObject.Program_ObjectbrowserWidth, GridUnitType.Pixel);
 			var heightDescriptor = DependencyPropertyDescriptor.FromProperty(ColumnDefinition.WidthProperty, typeof(ItemsControl));
@@ -63,7 +60,6 @@ namespace Spedit.UI
             EnableServerAnim = (Storyboard)Resources["EnableServerAnim"];
             DisableServerAnim = (Storyboard)Resources["DisableServerAnim"];
 			ChangeObjectBrowserToDirectory(Program.OptionsObject.Program_ObjectBrowserDirectory);
-			Language_Translate(true);
 
             if (Program.OptionsObject.LastOpenFiles != null)
             {
@@ -80,7 +76,7 @@ namespace Spedit.UI
                     TryLoadSourceFile(args[i], false, true, (i == 0));
                 }
             }
-            sc.Close(TimeSpan.FromMilliseconds(500.0));
+            
 			StartBackgroundParserThread();
 			FullyInitialized = true;
 		}
@@ -227,7 +223,7 @@ namespace Spedit.UI
                         {
                             if (saveUnsaved == null)
                             {
-                                var result = MessageBox.Show(this, Program.Translations.SavingUFiles, Program.Translations.Saving, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                                var result = MessageBox.Show(this, Properties.Resources.SavingUFiles, Properties.Resources.Saving, MessageBoxButton.YesNo, MessageBoxImage.Question);
                                 saveUnsaved = (result == MessageBoxResult.Yes);
                             }
 
@@ -333,7 +329,7 @@ namespace Spedit.UI
             }
             if (ServerIsRunning)
             {
-                outString = $"{outString} ({Program.Translations.ServerRunning})";
+                outString = $"{outString} ({Properties.Resources.ServerRunning})";
             }
             Title = outString;
         }
@@ -360,8 +356,8 @@ namespace Spedit.UI
             return -1;
         }
 
-        private ObservableCollection<string> compileButtonDict = new ObservableCollection<string> { Program.Translations.CompileAll, Program.Translations.CompileCurr };
-        private ObservableCollection<string> actionButtonDict = new ObservableCollection<string> { Program.Translations.Copy, Program.Translations.FTPUp, Program.Translations.StartServer };
-        private ObservableCollection<string> findReplaceButtonDict = new ObservableCollection<string> { Program.Translations.Replace, Program.Translations.ReplaceAll };
+        private ObservableCollection<string> compileButtonDict = new ObservableCollection<string> { Properties.Resources.CompileAll, Properties.Resources.CompileCurr };
+        private ObservableCollection<string> actionButtonDict = new ObservableCollection<string> { Properties.Resources.Copy, Properties.Resources.FTPUp, Properties.Resources.StartServer };
+        private ObservableCollection<string> findReplaceButtonDict = new ObservableCollection<string> { Properties.Resources.Replace, Properties.Resources.ReplaceAll };
     }
 }

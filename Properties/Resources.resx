@@ -121,4 +121,583 @@
   <data name="Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SavingUFiles" xml:space="preserve">
+    <value>Save all unsaved files?</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>Saving</value>
+  </data>
+  <data name="CompileAll" xml:space="preserve">
+    <value>Compile all</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="ServerRunning" xml:space="preserve">
+    <value>Server running</value>
+  </data>
+  <data name="CompileCurr" xml:space="preserve">
+    <value>Compile current</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="FTPUp" xml:space="preserve">
+    <value>FTP Upload</value>
+  </data>
+  <data name="StartServer" xml:space="preserve">
+    <value>Start server</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="ReplaceAll" xml:space="preserve">
+    <value>Replace all</value>
+  </data>
+  <data name="OpenNewFile" xml:space="preserve">
+    <value>Open new file</value>
+  </data>
+  <data name="NoFileOpened" xml:space="preserve">
+    <value>No files opened</value>
+  </data>
+  <data name="NoFileOpenedCap" xml:space="preserve">
+    <value>None of the selected files could be opened.</value>
+  </data>
+  <data name="SaveFileAs" xml:space="preserve">
+    <value>Save file as</value>
+  </data>
+  <data name="SaveFollow" xml:space="preserve">
+    <value>Save following files</value>
+  </data>
+  <data name="ChDecomp" xml:space="preserve">
+    <value>Select plugin to decompile</value>
+  </data>
+  <data name="Decompiling" xml:space="preserve">
+    <value>Decompiling</value>
+  </data>
+  <data name="EditConfig" xml:space="preserve">
+    <value>Edit Configurations</value>
+  </data>
+  <data name="FoundInOff" xml:space="preserve">
+    <value>Found in offset {0} with length {1}</value>
+  </data>
+  <data name="FoundNothing" xml:space="preserve">
+    <value>Found nothing</value>
+  </data>
+  <data name="ReplacedOff" xml:space="preserve">
+    <value>Replaced in offset {0}</value>
+  </data>
+  <data name="ReplacedOcc" xml:space="preserve">
+    <value>Replaced {0} occurences in {1} documents</value>
+  </data>
+  <data name="OccFound" xml:space="preserve">
+    <value>occurences found</value>
+  </data>
+  <data name="EmptyPatt" xml:space="preserve">
+    <value>Empty search pattern</value>
+  </data>
+  <data name="NoValidRegex" xml:space="preserve">
+    <value>No valid regex pattern</value>
+  </data>
+  <data name="FailedCheck" xml:space="preserve">
+    <value>Failed to check</value>
+  </data>
+  <data name="ErrorUpdate" xml:space="preserve">
+    <value>Error while checking for updates.</value>
+  </data>
+  <data name="VersUpToDate" xml:space="preserve">
+    <value>Version up to date</value>
+  </data>
+  <data name="VersionYour" xml:space="preserve">
+    <value>Your program version {0} is up to date.</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Compiling" xml:space="preserve">
+    <value>Compiling</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="SPCompNotStarted" xml:space="preserve">
+    <value>The spcomp.exe compiler did not started correctly.</value>
+  </data>
+  <data name="SPCompNotFound" xml:space="preserve">
+    <value>The spcomp.exe compiler could not be found.</value>
+  </data>
+  <data name="Copied" xml:space="preserve">
+    <value>Copied</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="FailCopy" xml:space="preserve">
+    <value>Failed to copy</value>
+  </data>
+  <data name="NoFilesCopy" xml:space="preserve">
+    <value>No files copied</value>
+  </data>
+  <data name="Uploaded" xml:space="preserve">
+    <value>Uploaded</value>
+  </data>
+  <data name="ErrorUploadFile" xml:space="preserve">
+    <value>Error while uploading file: {0} to {1}</value>
+  </data>
+  <data name="ErrorUpload" xml:space="preserve">
+    <value>Error while uploading files</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="FileStr" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SaveAll" xml:space="preserve">
+    <value>Save all</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Save as</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CloseAll" xml:space="preserve">
+    <value>Close all</value>
+  </data>
+  <data name="Build" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="CopyPlugin" xml:space="preserve">
+    <value>Copy Plugins</value>
+  </data>
+  <data name="SendRCon" xml:space="preserve">
+    <value>Senc RCon commands</value>
+  </data>
+  <data name="Config" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="Folding" xml:space="preserve">
+    <value>Foldings</value>
+  </data>
+  <data name="ExpandAll" xml:space="preserve">
+    <value>Expand all</value>
+  </data>
+  <data name="CollapseAll" xml:space="preserve">
+    <value>Collapse all</value>
+  </data>
+  <data name="JumpTo" xml:space="preserve">
+    <value>Jump to</value>
+  </data>
+  <data name="TogglComment" xml:space="preserve">
+    <value>Toggle comment</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="FindReplace" xml:space="preserve">
+    <value>Find &amp; Replace</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="ParsedIncDir" xml:space="preserve">
+    <value>Parsed from include directory</value>
+  </data>
+  <data name="OldAPIWeb" xml:space="preserve">
+    <value>Old API webside</value>
+  </data>
+  <data name="NewAPIWeb" xml:space="preserve">
+    <value>New API webside</value>
+  </data>
+  <data name="Reformatter" xml:space="preserve">
+    <value>Syntax reformatter</value>
+  </data>
+  <data name="ReformatCurr" xml:space="preserve">
+    <value>Reformat current</value>
+  </data>
+  <data name="ReformatAll" xml:space="preserve">
+    <value>Reformat all</value>
+  </data>
+  <data name="Decompile" xml:space="preserve">
+    <value>Decompile</value>
+  </data>
+  <data name="ReportBugGit" xml:space="preserve">
+    <value>Report bug on GitHub</value>
+  </data>
+  <data name="CheckUpdates" xml:space="preserve">
+    <value>Check for updates</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>File Name</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="TypeStr" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="NormalSearch" xml:space="preserve">
+    <value>Normal search</value>
+  </data>
+  <data name="MatchWholeWords" xml:space="preserve">
+    <value>Match whole words</value>
+  </data>
+  <data name="AdvancSearch" xml:space="preserve">
+    <value>Advanced search</value>
+  </data>
+  <data name="RegexSearch" xml:space="preserve">
+    <value>Regex search</value>
+  </data>
+  <data name="CurrDoc" xml:space="preserve">
+    <value>Current document</value>
+  </data>
+  <data name="AllDoc" xml:space="preserve">
+    <value>All open documents</value>
+  </data>
+  <data name="Find" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="CaseSen" xml:space="preserve">
+    <value>Case sensitive</value>
+  </data>
+  <data name="MultilineRegex" xml:space="preserve">
+    <value>Multiline Regex</value>
+  </data>
+  <data name="ErrorFileLoadProc" xml:space="preserve">
+    <value>Error while loading and processing the file.</value>
+  </data>
+  <data name="NotDissMethod" xml:space="preserve">
+    <value>Could not disassemble method {0}: {1}</value>
+  </data>
+  <data name="DFileChanged" xml:space="preserve">
+    <value>{0} has changed.</value>
+  </data>
+  <data name="FileChanged" xml:space="preserve">
+    <value>File changed</value>
+  </data>
+  <data name="FileTryReload" xml:space="preserve">
+    <value>Try reloading file?</value>
+  </data>
+  <data name="DSaveError" xml:space="preserve">
+    <value>An error occured while saving.</value>
+  </data>
+  <data name="SaveError" xml:space="preserve">
+    <value>Save error</value>
+  </data>
+  <data name="SavingFile" xml:space="preserve">
+    <value>Saving file</value>
+  </data>
+  <data name="PtAbb" xml:space="preserve">
+    <value>pt</value>
+  </data>
+  <data name="ColAbb" xml:space="preserve">
+    <value>Col</value>
+  </data>
+  <data name="LnAbb" xml:space="preserve">
+    <value>Ln</value>
+  </data>
+  <data name="LenAbb" xml:space="preserve">
+    <value>Len</value>
+  </data>
+  <data name="SPEditCap" xml:space="preserve">
+    <value>a lightweight sourcepawn editor</value>
+  </data>
+  <data name="WrittenBy" xml:space="preserve">
+    <value>written by: {0}</value>
+  </data>
+  <data name="License" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="PeopleInv" xml:space="preserve">
+    <value>People involved</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>New file</value>
+  </data>
+  <data name="ConfigWrongPars" xml:space="preserve">
+    <value>The config was not able to parse a sourcepawn definiton.</value>
+  </data>
+  <data name="NoName" xml:space="preserve">
+    <value>no name</value>
+  </data>
+  <data name="PosLen" xml:space="preserve">
+    <value>(pos: {0} - len: {1})</value>
+  </data>
+  <data name="InheritedFrom" xml:space="preserve">
+    <value>inherited from</value>
+  </data>
+  <data name="MethodFrom" xml:space="preserve">
+    <value>Method from</value>
+  </data>
+  <data name="PropertyFrom" xml:space="preserve">
+    <value>Property from</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>search</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ScriptDir" xml:space="preserve">
+    <value>Scripting directories</value>
+  </data>
+  <data name="DelimiedWi" xml:space="preserve">
+    <value>delimit with</value>
+  </data>
+  <data name="CopyDir" xml:space="preserve">
+    <value>Copy directory</value>
+  </data>
+  <data name="ServerExe" xml:space="preserve">
+    <value>Server executable</value>
+  </data>
+  <data name="serverStartArgs" xml:space="preserve">
+    <value>Server-start arguments</value>
+  </data>
+  <data name="PreBuildCom" xml:space="preserve">
+    <value>Pre-Build commandline</value>
+  </data>
+  <data name="PostBuildCom" xml:space="preserve">
+    <value>Post-Build commandline</value>
+  </data>
+  <data name="OptimizeLvl" xml:space="preserve">
+    <value>Optimization level</value>
+  </data>
+  <data name="VerboseLvl" xml:space="preserve">
+    <value>Verbose level</value>
+  </data>
+  <data name="AutoCopy" xml:space="preserve">
+    <value>Auto copy after compile</value>
+  </data>
+  <data name="DeleteOldSMX" xml:space="preserve">
+    <value>Delete old .smx after copy</value>
+  </data>
+  <data name="FTPHost" xml:space="preserve">
+    <value>FTP host</value>
+  </data>
+  <data name="FTPUser" xml:space="preserve">
+    <value>FTP user</value>
+  </data>
+  <data name="FTPPw" xml:space="preserve">
+    <value>FTP password</value>
+  </data>
+  <data name="FTPDir" xml:space="preserve">
+    <value>FTP upload-directory</value>
+  </data>
+  <data name="ComEditorDir" xml:space="preserve">
+    <value>Directory of the SPEdit binary</value>
+  </data>
+  <data name="ComScriptDir" xml:space="preserve">
+    <value>Directory of the Compiling script</value>
+  </data>
+  <data name="ComCopyDir" xml:space="preserve">
+    <value>Directory where the smx should be copied</value>
+  </data>
+  <data name="ComScriptFile" xml:space="preserve">
+    <value>Full Directory and Name of the script</value>
+  </data>
+  <data name="ComScriptName" xml:space="preserve">
+    <value>File Name of the script</value>
+  </data>
+  <data name="ComPluginFile" xml:space="preserve">
+    <value>Full Directory and Name of the compiled script</value>
+  </data>
+  <data name="ComPluginName" xml:space="preserve">
+    <value>File Name of the compiled script</value>
+  </data>
+  <data name="RConEngine" xml:space="preserve">
+    <value>RCon server engine</value>
+  </data>
+  <data name="RConIP" xml:space="preserve">
+    <value>RCon server IP</value>
+  </data>
+  <data name="RconPort" xml:space="preserve">
+    <value>RCon server port</value>
+  </data>
+  <data name="RconPw" xml:space="preserve">
+    <value>RCon server password</value>
+  </data>
+  <data name="RconCom" xml:space="preserve">
+    <value>RCon Server commands</value>
+  </data>
+  <data name="ComPluginsReload" xml:space="preserve">
+    <value>Reloads all compiled plugins</value>
+  </data>
+  <data name="ComPluginsLoad" xml:space="preserve">
+    <value>Loads all compiled plugins</value>
+  </data>
+  <data name="ComPluginsUnload" xml:space="preserve">
+    <value>Unloads all compiled plugins</value>
+  </data>
+  <data name="NewConfig" xml:space="preserve">
+    <value>New config</value>
+  </data>
+  <data name="CannotDelConf" xml:space="preserve">
+    <value>Cannot delete config</value>
+  </data>
+  <data name="YCannotDelConf" xml:space="preserve">
+    <value>You cannot delete this config.</value>
+  </data>
+  <data name="SelectExe" xml:space="preserve">
+    <value>Select executable</value>
+  </data>
+  <data name="CMDLineCom" xml:space="preserve">
+    <value>Commandline variables</value>
+  </data>
+  <data name="RConCMDLineCom" xml:space="preserve">
+    <value>Rcon commandline variables</value>
+  </data>
+  <data name="ResetOptions" xml:space="preserve">
+    <value>Reset options</value>
+  </data>
+  <data name="ResetOptQues" xml:space="preserve">
+    <value>Are you sure, you want to reset the options?</value>
+  </data>
+  <data name="RestartEditor" xml:space="preserve">
+    <value>Restart Editor</value>
+  </data>
+  <data name="YRestartEditor" xml:space="preserve">
+    <value>You have to restart the editor for the changes to have effect.</value>
+  </data>
+  <data name="RestartEdiFullEff" xml:space="preserve">
+    <value>Restart editor to take full effect...</value>
+  </data>
+  <data name="RestartEdiEff" xml:space="preserve">
+    <value>Restart editor to take effect...</value>
+  </data>
+  <data name="Program" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="HardwareAcc" xml:space="preserve">
+    <value>Use hardware acceleration (if available)</value>
+  </data>
+  <data name="UIAnim" xml:space="preserve">
+    <value>UI animations</value>
+  </data>
+  <data name="OpenInc" xml:space="preserve">
+    <value>Auto open includes</value>
+  </data>
+  <data name="OpenIncRec" xml:space="preserve">
+    <value>Open Includes Recursively</value>
+  </data>
+  <data name="AutoUpdate" xml:space="preserve">
+    <value>Search automatically for updates</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Show toolbar</value>
+  </data>
+  <data name="DynamicISAC" xml:space="preserve">
+    <value>Dynamic Autocompletition/Intellisense</value>
+  </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>Dark theme</value>
+  </data>
+  <data name="ThemeColor" xml:space="preserve">
+    <value>Theme Color</value>
+  </data>
+  <data name="LanguageStr" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Editor" xml:space="preserve">
+    <value>Editor</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Font size</value>
+  </data>
+  <data name="ScrollSpeed" xml:space="preserve">
+    <value>Scroll speed</value>
+  </data>
+  <data name="WordWrap" xml:space="preserve">
+    <value>Word wrap</value>
+  </data>
+  <data name="AggIndentation" xml:space="preserve">
+    <value>Agressive Indentation</value>
+  </data>
+  <data name="ReformatAfterSem" xml:space="preserve">
+    <value>Reformatting line after semicolon</value>
+  </data>
+  <data name="TabsToSpace" xml:space="preserve">
+    <value>Replace tabs with spaces</value>
+  </data>
+  <data name="AutoCloseBrack" xml:space="preserve">
+    <value>Auto close brackets</value>
+  </data>
+  <data name="AutoCloseStrChr" xml:space="preserve">
+    <value>Auto close Strings, Chars</value>
+  </data>
+  <data name="ShowSpaces" xml:space="preserve">
+    <value>Show spaces</value>
+  </data>
+  <data name="ShowTabs" xml:space="preserve">
+    <value>Show tabs</value>
+  </data>
+  <data name="IndentationSize" xml:space="preserve">
+    <value>Indentation size</value>
+  </data>
+  <data name="FontFamily" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="SyntaxHigh" xml:space="preserve">
+    <value>Syntaxhighlighting</value>
+  </data>
+  <data name="HighDeprecat" xml:space="preserve">
+    <value>Highlight deprecated (&lt;1.7) syntax</value>
+  </data>
+  <data name="Compile" xml:space="preserve">
+    <value>Compile</value>
+  </data>
+  <data name="AutoSaveMin" xml:space="preserve">
+    <value>Auto save (min)</value>
+  </data>
+  <data name="OBTextFile" xml:space="preserve">
+    <value>File Dir.</value>
+  </data>
+  <data name="OBTextConfig" xml:space="preserve">
+    <value>Config Dir.</value>
+  </data>
+  <data name="OBTextItem" xml:space="preserve">
+    <value>Item Dir.</value>
+  </data>
+  <data name="CompileErroFileError" xml:space="preserve">
+    <value>Compile error file could not be accessed.</value>
+  </data>
 </root>

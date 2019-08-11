@@ -80,8 +80,8 @@ namespace Spedit.UI.Windows
 
         private void NewButton_Clicked(object sender, RoutedEventArgs e)
         {
-            Program.ConfigList.Configs.Add(new Config { Name = Program.Translations.NewConfig, Standard = false, OptimizeLevel = 2, VerboseLevel = 1 });
-            ConfigListBox.Items.Add(new ListBoxItem { Content = Program.Translations.NewConfig });
+            Program.ConfigList.Configs.Add(new Config { Name = Properties.Resources.NewConfig, Standard = false, OptimizeLevel = 2, VerboseLevel = 1 });
+            ConfigListBox.Items.Add(new ListBoxItem { Content = Properties.Resources.NewConfig });
         }
 
         private void DeleteButton_Clicked(object sender, RoutedEventArgs e)
@@ -89,7 +89,7 @@ namespace Spedit.UI.Windows
             int index = ConfigListBox.SelectedIndex;
             if (Program.ConfigList.Configs[index].Standard)
             {
-                this.ShowMessageAsync(Program.Translations.CannotDelConf, Program.Translations.YCannotDelConf, MessageDialogStyle.Affirmative, MetroDialogOptions);
+                this.ShowMessageAsync(Properties.Resources.CannotDelConf, Properties.Resources.YCannotDelConf, MessageDialogStyle.Affirmative, MetroDialogOptions);
                 return;
             }
 
@@ -250,45 +250,42 @@ namespace Spedit.UI.Windows
 
 		private void Language_Translate()
 		{
-			if (Program.Translations.IsDefault)
-			{
-				return;
-			}
-			NewButton.Content = Program.Translations.New;
-			DeleteButton.Content = Program.Translations.Delete;
-			NameBlock.Text = Program.Translations.Name;
-			ScriptingDirBlock.Text = Program.Translations.ScriptDir;
-			DelimitWiBlock.Text = $"({Program.Translations.DelimiedWi} ; )";
-			CopyDirBlock.Text = Program.Translations.CopyDir;
-			ServerExeBlock.Text = Program.Translations.ServerExe;
-			ServerStartArgBlock.Text = Program.Translations.serverStartArgs;
-			PreBuildBlock.Text = Program.Translations.PreBuildCom;
-			PostBuildBlock.Text = Program.Translations.PostBuildCom;
-			OptimizeBlock.Text = Program.Translations.OptimizeLvl;
-			VerboseBlock.Text = Program.Translations.VerboseLvl;
-			C_AutoCopy.Content = Program.Translations.AutoCopy;
-			C_DeleteAfterCopy.Content = Program.Translations.DeleteOldSMX;
-			FTPHostBlock.Text = Program.Translations.FTPHost;
-			FTPUserBlock.Text = Program.Translations.FTPUser;
-			FTPPWBlock.Text = Program.Translations.FTPPw;
-			FTPDirBlock.Text = Program.Translations.FTPDir;
-			CMD_ItemC.Text = Program.Translations.CMDLineCom;
-			ItemC_EditorDir.Content = "{editordir} - " + Program.Translations.ComEditorDir;
-			ItemC_ScriptDir.Content = "{scriptdir} - " + Program.Translations.ComScriptDir;
-			ItemC_CopyDir.Content = "{copydir} - " + Program.Translations.ComCopyDir;
-			ItemC_ScriptFile.Content = "{scriptfile} - " + Program.Translations.ComScriptFile;
-			ItemC_ScriptName.Content = "{scriptname} - " + Program.Translations.ComScriptName;
-			ItemC_PluginFile.Content = "{pluginfile} - " + Program.Translations.ComPluginFile;
-			ItemC_PluginName.Content = "{pluginname} - " + Program.Translations.ComPluginName;
-			RConEngineBlock.Text = Program.Translations.RConEngine;
-			RConIPBlock.Text = Program.Translations.RConIP;
-			RConPortBlock.Text = Program.Translations.RconPort;
-			RConPWBlock.Text = Program.Translations.RconPw;
-			RConComBlock.Text = Program.Translations.RconCom;
-			Rcon_MenuC.Text = Program.Translations.RConCMDLineCom;
-			MenuC_PluginsReload.Content = "{plugins_reload} - " + Program.Translations.ComPluginsReload;
-			MenuC_PluginsLoad.Content = "{plugins_load} - " + Program.Translations.ComPluginsLoad;
-			MenuC_PluginsUnload.Content = "{plugins_unload} - " + Program.Translations.ComPluginsUnload;
+            //todo remove this
+            NewButton.Content = Properties.Resources.New;
+			DeleteButton.Content = Properties.Resources.Delete;
+			NameBlock.Text = Properties.Resources.Name;
+			ScriptingDirBlock.Text = Properties.Resources.ScriptDir;
+			DelimitWiBlock.Text = $"({Properties.Resources.DelimiedWi} ; )";
+			CopyDirBlock.Text = Properties.Resources.CopyDir;
+			ServerExeBlock.Text = Properties.Resources.ServerExe;
+			ServerStartArgBlock.Text = Properties.Resources.serverStartArgs;
+			PreBuildBlock.Text = Properties.Resources.PreBuildCom;
+			PostBuildBlock.Text = Properties.Resources.PostBuildCom;
+			OptimizeBlock.Text = Properties.Resources.OptimizeLvl;
+			VerboseBlock.Text = Properties.Resources.VerboseLvl;
+			C_AutoCopy.Content = Properties.Resources.AutoCopy;
+			C_DeleteAfterCopy.Content = Properties.Resources.DeleteOldSMX;
+			FTPHostBlock.Text = Properties.Resources.FTPHost;
+			FTPUserBlock.Text = Properties.Resources.FTPUser;
+			FTPPWBlock.Text = Properties.Resources.FTPPw;
+			FTPDirBlock.Text = Properties.Resources.FTPDir;
+			CMD_ItemC.Text = Properties.Resources.CMDLineCom;
+			ItemC_EditorDir.Content = "{editordir} - " + Properties.Resources.ComEditorDir;
+			ItemC_ScriptDir.Content = "{scriptdir} - " + Properties.Resources.ComScriptDir;
+			ItemC_CopyDir.Content = "{copydir} - " + Properties.Resources.ComCopyDir;
+			ItemC_ScriptFile.Content = "{scriptfile} - " + Properties.Resources.ComScriptFile;
+			ItemC_ScriptName.Content = "{scriptname} - " + Properties.Resources.ComScriptName;
+			ItemC_PluginFile.Content = "{pluginfile} - " + Properties.Resources.ComPluginFile;
+			ItemC_PluginName.Content = "{pluginname} - " + Properties.Resources.ComPluginName;
+			RConEngineBlock.Text = Properties.Resources.RConEngine;
+			RConIPBlock.Text = Properties.Resources.RConIP;
+			RConPortBlock.Text = Properties.Resources.RconPort;
+			RConPWBlock.Text = Properties.Resources.RconPw;
+			RConComBlock.Text = Properties.Resources.RconCom;
+			Rcon_MenuC.Text = Properties.Resources.RConCMDLineCom;
+			MenuC_PluginsReload.Content = "{plugins_reload} - " + Properties.Resources.ComPluginsReload;
+			MenuC_PluginsLoad.Content = "{plugins_load} - " + Properties.Resources.ComPluginsLoad;
+			MenuC_PluginsUnload.Content = "{plugins_unload} - " + Properties.Resources.ComPluginsUnload;
 		}
 
 		private ICommand textBoxButtonFolderCmd;
@@ -347,7 +344,7 @@ namespace Spedit.UI.Windows
                             dialog.Filter = "Executables *.exe|*.exe|All Files *.*|*.*";
                             dialog.Multiselect = false;
                             dialog.CheckFileExists = true; dialog.CheckPathExists = true;
-                            dialog.Title = Program.Translations.SelectExe;
+                            dialog.Title = Properties.Resources.SelectExe;
                             var result = dialog.ShowDialog();
                             if (result.Value)
                             {

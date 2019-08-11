@@ -45,7 +45,7 @@ namespace Spedit.UI
                 {
                     AddExtension = true, CheckFileExists = true, CheckPathExists = true,
                     Filter = "AMXXPawn Files|*.sma;*.inc;*.cfg;*.json;*.txt;*.ini|All Files (*.*)|*.*",
-                    Multiselect = true, Title = Program.Translations.OpenNewFile
+                    Multiselect = true, Title = Properties.Resources.OpenNewFile
                 };
                 var result = ofd.ShowDialog();//this);
                 if (result.Value)
@@ -61,8 +61,8 @@ namespace Spedit.UI
                         if (!AnyFileLoaded)
                         {
                             MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Theme;
-                            this.ShowMessageAsync(Program.Translations.NoFileOpened,
-                                Program.Translations.NoFileOpenedCap, MessageDialogStyle.Affirmative,
+                            this.ShowMessageAsync(Properties.Resources.NoFileOpened,
+                                Properties.Resources.NoFileOpenedCap, MessageDialogStyle.Affirmative,
                                 MetroDialogOptions);
                         }
                     }
@@ -96,7 +96,7 @@ namespace Spedit.UI
                     AddExtension = true,
                     Filter = @"AMXXPawn Files|*.sma;*.inc;*.cfg;*.json;*.txt;*.ini|All Files (*.*)|*.*",
                     OverwritePrompt = true,
-                    Title = Program.Translations.SaveFileAs,
+                    Title = Properties.Resources.SaveFileAs,
                     FileName = ee.Parent.Title.Trim('*')
                 };
                 var result = sfd.ShowDialog(this);
@@ -154,7 +154,7 @@ namespace Spedit.UI
                         else
                         { str.AppendLine(editors[i].Parent.Title.Trim('*')); }
                     }
-                    var result = await this.ShowMessageAsync(Program.Translations.SaveFollow, str.ToString(), MessageDialogStyle.AffirmativeAndNegative, MetroDialogOptions);
+                    var result = await this.ShowMessageAsync(Properties.Resources.SaveFollow, str.ToString(), MessageDialogStyle.AffirmativeAndNegative, MetroDialogOptions);
                     if (result == MessageDialogResult.Affirmative)
                     {
                         forceSave = true;

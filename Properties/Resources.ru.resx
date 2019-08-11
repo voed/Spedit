@@ -1,0 +1,597 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Icon" xml:space="preserve" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SavingUFiles" xml:space="preserve">
+    <value>Русский</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>Сервер запущен</value>
+  </data>
+  <data name="CompileAll" xml:space="preserve">
+    <value>Сохранение</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Сохранить все несохранённые файлы?</value>
+  </data>
+  <data name="ServerRunning" xml:space="preserve">
+    <value>Скомпилировать всё</value>
+  </data>
+  <data name="CompileCurr" xml:space="preserve">
+    <value>Скомпилировать текущий файл</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="FTPUp" xml:space="preserve">
+    <value>Загрузка через FTP</value>
+  </data>
+  <data name="StartServer" xml:space="preserve">
+    <value>Запустить сервер</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Заменить</value>
+  </data>
+  <data name="ReplaceAll" xml:space="preserve">
+    <value>Заменить всё</value>
+  </data>
+  <data name="OpenNewFile" xml:space="preserve">
+    <value>Открыть новый файл</value>
+  </data>
+  <data name="NoFileOpened" xml:space="preserve">
+    <value>Открытых файлов нет</value>
+  </data>
+  <data name="NoFileOpenedCap" xml:space="preserve">
+    <value>Ни один из выбраных файлов не может быть открыт.</value>
+  </data>
+  <data name="SaveFileAs" xml:space="preserve">
+    <value>Сохранить как...</value>
+  </data>
+  <data name="SaveFollow" xml:space="preserve">
+    <value>Сохранить следующие файлы</value>
+  </data>
+  <data name="ChDecomp" xml:space="preserve">
+    <value>Выбрать плагин для декомпилирования</value>
+  </data>
+  <data name="Decompiling" xml:space="preserve">
+    <value>Декомпилирование</value>
+  </data>
+  <data name="EditConfig" xml:space="preserve">
+    <value>Редактировать конфиги</value>
+  </data>
+  <data name="FoundInOff" xml:space="preserve">
+    <value>Найдено в смещении {0} размером {1}</value>
+  </data>
+  <data name="FoundNothing" xml:space="preserve">
+    <value>Ничего не найдено</value>
+  </data>
+  <data name="ReplacedOff" xml:space="preserve">
+    <value>Заменено в смещении {0}</value>
+  </data>
+  <data name="ReplacedOcc" xml:space="preserve">
+    <value>Произведено {0} замен в документе {1}</value>
+  </data>
+  <data name="OccFound" xml:space="preserve">
+    <value>совпадений найдено</value>
+  </data>
+  <data name="EmptyPatt" xml:space="preserve">
+    <value>Поисковый шаблон пуст</value>
+  </data>
+  <data name="NoValidRegex" xml:space="preserve">
+    <value>Неправильный шаблон</value>
+  </data>
+  <data name="FailedCheck" xml:space="preserve">
+    <value>Не удалось проверить</value>
+  </data>
+  <data name="ErrorUpdate" xml:space="preserve">
+    <value>Ошибка проверки обновлений</value>
+  </data>
+  <data name="VersUpToDate" xml:space="preserve">
+    <value>Обновление не требуется</value>
+  </data>
+  <data name="VersionYour" xml:space="preserve">
+    <value>Ваша версия {0} программы - самая свежая.</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Подробности</value>
+  </data>
+  <data name="Compiling" xml:space="preserve">
+    <value>Компилирование</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="SPCompNotStarted" xml:space="preserve">
+    <value>Компилятор spcomp.exe не был корректно запущен.</value>
+  </data>
+  <data name="SPCompNotFound" xml:space="preserve">
+    <value>Файл компилятора spcomp.exe не найден.</value>
+  </data>
+  <data name="Copied" xml:space="preserve">
+    <value>Скопировано</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Удалено</value>
+  </data>
+  <data name="FailCopy" xml:space="preserve">
+    <value>Не удалось скопировать</value>
+  </data>
+  <data name="NoFilesCopy" xml:space="preserve">
+    <value>Файлы не были скопированы</value>
+  </data>
+  <data name="Uploaded" xml:space="preserve">
+    <value>Загружено</value>
+  </data>
+  <data name="ErrorUploadFile" xml:space="preserve">
+    <value>Ошибка при загрузке файла: {0} в {1}</value>
+  </data>
+  <data name="ErrorUpload" xml:space="preserve">
+    <value>Ошибка при загрузке файлов</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>готово</value>
+  </data>
+  <data name="FileStr" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>Новый</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="SaveAll" xml:space="preserve">
+    <value>Сохранить всё</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Сохранить как...</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="CloseAll" xml:space="preserve">
+    <value>Закрыть всё</value>
+  </data>
+  <data name="Build" xml:space="preserve">
+    <value>Сборка</value>
+  </data>
+  <data name="CopyPlugin" xml:space="preserve">
+    <value>Скопировать плагины</value>
+  </data>
+  <data name="SendRCon" xml:space="preserve">
+    <value>Отправить RCon команду</value>
+  </data>
+  <data name="Config" xml:space="preserve">
+    <value>Конфиги</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Повтор</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Вырезать</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="Folding" xml:space="preserve">
+    <value>Блоки</value>
+  </data>
+  <data name="ExpandAll" xml:space="preserve">
+    <value>Развернуть все</value>
+  </data>
+  <data name="CollapseAll" xml:space="preserve">
+    <value>Свернуть все</value>
+  </data>
+  <data name="JumpTo" xml:space="preserve">
+    <value>Перейти к</value>
+  </data>
+  <data name="TogglComment" xml:space="preserve">
+    <value>Раз-/Закомментировать</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Выбрать всё</value>
+  </data>
+  <data name="FindReplace" xml:space="preserve">
+    <value>Поиск и замена</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Инструменты</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Настройки программы</value>
+  </data>
+  <data name="ParsedIncDir" xml:space="preserve">
+    <value>Установленный на ПК</value>
+  </data>
+  <data name="OldAPIWeb" xml:space="preserve">
+    <value>Страница старого API</value>
+  </data>
+  <data name="NewAPIWeb" xml:space="preserve">
+    <value>Страница нового API</value>
+  </data>
+  <data name="Reformatter" xml:space="preserve">
+    <value>Переформатирование синтаксиса</value>
+  </data>
+  <data name="ReformatCurr" xml:space="preserve">
+    <value>Переформатировать текущий</value>
+  </data>
+  <data name="ReformatAll" xml:space="preserve">
+    <value>Переформатировать все</value>
+  </data>
+  <data name="Decompile" xml:space="preserve">
+    <value>Декомпилировать</value>
+  </data>
+  <data name="ReportBugGit" xml:space="preserve">
+    <value>Отправить на GitHub сообщение об ошибке</value>
+  </data>
+  <data name="CheckUpdates" xml:space="preserve">
+    <value>Проверить наличие обновлений</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>О программе</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>Имя файла</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>Строка</value>
+  </data>
+  <data name="TypeStr" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="NormalSearch" xml:space="preserve">
+    <value>Нормальный поиск</value>
+  </data>
+  <data name="MatchWholeWords" xml:space="preserve">
+    <value>Совпадение всех слов</value>
+  </data>
+  <data name="AdvancSearch" xml:space="preserve">
+    <value>Расширенный поиск</value>
+  </data>
+  <data name="RegexSearch" xml:space="preserve">
+    <value>Регулярные выражения</value>
+  </data>
+  <data name="CurrDoc" xml:space="preserve">
+    <value>Текущий документ</value>
+  </data>
+  <data name="AllDoc" xml:space="preserve">
+    <value>Все открытые документы</value>
+  </data>
+  <data name="Find" xml:space="preserve">
+    <value>Найти</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Считать</value>
+  </data>
+  <data name="CaseSen" xml:space="preserve">
+    <value>Учитывать регистр</value>
+  </data>
+  <data name="MultilineRegex" xml:space="preserve">
+    <value>Многострочная регулярка</value>
+  </data>
+  <data name="ErrorFileLoadProc" xml:space="preserve">
+    <value>Ошибка при загрузке и обработке файла.</value>
+  </data>
+  <data name="NotDissMethod" xml:space="preserve">
+    <value>Не удалось разобрать метод {0}: {1}</value>
+  </data>
+  <data name="DFileChanged" xml:space="preserve">
+    <value>{0} был изменён.</value>
+  </data>
+  <data name="FileChanged" xml:space="preserve">
+    <value>Файл изменён</value>
+  </data>
+  <data name="FileTryReload" xml:space="preserve">
+    <value>Перезагрузить файл?</value>
+  </data>
+  <data name="DSaveError" xml:space="preserve">
+    <value>Ошибка при сохранении.</value>
+  </data>
+  <data name="SaveError" xml:space="preserve">
+    <value>Ошибка сохранения</value>
+  </data>
+  <data name="SavingFile" xml:space="preserve">
+    <value>Сохранение файлов</value>
+  </data>
+  <data name="PtAbb" xml:space="preserve">
+    <value>пункт</value>
+  </data>
+  <data name="ColAbb" xml:space="preserve">
+    <value>Столбец</value>
+  </data>
+  <data name="LnAbb" xml:space="preserve">
+    <value>Строка</value>
+  </data>
+  <data name="LenAbb" xml:space="preserve">
+    <value>Длина</value>
+  </data>
+  <data name="SPEditCap" xml:space="preserve">
+    <value>легкий редактор SourcePawn</value>
+  </data>
+  <data name="WrittenBy" xml:space="preserve">
+    <value>Автор: {0}</value>
+  </data>
+  <data name="License" xml:space="preserve">
+    <value>Лицензия</value>
+  </data>
+  <data name="PeopleInv" xml:space="preserve">
+    <value>Помогали:</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Предпросмотр</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Новый файл</value>
+  </data>
+  <data name="ConfigWrongPars" xml:space="preserve">
+    <value>Конфиг не смог прочесть определения SourcePawn.</value>
+  </data>
+  <data name="NoName" xml:space="preserve">
+    <value>без имени</value>
+  </data>
+  <data name="PosLen" xml:space="preserve">
+    <value>поз: {0} - длн: {1}</value>
+  </data>
+  <data name="InheritedFrom" xml:space="preserve">
+    <value>унаследовано от</value>
+  </data>
+  <data name="MethodFrom" xml:space="preserve">
+    <value>Method из</value>
+  </data>
+  <data name="PropertyFrom" xml:space="preserve">
+    <value>Property из</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>поиск</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="ScriptDir" xml:space="preserve">
+    <value>Папки скриптов</value>
+  </data>
+  <data name="DelimiedWi" xml:space="preserve">
+    <value>Разделять</value>
+  </data>
+  <data name="CopyDir" xml:space="preserve">
+    <value>Копировать папку</value>
+  </data>
+  <data name="ServerExe" xml:space="preserve">
+    <value>Исполняемый файл сервера</value>
+  </data>
+  <data name="serverStartArgs" xml:space="preserve">
+    <value>Аргументы запуска сервера</value>
+  </data>
+  <data name="PreBuildCom" xml:space="preserve">
+    <value>Pre-Build командная строка</value>
+  </data>
+  <data name="PostBuildCom" xml:space="preserve">
+    <value>Post-Build командная строка</value>
+  </data>
+  <data name="OptimizeLvl" xml:space="preserve">
+    <value>Оптимизация</value>
+  </data>
+  <data name="VerboseLvl" xml:space="preserve">
+    <value>Уровень оптимизации</value>
+  </data>
+  <data name="AutoCopy" xml:space="preserve">
+    <value>Скопировать после компиляции</value>
+  </data>
+  <data name="DeleteOldSMX" xml:space="preserve">
+    <value>Удалить старый .smx после копирования</value>
+  </data>
+  <data name="FTPHost" xml:space="preserve">
+    <value>Хост FTP</value>
+  </data>
+  <data name="FTPUser" xml:space="preserve">
+    <value>Пользователь FTP</value>
+  </data>
+  <data name="FTPPw" xml:space="preserve">
+    <value>Пароль FTP</value>
+  </data>
+  <data name="FTPDir" xml:space="preserve">
+    <value>Папка FTP</value>
+  </data>
+  <data name="ComEditorDir" xml:space="preserve">
+    <value>Расположение исполняемого файла SPEdit</value>
+  </data>
+  <data name="ComScriptDir" xml:space="preserve">
+    <value>Расположение компилируемых скриптов</value>
+  </data>
+  <data name="ComCopyDir" xml:space="preserve">
+    <value>Место для хранения копируемых smx</value>
+  </data>
+  <data name="ComScriptFile" xml:space="preserve">
+    <value>Full Directory and Name of the script</value>
+  </data>
+  <data name="ComScriptName" xml:space="preserve">
+    <value>Имя файла скрипта</value>
+  </data>
+  <data name="ComPluginFile" xml:space="preserve">
+    <value>Full Directory and Name of the compiled script</value>
+  </data>
+  <data name="ComPluginName" xml:space="preserve">
+    <value>Имя скомпилированного скрипта</value>
+  </data>
+  <data name="RConEngine" xml:space="preserve">
+    <value>Движок RCon сервера</value>
+  </data>
+  <data name="RConIP" xml:space="preserve">
+    <value>IP адрес RCon сервера</value>
+  </data>
+  <data name="RconPort" xml:space="preserve">
+    <value>Порт RCon сервера</value>
+  </data>
+  <data name="RconPw" xml:space="preserve">
+    <value>Пароль RCon сервера</value>
+  </data>
+  <data name="RconCom" xml:space="preserve">
+    <value>Команды RCon сервера</value>
+  </data>
+  <data name="ComPluginsReload" xml:space="preserve">
+    <value>Перезапустить все скомпилированные плагины</value>
+  </data>
+  <data name="ComPluginsLoad" xml:space="preserve">
+    <value>Запустить все скомпилированные плагины</value>
+  </data>
+  <data name="ComPluginsUnload" xml:space="preserve">
+    <value>Выгрузить все скомпилированные плагины</value>
+  </data>
+  <data name="NewConfig" xml:space="preserve">
+    <value>Новый конфиг</value>
+  </data>
+  <data name="CannotDelConf" xml:space="preserve">
+    <value>Нельзя удалить конфиг</value>
+  </data>
+  <data name="YCannotDelConf" xml:space="preserve">
+    <value>Вы не можете удалить этот конфиг!</value>
+  </data>
+  <data name="SelectExe" xml:space="preserve">
+    <value>Выберите исполняемый файл</value>
+  </data>
+  <data name="CMDLineCom" xml:space="preserve">
+    <value>Переменные командной строки</value>
+  </data>
+  <data name="RConCMDLineCom" xml:space="preserve">
+    <value>Переменные командной строки Rcon</value>
+  </data>
+  <data name="ResetOptions" xml:space="preserve">
+    <value>Сброс опций</value>
+  </data>
+  <data name="ResetOptQues" xml:space="preserve">
+    <value>Вы уверены, что хотите произвести сброс опций?</value>
+  </data>
+  <data name="RestartEditor" xml:space="preserve">
+    <value>Перезапустить редактор</value>
+  </data>
+  <data name="YRestartEditor" xml:space="preserve">
+    <value>Вы должны перезапустить редактор для применения изменений.</value>
+  </data>
+  <data name="RestartEdiFullEff" xml:space="preserve">
+    <value>Перезапуск редактора для полного эффекта...</value>
+  </data>
+  <data name="RestartEdiEff" xml:space="preserve">
+    <value>Перезапуск редактора для полного эффекта...</value>
+  </data>
+  <data name="Program" xml:space="preserve">
+    <value>Программа</value>
+  </data>
+  <data name="HardwareAcc" xml:space="preserve">
+    <value>Использовать аппаратное ускорение (если возможно)</value>
+  </data>
+  <data name="UIAnim" xml:space="preserve">
+    <value>Анимация интерфейса</value>
+  </data>
+  <data name="OpenInc" xml:space="preserve">
+    <value>Автоматическое использование инклюдов</value>
+  </data>
+  <data name="OpenIncRec" xml:space="preserve">
+    <value>Открывать инклюды рекурсивно</value>
+  </data>
+  <data name="AutoUpdate" xml:space="preserve">
+    <value>Автоматический поиск обновлений</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Отобразить панель инструментов</value>
+  </data>
+  <data name="DynamicISAC" xml:space="preserve">
+    <value>Динамическое автодополнение</value>
+  </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>Тёмная тема</value>
+  </data>
+  <data name="ThemeColor" xml:space="preserve">
+    <value>Цвет темы</value>
+  </data>
+  <data name="LanguageStr" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="Editor" xml:space="preserve">
+    <value>Редактор</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Размер шрифтов</value>
+  </data>
+  <data name="ScrollSpeed" xml:space="preserve">
+    <value>Скорость прокрутки</value>
+  </data>
+  <data name="WordWrap" xml:space="preserve">
+    <value>Перенос слов</value>
+  </data>
+  <data name="AggIndentation" xml:space="preserve">
+    <value>Агрессивный отступ</value>
+  </data>
+  <data name="ReformatAfterSem" xml:space="preserve">
+    <value>Переформатирование строки после точки с запятой</value>
+  </data>
+  <data name="TabsToSpace" xml:space="preserve">
+    <value>Заменить табуляцию пробелами</value>
+  </data>
+  <data name="AutoCloseBrack" xml:space="preserve">
+    <value>Автозакрытие скобок</value>
+  </data>
+  <data name="AutoCloseStrChr" xml:space="preserve">
+    <value>Автозакрытие кавычек для типов String, Char</value>
+  </data>
+  <data name="ShowSpaces" xml:space="preserve">
+    <value>Отображать пробелы</value>
+  </data>
+  <data name="ShowTabs" xml:space="preserve">
+    <value>Отображать табуляцию</value>
+  </data>
+  <data name="IndentationSize" xml:space="preserve">
+    <value>Размер отступа</value>
+  </data>
+  <data name="FontFamily" xml:space="preserve">
+    <value>Шрифт</value>
+  </data>
+  <data name="SyntaxHigh" xml:space="preserve">
+    <value>Подсветка синтаксиса</value>
+  </data>
+  <data name="HighDeprecat" xml:space="preserve">
+    <value>Подсветка устаревшего (&amp;lt;1.7) синтаксиса</value>
+  </data>
+  <data name="Compile" xml:space="preserve">
+    <value>Компиляция</value>
+  </data>
+  <data name="AutoSaveMin" xml:space="preserve">
+    <value>Aвтосохранение (мин)</value>
+  </data>
+  <data name="OBTextFile" xml:space="preserve">
+    <value>    File Dir.</value>
+  </data>
+  <data name="OBTextConfig" xml:space="preserve">
+    <value>    Config Dir.</value>
+  </data>
+  <data name="OBTextItem" xml:space="preserve">
+    <value>    Item Dir.</value>
+  </data>
+  <data name="CompileErroFileError" xml:space="preserve">
+    <value>    Compile error file could not be accessed.</value>
+  </data>
+</root>

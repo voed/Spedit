@@ -30,7 +30,7 @@ namespace Spedit.UI.Windows
                     g.Background = gridBrush;
 				}
 			}
-			TitleBox.Text = $"SPEdit ({Assembly.GetEntryAssembly()?.GetName().Version}) - {Program.Translations.SPEditCap}";
+			TitleBox.Text = $"SPEdit ({Assembly.GetEntryAssembly()?.GetName().Version}) - {Properties.Resources.SPEditCap}";
             LicenseField.Text = LicenseString;
         }
 
@@ -47,13 +47,9 @@ namespace Spedit.UI.Windows
 
 		private void Language_Translate()
 		{
-			if (Program.Translations.IsDefault)
-			{
-				return;
-			}
-			WrittenByBlock.Text = string.Format(Program.Translations.WrittenBy, "Julien Kluge  (Julien.Kluge@gmail.com)");
-			LicenseBlock.Text = Program.Translations.License;
-			PeopleInvolvedBlock.Text = Program.Translations.PeopleInv;
+            WrittenByBlock.Text = string.Format(Properties.Resources.WrittenBy, "Julien Kluge  (Julien.Kluge@gmail.com)");
+			LicenseBlock.Text = Properties.Resources.License;
+			PeopleInvolvedBlock.Text = Properties.Resources.PeopleInv;
 		}
 
         private string LicenseString = @"---------------------
