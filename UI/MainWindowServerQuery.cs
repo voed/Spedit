@@ -11,7 +11,7 @@ namespace Spedit.UI
     {
         public void Server_Query()
         {
-            Config c = Program.Configs[Program.SelectedConfig];
+            Config c = Program.ConfigList.Current;
             if (string.IsNullOrWhiteSpace(c.RConIP) || string.IsNullOrWhiteSpace(c.RConCommands))
             { return; }
             StringBuilder stringOutput = new StringBuilder();

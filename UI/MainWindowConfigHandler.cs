@@ -1,7 +1,9 @@
-﻿using Spedit.UI.Components;
+﻿using System.Linq;
+using Spedit.UI.Components;
 using Spedit.UI.Windows;
 using System.Windows;
 using System.Windows.Controls;
+using Spedit.Interop;
 
 namespace Spedit.UI
 {
@@ -10,15 +12,17 @@ namespace Spedit.UI
         public void FillConfigMenu()
         {
             ConfigMenu.Items.Clear();
-            for (int i = 0; i < Program.Configs.Length; ++i)
+            foreach (MenuItem item in Program.ConfigList.Configs.Select(config => new MenuItem
             {
-                MenuItem item = new MenuItem
-                {
-                    Header = Program.Configs[i].Name, IsCheckable = true, IsChecked = (i == Program.SelectedConfig)
-                };
+                Header = config.Name, 
+                IsCheckable = true, 
+                IsChecked = config == Program.ConfigList.Current
+            }))
+            {
                 item.Click += item_Click;
                 ConfigMenu.Items.Add(item);
             }
+
             ConfigMenu.Items.Add(new Separator());
             MenuItem editItem = new MenuItem() { Header = Program.Translations.EditConfig };
             editItem.Click += editItem_Click;
@@ -43,41 +47,29 @@ namespace Spedit.UI
             string Name = (string)item.Header;
         }
         
-        public void ChangeConfig(int index)
-        {
-            if (index < 0 || index >= Program.Configs.Length)
-            {
-                return;
-            }
-            Program.Configs[index].LoadSMDef();
-            string Name = Program.Configs[index].Name;
-            for (int i = 0; i < ConfigMenu.Items.Count - 2; ++i)
-            {
-                ((MenuItem)ConfigMenu.Items[i]).IsChecked = (Name == (string)(((MenuItem)ConfigMenu.Items[i]).Header));
-            }
-            Program.SelectedConfig = index;
-            Program.OptionsObject.Program_SelectedConfig = Program.Configs[Program.SelectedConfig].Name;
-            EditorElement[] editors = GetAllEditorElements();
-			if (editors != null)
-            {
-                foreach (var editor in editors)
-                {
-                    editor.LoadAutoCompletes();
-                    editor.editor.SyntaxHighlighting = new AeonEditorHighlighting();
-                    editor.InvalidateVisual();
-                }
-            }
-        }
+
         public void ChangeConfig(string name)
         {
-            for (int i = 0; i < Program.Configs.Length; ++i)
+            foreach (Config config in Program.ConfigList.Configs.Where(config => config.Name == name))
             {
-                if (Program.Configs[i].Name == name)
+                config.LoadSMDef();
+                for (int i = 0; i < ConfigMenu.Items.Count - 2; ++i)
                 {
-                    ChangeConfig(i);
-                    return;
+                    ((MenuItem)ConfigMenu.Items[i]).IsChecked = (name == (string)(((MenuItem)ConfigMenu.Items[i]).Header));
+                }
+
+                Program.ConfigList.Current = config;
+
+                Program.OptionsObject.Program_SelectedConfig = name;
+
+                foreach (EditorElement element in GetAllEditorElements())
+                {
+                    element.LoadAutoCompletes();
+                    element.editor.SyntaxHighlighting = new AeonEditorHighlighting();
+                    element.InvalidateVisual();
                 }
             }
+
         }
 
     }

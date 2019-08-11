@@ -38,11 +38,13 @@ namespace Spedit.UI.Components
 		public Timer AutoSaveTimer;
         bool WantFoldingUpdate;
         bool SelectionIsHighlited;
+        bool CompileChecked;
 
         Storyboard FadeJumpGridIn;
         Storyboard FadeJumpGridOut;
 
         double LineHeight;
+        MainWindow Main;
 
         public string FullFilePath
         {
@@ -89,10 +91,11 @@ namespace Spedit.UI.Components
         {
             InitializeComponent();
         }
-        public EditorElement(string filePath)
+        public EditorElement(string filePath, bool compileChecked, MainWindow main)
         {
             InitializeComponent();
-			
+            CompileChecked = compileChecked;
+            Main = main;
 			bracketSearcher = new SPBracketSearcher();
             bracketHighlightRenderer = new BracketHighlightRenderer(editor.TextArea.TextView);
             editor.TextArea.IndentationStrategy = new EditorIndetationStrategy();
@@ -184,7 +187,6 @@ namespace Spedit.UI.Components
 			AutoSaveTimer.Elapsed += AutoSaveTimer_Elapsed;
 			StartAutoSaveTimer();
 
-            CompileBox.IsChecked = filePath.EndsWith(".sp");
         }
 
 		private void AutoSaveTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -406,7 +408,7 @@ namespace Spedit.UI.Components
             if (size > 2 && size < 31)
             {
                 editor.FontSize = size;
-                StatusLine_FontSize.Text = size.ToString("n0") + $" {Program.Translations.PtAbb}";
+                Main.StatusLine_FontSize.Text = size.ToString("n0") + $" {Program.Translations.PtAbb}";
             }
             if (UpdateLineHeight)
             {
@@ -542,8 +544,8 @@ namespace Spedit.UI.Components
 
         private void Caret_PositionChanged(object sender, EventArgs e)
         {
-            StatusLine_Coloumn.Text = $"{Program.Translations.ColAbb} {editor.TextArea.Caret.Column}";
-            StatusLine_Line.Text = $"{Program.Translations.LnAbb} {editor.TextArea.Caret.Line}";
+            Main.StatusLine_Coloumn.Text = $"{Program.Translations.ColAbb} {editor.TextArea.Caret.Column}";
+            Main.StatusLine_Line.Text = $"{Program.Translations.LnAbb} {editor.TextArea.Caret.Line}";
             EvaluateIntelliSense();
             var result = bracketSearcher.SearchBracket(editor.Document, editor.CaretOffset);
             bracketHighlightRenderer.SetHighlight(result);
@@ -624,7 +626,7 @@ namespace Spedit.UI.Components
 
         private void TextArea_SelectionChanged(object sender, EventArgs e)
         {
-            StatusLine_SelectionLength.Text = $"{Program.Translations.LenAbb} {editor.SelectionLength}";
+            Main.StatusLine_SelectionLength.Text = $"{Program.Translations.LenAbb} {editor.SelectionLength}";
         }
 
         private void PrevMouseWheel(object sender, MouseWheelEventArgs e)
@@ -733,12 +735,12 @@ namespace Spedit.UI.Components
 			MenuC_Copy.Header = Program.Translations.Copy;
 			MenuC_Paste.Header = Program.Translations.Paste;
 			MenuC_SelectAll.Header = Program.Translations.SelectAll;
-			CompileBox.Content = Program.Translations.Compile;
+			Main.CompileBox.Content = Program.Translations.Compile;
 			if (!Initial)
 			{
-				StatusLine_Coloumn.Text = $"{Program.Translations.ColAbb} {editor.TextArea.Caret.Column}";
-				StatusLine_Line.Text = $"{Program.Translations.LnAbb} {editor.TextArea.Caret.Line}";
-				StatusLine_FontSize.Text = editor.FontSize.ToString("n0") + $" {Program.Translations.PtAbb}";
+                Main.StatusLine_Coloumn.Text = $"{Program.Translations.ColAbb} {editor.TextArea.Caret.Column}";
+                Main.StatusLine_Line.Text = $"{Program.Translations.LnAbb} {editor.TextArea.Caret.Line}";
+                Main.StatusLine_FontSize.Text = editor.FontSize.ToString("n0") + $" {Program.Translations.PtAbb}";
 			}
 		}
     }

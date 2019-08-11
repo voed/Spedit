@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Spedit.Interop;
 
 namespace Spedit.UI
 {
@@ -81,8 +82,8 @@ namespace Spedit.UI
 		private void ListViewOBItem_SelectConfig(object sender, RoutedEventArgs e)
 		{
 			if (sender is ListViewItem item)
-			{
-				var cc = Program.Configs[Program.SelectedConfig];
+            {
+                var cc = Program.ConfigList.Current;
 				if (cc.SMDirectories.Length > 0)
 				{
 					ChangeObjectBrowserToDirectory(cc.SMDirectories[0]);
@@ -126,8 +127,8 @@ namespace Spedit.UI
 		private void ChangeObjectBrowserToDirectory(string dir)
 		{
 			if (string.IsNullOrWhiteSpace(dir))
-			{
-				var cc = Program.Configs[Program.SelectedConfig];
+            {
+                Config cc = Program.ConfigList.Current;
 				if (cc.SMDirectories.Length > 0)
 				{
 					dir = cc.SMDirectories[0];

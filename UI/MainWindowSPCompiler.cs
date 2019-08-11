@@ -9,9 +9,10 @@ using System.Threading;
 using System.Windows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Spedit.Interop;
 using Spedit.UI.Components;
 using Spedit.Utils;
-
+using static Spedit.Program;
 namespace Spedit.UI
 {
     public partial class MainWindow : MetroWindow
@@ -29,7 +30,7 @@ namespace Spedit.UI
             compiledFiles.Clear();
             compiledFileNames.Clear();
             nonUploadedFiles.Clear();
-            var c = Program.Configs[Program.SelectedConfig];
+            Config c = Program.ConfigList.Current;
             FileInfo spCompInfo = null;
             bool SpCompFound = false;
 			bool PressedEscape = false;
@@ -54,7 +55,7 @@ namespace Spedit.UI
 						return;
                     }
 
-                    filesToCompile.AddRange(from editor in editors where editor.CompileBox.IsChecked != null && editor.CompileBox.IsChecked.Value select editor.FullFilePath);
+                    filesToCompile.AddRange(from editor in editors where CompileBox.IsChecked != null && CompileBox.IsChecked.Value select editor.FullFilePath);
                 }
                 else
                 {
@@ -74,26 +75,22 @@ namespace Spedit.UI
                         filesToCompile.Add(ee.FullFilePath);
                     }
                 }
-                int compileCount = filesToCompile.Count;
-                if (compileCount > 0)
+                if (filesToCompile.Count > 0)
                 {
                     ErrorResultGrid.Items.Clear();
-                    var progressTask = await this.ShowProgressAsync(Program.Translations.Compiling, "", false, MetroDialogOptions);
-                    progressTask.SetProgress(0.0);
                     StringBuilder stringOutput = new StringBuilder();
                     Regex errorFilterRegex = new Regex(@"^(?<file>.+?)\((?<line>[0-9]+(\s*--\s*[0-9]+)?)\)\s*:\s*(?<type>[a-zA-Z]+\s+([a-zA-Z]+\s+)?[0-9]+)\s*:(?<details>.+)", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.Multiline);
-                    for (int i = 0; i < compileCount; ++i)
+                    foreach (var file in filesToCompile)
                     {
 						if (!InCompiling) //pressed escape
 						{
 							PressedEscape = true;
 							break;
 						}
-                        string file = filesToCompile[i];
-                        progressTask.SetMessage(file);
-                        ProcessUITasks();
-                        var fileInfo = new FileInfo(file);
+                        FileInfo fileInfo = new FileInfo(file);
                         stringOutput.AppendLine(fileInfo.Name);
+                        StatusLite_StatusText.Text = $"{Translations.Compiling} \"{fileInfo.Name}...\"";
+                        ProcessUITasks();
                         if (fileInfo.Exists)
                         {
                             using (Process process = new Process())
@@ -103,11 +100,17 @@ namespace Spedit.UI
                                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                                 process.StartInfo.CreateNoWindow = true;
                                 process.StartInfo.FileName = spCompInfo.FullName;
-                                var destinationFileName = ShortenScriptFileName(fileInfo.Name) + "amxx";
-                                var outFile = Path.Combine(fileInfo.DirectoryName, destinationFileName);
-                                if (File.Exists(outFile)) { File.Delete(outFile); }
-                                string errorFile = Environment.CurrentDirectory + @"\sourcepawn\errorfiles\error_" + Environment.TickCount + "_" + file.GetHashCode().ToString("X") + "_" + i + ".txt";
-                                if (File.Exists(errorFile)) { File.Delete(errorFile); }
+
+
+                                string destinationFileName = Path.GetFileNameWithoutExtension(file) + ".amxx";
+
+                                string outFile = Path.Combine(fileInfo.DirectoryName, destinationFileName);
+                                if (File.Exists(outFile))
+                                    File.Delete(outFile);
+
+                                string errorFile = Environment.CurrentDirectory + $@"\sourcepawn\errorfiles\error_{Environment.TickCount}{file.GetHashCode():X}.txt";
+                                if (File.Exists(errorFile))
+                                    File.Delete(errorFile);
 
                                 StringBuilder includeDirectories = new StringBuilder();
                                 foreach (string dir in c.SMDirectories)
@@ -115,12 +118,9 @@ namespace Spedit.UI
                                     includeDirectories.Append(" -i\"" + dir + "\\include\"");
                                 }
 
-                                string includeStr = string.Empty;
-                                includeStr = includeDirectories.ToString();
+                                var includeStr = includeDirectories.ToString();
 
-                                process.StartInfo.Arguments =
-                                    "\"" + fileInfo.FullName + "\" -o\"" + outFile + "\" -e\"" + errorFile + "\"" + includeStr;// + " -O" + c.OptimizeLevel.ToString() + " -v" + c.VerboseLevel.ToString();
-                                progressTask.SetProgress((i + 1 - 0.5d) / compileCount);
+                                process.StartInfo.Arguments = $"\"{fileInfo.FullName}\" -o\"{outFile}\" -e\"{errorFile}\"{includeStr}";// // todo add debug level
                                 string execResult = ExecuteCommandLine(c.PreCmd, fileInfo.DirectoryName, c.CopyDirectory, fileInfo.FullName, fileInfo.Name, outFile, destinationFileName);
                                 if (!string.IsNullOrWhiteSpace(execResult))
                                 {
@@ -135,11 +135,11 @@ namespace Spedit.UI
                                 catch (Exception)
                                 {
                                     InCompiling = false;
+                                    StatusLite_StatusText.Text = "";
                                 }
                                 if (!InCompiling) //cannot await in catch
                                 {
-                                    await progressTask.CloseAsync();
-                                    await this.ShowMessageAsync(Program.Translations.SPCompNotStarted, Program.Translations.Error, MessageDialogStyle.Affirmative, MetroDialogOptions);
+                                    await this.ShowMessageAsync(Translations.SPCompNotStarted, Translations.Error, MessageDialogStyle.Affirmative, MetroDialogOptions);
 									return;
                                 }
                                 if (File.Exists(errorFile))
@@ -163,10 +163,10 @@ namespace Spedit.UI
                                     }
                                     catch (Exception)
                                     {
-                                        stringOutput.AppendLine(Program.Translations.CompileErroFileError);
+                                        stringOutput.AppendLine(Translations.CompileErroFileError);
                                     }
                                 }
-                                stringOutput.AppendLine(Program.Translations.Done);
+                                stringOutput.AppendLine(Translations.Done);
                                 if (File.Exists(outFile))
                                 {
                                     compiledFiles.Add(outFile);
@@ -179,14 +179,12 @@ namespace Spedit.UI
                                     stringOutput.AppendLine(execResult_Post.Trim('\n', '\r'));
                                 }
                                 stringOutput.AppendLine();
-                                progressTask.SetProgress((i + 1) / ((double)compileCount));
                                 ProcessUITasks();
                             }
                         }
                     }
 					if (!PressedEscape)
 					{
-						progressTask.SetProgress(1.0);
 						CompileOutput.Text = stringOutput.ToString();
 						if (c.AutoCopy)
 						{
@@ -197,12 +195,12 @@ namespace Spedit.UI
 							CompileOutputRow.Height = new GridLength(200.0);
 						}
 					}
-                    await progressTask.CloseAsync();
+                    StatusLite_StatusText.Text = "";
                 }
             }
             else
             {
-                await this.ShowMessageAsync(Program.Translations.Error, Program.Translations.SPCompNotFound, MessageDialogStyle.Affirmative, MetroDialogOptions);
+                await this.ShowMessageAsync(Translations.Error, Translations.SPCompNotFound, MessageDialogStyle.Affirmative, MetroDialogOptions);
             }
             InCompiling = false;
         }
@@ -213,11 +211,11 @@ namespace Spedit.UI
             {
                 nonUploadedFiles.Clear();
                 int copyCount = 0;
-                var c = Program.Configs[Program.SelectedConfig];
+                Config c = Program.ConfigList.Current;
                 if (!string.IsNullOrWhiteSpace(c.CopyDirectory))
                 {
                     StringBuilder stringOutput = new StringBuilder();
-                    foreach (var t in compiledFiles)
+                    foreach (string t in compiledFiles)
                     {
                         try
                         {
@@ -228,23 +226,23 @@ namespace Spedit.UI
                                 string copyFileDestination = Path.Combine(c.CopyDirectory, destinationFileName);
                                 File.Copy(t, copyFileDestination, true);
                                 nonUploadedFiles.Add(copyFileDestination);
-                                stringOutput.AppendLine($"{Program.Translations.Copied}: " + t);
+                                stringOutput.AppendLine($"{Translations.Copied}: " + t);
                                 ++copyCount;
                                 if (c.DeleteAfterCopy)
                                 {
                                     File.Delete(t);
-                                    stringOutput.AppendLine($"{Program.Translations.Deleted}: " + t);
+                                    stringOutput.AppendLine($"{Translations.Deleted}: " + t);
                                 }
                             }
                         }
                         catch (Exception)
                         {
-                            stringOutput.AppendLine($"{Program.Translations.FailCopy}: " + t);
+                            stringOutput.AppendLine($"{Translations.FailCopy}: " + t);
                         }
                     }
                     if (copyCount == 0)
                     {
-                        stringOutput.AppendLine(Program.Translations.NoFilesCopy);
+                        stringOutput.AppendLine(Translations.NoFilesCopy);
                     }
                     if (OvertakeOutString)
                     {
@@ -268,7 +266,8 @@ namespace Spedit.UI
             {
                 return;
             }
-            var c = Program.Configs[Program.SelectedConfig];
+
+            Config c = Program.ConfigList.Current;
             if ((string.IsNullOrWhiteSpace(c.FTPHost)) || (string.IsNullOrWhiteSpace(c.FTPUser)))
             {
                 return;
@@ -277,7 +276,7 @@ namespace Spedit.UI
             try
             {
                 FTP ftp = new FTP(c.FTPHost, c.FTPUser, c.FTPPassword);
-                foreach (var file in nonUploadedFiles)
+                foreach (string file in nonUploadedFiles)
                 {
                     FileInfo fileInfo = new FileInfo(file);
                     if (fileInfo.Exists)
@@ -294,22 +293,22 @@ namespace Spedit.UI
                         try
                         {
                             ftp.upload(uploadDir, file);
-                            stringOutput.AppendLine($"{Program.Translations.Uploaded}: " + file);
+                            stringOutput.AppendLine($"{Translations.Uploaded}: " + file);
                         }
                         catch (Exception e)
                         {
-                            stringOutput.AppendLine(string.Format(Program.Translations.ErrorUploadFile, file, uploadDir));
-                            stringOutput.AppendLine($"{Program.Translations.Details}: " + e.Message);
+                            stringOutput.AppendLine(string.Format(Translations.ErrorUploadFile, file, uploadDir));
+                            stringOutput.AppendLine($"{Translations.Details}: " + e.Message);
                         }
                     }
                 }
             }
             catch (Exception e)
             {
-                stringOutput.AppendLine(Program.Translations.ErrorUpload);
-                stringOutput.AppendLine($"{Program.Translations.Details}: " + e.Message);
+                stringOutput.AppendLine(Translations.ErrorUpload);
+                stringOutput.AppendLine($"{Translations.Details}: " + e.Message);
             }
-            stringOutput.AppendLine(Program.Translations.Done);
+            stringOutput.AppendLine(Translations.Done);
             CompileOutput.Text = stringOutput.ToString();
             if (CompileOutputRow.Height.Value < 11.0)
             {
@@ -325,7 +324,8 @@ namespace Spedit.UI
         {
             if (ServerIsRunning)
             { return; }
-            var c = Program.Configs[Program.SelectedConfig];
+
+            Config c = Program.ConfigList.Current;
             string serverOptionsPath = c.ServerFile;
             if (string.IsNullOrWhiteSpace(serverOptionsPath))
             {
@@ -388,15 +388,6 @@ namespace Spedit.UI
             });
         }
 
-
-        private string ShortenScriptFileName(string fileName)
-        {
-            if (fileName.EndsWith(".sma", StringComparison.InvariantCultureIgnoreCase))
-            {
-                return fileName.Substring(0, fileName.Length - 3);
-            }
-            return fileName;
-        }
 
         private string ExecuteCommandLine(string code, string directory, string copyDir, string scriptFile, string scriptName, string pluginFile, string pluginName)
         {

@@ -53,7 +53,7 @@ namespace Spedit.UI
 		
 		public SMFunction[] currentSMFunctions;
 		public ACNode[] currentACNodes;
-		public ISNode[] currentISNodes;
+		public ACNode[] currentISNodes;
 
 		private void BackgroundParser_Worker()
 		{
@@ -75,7 +75,7 @@ namespace Spedit.UI
 								definitions[i] = ((new Condenser(File.ReadAllText(fInfo.FullName), fInfo.Name)).Condense());
 							}
 						}
-						currentSMDef = (Program.Configs[Program.SelectedConfig].GetSMDef()).ProduceTemporaryExpandedDefinition(definitions);
+						currentSMDef = (Program.ConfigList.Current.GetSMDef()).ProduceTemporaryExpandedDefinition(definitions);
 						currentSMFunctions = currentSMDef.Functions.ToArray();
 						currentACNodes = currentSMDef.ProduceACNodes();
 						currentISNodes = currentSMDef.ProduceISNodes();

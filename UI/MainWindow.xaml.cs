@@ -130,16 +130,26 @@ namespace Spedit.UI
                                 try
                                 {
                                     string fileName = mc[i].Groups["name"].Value;
-                                    if (!(fileName.EndsWith(".inc", StringComparison.InvariantCultureIgnoreCase) || fileName.EndsWith(".sma", StringComparison.InvariantCultureIgnoreCase)))
+                                    if (!(fileName.EndsWith(".inc", StringComparison.InvariantCultureIgnoreCase) ||
+                                          fileName.EndsWith(".sma", StringComparison.InvariantCultureIgnoreCase)))
                                     {
-                                        //wtf?
-                                        //fileName = fileName + ".inc";
-                                        continue;
+                                        //TODO get rid of this
+                                        fileName += ".inc";
+
                                     }
+
                                     fileName = Path.Combine(fileInfo.DirectoryName, fileName);
-                                    TryLoadSourceFile(fileName, false, Program.OptionsObject.Program_OpenIncludesRecursively);
+                                    TryLoadSourceFile(fileName, false,
+                                        Program.OptionsObject.Program_OpenIncludesRecursively);
                                 }
-                                catch (Exception) { }
+                                catch (PathTooLongException)
+                                {
+                                    MessageBox.Show($"Error: path '{fileInfo.FullName}' is too long");
+                                }
+                                catch (Exception e)
+                                {
+                                    //
+                                }
                             }
                         }
                     }
@@ -163,7 +173,10 @@ namespace Spedit.UI
             LayoutDocument layoutDocument = new LayoutDocument {Title = name};
             layoutDocument.Closing += layoutDocument_Closing;
             layoutDocument.ToolTip = filePath;
-            EditorElement editor = new EditorElement(filePath) {Parent = layoutDocument};
+            bool compileChecked = filePath.EndsWith(".sma");
+            CompileBox.IsChecked = compileChecked;
+            EditorElement editor = new EditorElement(filePath, compileChecked, this) {Parent = layoutDocument};
+            
             layoutDocument.Content = editor;
             EditorsReferences.Add(editor);
             DockingPane.Children.Add(layoutDocument);
@@ -266,7 +279,7 @@ namespace Spedit.UI
 
         private void ErrorResultGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var row = ((ErrorDataGridRow)ErrorResultGrid.SelectedItem);
+            var row = (ErrorDataGridRow)ErrorResultGrid.SelectedItem;
             if (row == null)
             {
                 return;

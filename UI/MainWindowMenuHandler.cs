@@ -222,18 +222,17 @@ namespace Spedit.UI
 
         private void MenuButton_Action(object sender, RoutedEventArgs e)
         {
-            int selected = CActionButton.SelectedIndex;
-            if (selected == 0)
+            switch (CActionButton.SelectedIndex)
             {
-                Copy_Plugins(false);
-            }
-            else if (selected == 1)
-            {
-                FTPUpload_Plugins();
-            }
-            else if (selected == 2)
-            {
-                Server_Start();
+                case 0:
+                    Copy_Plugins(false);
+                    break;
+                case 1:
+                    FTPUpload_Plugins();
+                    break;
+                case 2:
+                    Server_Start();
+                    break;
             }
         }
     }

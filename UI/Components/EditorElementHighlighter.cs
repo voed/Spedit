@@ -127,7 +127,7 @@ namespace Spedit.UI.Components
                     Regex = new Regex(@"\s[<][\w\\/\-]+(\.[\w\-]+)?[>]", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture),
                     Color = new HighlightingColor { Foreground = stringBrush }
                 });
-                var def = Program.Configs[Program.SelectedConfig].GetSMDef();
+                var def = Program.ConfigList.Current.GetSMDef();
 
                 if (def.ConstantsStrings.Length > 0)
                 {

@@ -28,7 +28,7 @@ namespace Spedit.UI
 
         public EditorElement[] GetAllEditorElements()
         {
-            return EditorsReferences.Count < 1 ? null : EditorsReferences.ToArray();
+            return EditorsReferences.ToArray();
         }
 
         private void Command_New()

@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Xml;
+using System.Xml.Serialization;
+using Hjson;
+using Newtonsoft.Json;
 using SourcepawnCondenser.SourcemodDefinition;
 using Spedit.Utils;
 
@@ -11,146 +15,44 @@ namespace Spedit.Interop
 {
     public static class ConfigLoader
     {
-        public static Config[] Load()
+        public static string ConfigPath = @"amxmodx\configs\configs.json";
+        public static ConfigList Load()
         {
-            List<Config> configs = new List<Config>();
-            if (File.Exists("sourcepawn\\configs\\Configs.xml"))
+            try
             {
-                try
+                using (StreamReader file = File.OpenText(ConfigPath))
                 {
-                    XmlDocument document = new XmlDocument();
-                    document.Load("sourcepawn\\configs\\Configs.xml");
-                    if (document.ChildNodes.Count < 1)
-                    {
-                        throw new Exception("No main 'Configurations' node.");
-                    }
-                    XmlNode mainNode = document.ChildNodes[0];
-                    if (mainNode.ChildNodes.Count < 1)
-                    {
-                        throw new Exception("No 'config' nodes found.");
-                    }
-                    for (int i = 0; i < mainNode.ChildNodes.Count; ++i)
-                    {
-                        XmlNode node = mainNode.ChildNodes[i];
-                        string name = ReadAttributeStringSafe(ref node, "Name", "UNKOWN CONFIG " + (i + 1));
-                        string smDirectoryStr = ReadAttributeStringSafe(ref node, "SMDirectory");
-                        string[] smDirectoriesSplitted = smDirectoryStr.Split(';');
-                        List<string> SMDirs = new List<string>();
-                        foreach (string dir in smDirectoriesSplitted)
-                        {
-                            string d = dir.Trim();
-                            if (Directory.Exists(d))
-                            {
-                                SMDirs.Add(d);
-                            }
-                        }
-                        string standard = ReadAttributeStringSafe(ref node, "Standard", "0");
-                        bool isStandardConfig = standard != "0" && !string.IsNullOrWhiteSpace(standard);
-                        string autoCopyStr = ReadAttributeStringSafe(ref node, "AutoCopy", "0");
-                        bool autoCopy = autoCopyStr != "0" && !string.IsNullOrWhiteSpace(autoCopyStr);
-                        string copyDirectory = ReadAttributeStringSafe(ref node, "CopyDirectory");
-                        string serverFile = ReadAttributeStringSafe(ref node, "ServerFile");
-                        string serverArgs = ReadAttributeStringSafe(ref node, "ServerArgs");
-                        string postCmd = ReadAttributeStringSafe(ref node, "PostCmd");
-                        string preCmd = ReadAttributeStringSafe(ref node, "PreCmd");
-                        int optimizationLevel = 2, verboseLevel = 1;
-                        int subValue;
-                        if (int.TryParse(ReadAttributeStringSafe(ref node, "OptimizationLevel", "2"), out subValue))
-                        {
-                            optimizationLevel = subValue;
-                        }
-                        if (int.TryParse(ReadAttributeStringSafe(ref node, "VerboseLevel", "1"), out subValue))
-                        {
-                            verboseLevel = subValue;
-                        }
-                        bool deleteAfterCopy = false;
-                        string deleteAfterCopyStr = ReadAttributeStringSafe(ref node, "DeleteAfterCopy", "0");
-                        if (!(deleteAfterCopyStr == "0" || string.IsNullOrWhiteSpace(deleteAfterCopyStr)))
-                        {
-                            deleteAfterCopy = true;
-                        }
-                        string ftpHost = ReadAttributeStringSafe(ref node, "FTPHost", "ftp://localhost/");
-                        string ftpUser = ReadAttributeStringSafe(ref node, "FTPUser");
-                        string encryptedFTPPW = ReadAttributeStringSafe(ref node, "FTPPassword");
-                        string ftppw = ManagedAES.Decrypt(encryptedFTPPW);
-                        string ftpDir = ReadAttributeStringSafe(ref node, "FTPDir");
-                        string rConEngineSourceStr = ReadAttributeStringSafe(ref node, "RConSourceEngine", "1");
-                        bool rConEngineTypeSource = !(rConEngineSourceStr == "0" || string.IsNullOrWhiteSpace(rConEngineSourceStr));
-                        string rConIp = ReadAttributeStringSafe(ref node, "RConIP", "127.0.0.1");
-                        string rConPortStr = ReadAttributeStringSafe(ref node, "RConPort", "27015");
-                        ushort rConPort;
-                        if (!ushort.TryParse(rConPortStr, NumberStyles.Any, CultureInfo.InvariantCulture, out rConPort))
-                        {
-                            rConPort = 27015;
-                        }
-                        string encryptedRConPassword = ReadAttributeStringSafe(ref node, "RConPassword");
-                        string rConPassword = ManagedAES.Decrypt(encryptedRConPassword);
-                        string rConCommands = ReadAttributeStringSafe(ref node, "RConCommands");
-                        Config c = new Config
-                        {
-                            Name = name,
-                            SMDirectories = SMDirs.ToArray(),
-                            Standard = isStandardConfig
-                            ,
-                            AutoCopy = autoCopy,
-                            CopyDirectory = copyDirectory,
-                            ServerFile = serverFile,
-                            ServerArgs = serverArgs
-                            ,
-                            PostCmd = postCmd,
-                            PreCmd = preCmd,
-                            OptimizeLevel = optimizationLevel,
-                            VerboseLevel = verboseLevel,
-                            DeleteAfterCopy = deleteAfterCopy
-                            ,
-                            FTPHost = ftpHost,
-                            FTPUser = ftpUser,
-                            FTPPassword = ftppw,
-                            FTPDir = ftpDir
-                            ,
-                            RConUseSourceEngine = rConEngineTypeSource,
-                            RConIP = rConIp,
-                            RConPort = rConPort,
-                            RConPassword = rConPassword,
-                            RConCommands = rConCommands
-                        };
-                        if (isStandardConfig)
-                        {
-                            c.LoadSMDef();
-                        }
-                        configs.Add(c);
-                    }
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show("An error appeared while reading the configs. Without them, the editor wont start. Reinstall program!" + Environment.NewLine + "Details: " + e.Message
-                        , "Error while reading configs."
-                        , MessageBoxButton.OK
-                        , MessageBoxImage.Warning);
-                    Environment.Exit(Environment.ExitCode);
+                    return (ConfigList) new JsonSerializer().Deserialize(file, typeof(ConfigList));
                 }
             }
-            else
+            catch (Exception e)
             {
-                MessageBox.Show("The Editor could not find the Configs.xml file. Without it, the editor wont start. Reinstall program.", "File not found.", MessageBoxButton.OK, MessageBoxImage.Warning);
-                Environment.Exit(Environment.ExitCode);
+                if (e is FileNotFoundException || e is DirectoryNotFoundException)
+                {
+                    MessageBox.Show(
+                        $"Failed to load config file. Default config will be loaded{Environment.NewLine}Details: {e.Message}",
+                        "Error while reading configs.",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    //todo open settings
+                }
             }
-            return configs.ToArray();
+            
+            return new ConfigList();
         }
 
-        private static string ReadAttributeStringSafe(ref XmlNode node, string attributeName, string defaultValue = "")
+        public static bool Save(ConfigList list)
         {
-            for (int i = 0; i < node.Attributes?.Count; ++i)
+            using (StreamWriter file = File.CreateText(ConfigPath))
             {
-                if (node.Attributes[i].Name == attributeName)
-                {
-                    return node.Attributes[i].Value;
-                }
+                new JsonSerializer().Serialize(file, list);
             }
-            return defaultValue;
+
+            return true;
         }
     }
 
+    [JsonObject]
     public class Config
     {
         public string Name = string.Empty;
@@ -215,6 +117,30 @@ namespace Spedit.Interop
             {
                 SMDef = new SMDefinition(); //this could be dangerous...
             }
+        }
+    }
+
+    public class ConfigList
+    {
+
+        public List<Config> Configs { get; set; }
+        public int CurrentConfig { get; set; }
+
+        [JsonIgnore]
+        public Config Current {
+            get => Configs[CurrentConfig];
+            set => CurrentConfig = Configs.IndexOf(value);
+        }
+
+        public ConfigList()
+        {
+            Configs = new List<Config>()
+            {
+                new Config()
+                {
+                    Name = "Default config"
+                }
+            };
         }
     }
 }

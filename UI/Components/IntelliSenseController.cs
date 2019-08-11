@@ -7,6 +7,7 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Editing;
 using ICSharpCode.AvalonEdit.Rendering;
 using SourcepawnCondenser.SourcemodDefinition;
+using static Spedit.Program;
 
 namespace Spedit.UI.Components
 {
@@ -38,7 +39,7 @@ namespace Spedit.UI.Components
         private string[] funcNames;
         private SMFunction[] funcs;
         private ACNode[] acEntrys;
-        private ISNode[] isEntrys;
+        private ACNode[] isEntrys; //todo find out whats difference
         //private string[] methodNames;
         public void LoadAutoCompletes()
         {
@@ -59,7 +60,7 @@ namespace Spedit.UI.Components
 			{
 				HideISAC();
 			}
-			var def = Program.Configs[Program.SelectedConfig].GetSMDef();
+			SMDefinition def = ConfigList.Current.GetSMDef();
             funcNames = def.FunctionStrings;
 			funcs = def.Functions.ToArray();
             acEntrys = def.ProduceACNodes();
@@ -78,7 +79,7 @@ namespace Spedit.UI.Components
             }*/
         }
 
-		public void InterruptLoadAutoCompletes(string[] FunctionStrings, SMFunction[] FunctionArray, ACNode[] acNodes, ISNode[] isNodes)
+		public void InterruptLoadAutoCompletes(string[] FunctionStrings, SMFunction[] FunctionArray, ACNode[] acNodes, ACNode[] isNodes)
 		{
 			Dispatcher?.Invoke(() => {
 				funcNames = FunctionStrings;
@@ -202,14 +203,14 @@ namespace Spedit.UI.Components
                                 {
                                     FoundMatch = true;
                                     string testString = ISMatches[j].Groups["name"].Value;
-                                    for (int k = 0; k < funcs.Length; ++k)
+                                    foreach (var func in funcs)
                                     {
-                                        if (testString == funcs[k].Name)
+                                        if (testString == func.Name)
                                         {
                                             xPos = ISMatches[j].Groups["name"].Index + ISMatches[j].Groups["name"].Length;
                                             ForwardShowIS = true;
-                                            ISFuncNameStr = funcs[k].FullName;
-                                            ISFuncDescriptionStr = funcs[k].CommentString;
+                                            ISFuncNameStr = func.FullName;
+                                            ISFuncDescriptionStr = func.CommentString;
                                             ForceReSet = true;
                                             break;
                                         }
@@ -346,15 +347,15 @@ namespace Spedit.UI.Components
                                 replaceString = ((ACNode)AutoCompleteBox.SelectedItem).EntryName;
                                 if (acEntrys[AutoCompleteBox.SelectedIndex].IsExecuteable)
                                 {
-                                    replaceString = replaceString + "(";
+                                    replaceString += "(";
                                 }
                             }
                             else
                             {
-                                replaceString = ((ISNode)MethodAutoCompleteBox.SelectedItem).EntryName;
+                                replaceString = ((ACNode)MethodAutoCompleteBox.SelectedItem).EntryName;
                                 if (isEntrys[MethodAutoCompleteBox.SelectedIndex].IsExecuteable)
                                 {
-                                    replaceString = replaceString + "(";
+                                    replaceString += "(";
                                 }
                             }
                             editor.Document.Replace(endOffset, length, replaceString);

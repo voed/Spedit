@@ -1,3 +1,3 @@
 <Configurations>
-  <Config Name="AMXXPawn" SMDirectory="sourcepawn\configs\amxmodx" Standard="1" CopyDirectory="" AutoCopy="0" ServerFile="" ServerArgs="" PostCmd="" PreCmd="" OptimizationLevel="2" VerboseLevel="1" DeleteAfterCopy="0" FTPHost="ftp://localhost/" FTPUser="" FTPPassword="" FTPDir="" RConSourceEngine="1" RConIP="127.0.0.1" RConPort="27015" RConPassword="" RConCommands="" />
+  <Config Name="AMXXPawn" SMDirectory="sourcepawn\configs\amxmodx" Standard="1" CopyDirectory="" AutoCopy="0" ServerFile="" ServerArgs="" PostCmd="" PreCmd="" OptimizationLevel="2" VerboseLevel="1" DeleteAfterCopy="0" FTPHost="ftp://loca lhost/" FTPUser="" FTPPassword="" FTPDir="" RConSourceEngine="1" RConIP="127.0.0.1" RConPort="27015" RConPassword="" RConCommands="" />
 </Configurations>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -20,13 +21,12 @@ namespace Spedit
         public static MainWindow MainWindow;
         public static OptionsControl OptionsObject;
 		public static TranslationProvider Translations;
-        public static Config[] Configs;
-        public static int SelectedConfig;
+        public static ConfigList ConfigList;
 
         public static bool RCCKMade;
 
         [STAThread]
-        public static void Main(string[] args)
+        public static void Main(string[] args) 
         {
             bool mutexReserved;
             using (Mutex appMutex = new Mutex(true, "SpeditGlobalMutex", out mutexReserved))
@@ -57,14 +57,11 @@ namespace Spedit
                                 MakeRCCKAlert();
                             }
                         }
-                        Configs = ConfigLoader.Load();
-                        for (int i = 0; i < Configs.Length; ++i)
+                        ConfigList = ConfigLoader.Load();
+                        foreach (Config config in ConfigList.Configs.Where(config => config.Name == OptionsObject.Program_SelectedConfig))
                         {
-                            if (Configs[i].Name == OptionsObject.Program_SelectedConfig)
-                            {
-                                SelectedConfig = i;
-                                break;
-                            }
+                            ConfigList.CurrentConfig = ConfigList.Configs.IndexOf(config);
+                            break;
                         }
                         if (!OptionsObject.Program_UseHardwareAcceleration)
                         {

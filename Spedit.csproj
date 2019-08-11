@@ -74,11 +74,17 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="Hjson, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Hjson.3.0.0\lib\net40\Hjson.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <HintPath>packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -477,19 +483,19 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>md ".\amxmodx"
+md ".\amxmodx\templates"
+md ".\amxmodx\configs"
+md ".\amxmodx\temp"
+md ".\amxmodx\scripts"
+md ".\amxmodx\errorfiles"
+C:\Windows\system32\xcopy ".\..\..\Resources\Misc\Templates\*.*" ".\amxmodx\templates\*.*" /e /y /q
+C:\Windows\system32\xcopy ".\..\..\Resources\Misc\Configurations" ".\amxmodx\configs" /e /y /q
+copy ".\..\..\Resources\lang_0_spedit.xml" ".\lang_0_spedit.xml" /y</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>md ".\sourcepawn"
-md ".\sourcepawn\templates"
-md ".\sourcepawn\configs"
-md ".\sourcepawn\temp"
-md ".\sourcepawn\scripts"
-md ".\sourcepawn\errorfiles"
-C:\Windows\system32\xcopy ".\..\..\Resources\Misc\Templates\*.*" ".\sourcepawn\templates\*.*" /e /y /q
-C:\Windows\system32\xcopy ".\..\..\Resources\Misc\Configurations" ".\sourcepawn\configs" /e /y /q
-copy ".\..\..\Resources\lang_0_spedit.xml" ".\lang_0_spedit.xml" /y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

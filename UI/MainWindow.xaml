@@ -127,6 +127,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="1*" />
+            <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <ToolBarTray Name="Win_ToolBar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="0">
@@ -302,6 +303,15 @@
             <CheckBox Name="CCBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="180,135,0,0" Content="Case Sensitive" Foreground="{DynamicResource BlackBrush}" />
             <CheckBox Name="MLRBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="180,160,0,0" Content="Multiline Regex" Foreground="{DynamicResource BlackBrush}" />
             <TextBlock Name="FindResultBlock" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,190,5,5" Text="" Width="Auto" FontSize="14" Foreground="{DynamicResource WhiteBrush}" IsHitTestVisible="False" />
+
+        </Grid>
+        <Grid Grid.Row="3" Name="StatusLineGrid" Margin="0,0,0,2">
+            <CheckBox x:Name="CompileBox" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="2,0,0,0" Content="Compile" Foreground="{DynamicResource BlackColorBrush}" />
+            <TextBlock Name="StatusLite_StatusText" VerticalAlignment="Bottom" Margin="90,0,471,0" Foreground="{DynamicResource BlackColorBrush}" IsHitTestVisible="False"/>
+            <TextBlock Name="StatusLine_FontSize" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="2,0,0,0" Text="14 pt" Foreground="{DynamicResource BlackColorBrush}" IsHitTestVisible="False" />
+            <TextBlock Name="StatusLine_Coloumn" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="2,2,100,0" Text="Col 0" Foreground="{DynamicResource BlackColorBrush}" IsHitTestVisible="False" />
+            <TextBlock Name="StatusLine_Line" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="2,2,200,0" Text="Ln 0" Foreground="{DynamicResource BlackColorBrush}" IsHitTestVisible="False" />
+            <TextBlock Name="StatusLine_SelectionLength" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="2,2,300,0" Text="Len 0" Foreground="{DynamicResource BlackColorBrush}" />
         </Grid>
         <Rectangle Grid.Row="2" x:Name="BlendEffectPlane" IsHitTestVisible="False" Opacity="0" Fill="{DynamicResource AccentColorBrush4}" />
     </Grid>

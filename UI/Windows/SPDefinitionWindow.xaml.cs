@@ -27,7 +27,7 @@ namespace Spedit.UI.Windows
 			if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
 			{ ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme)); }
 			errorSearchBoxBrush.Freeze();
-            var def = Program.Configs[Program.SelectedConfig].GetSMDef();
+            var def = Program.ConfigList.Current.GetSMDef();
             if (def == null)
             {
                 MessageBox.Show(Program.Translations.ConfigWrongPars, Program.Translations.Error, MessageBoxButton.OK, MessageBoxImage.Warning);

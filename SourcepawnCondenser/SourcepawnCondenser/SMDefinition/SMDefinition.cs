@@ -13,15 +13,11 @@ namespace SourcepawnCondenser.SourcemodDefinition
 		public List<SMConstant> Constants = new List<SMConstant>();
 
 		public string[] FunctionStrings = new string[0];
-		//public string[] EnumStrings = new string[0]; NOT NEEDED
-		//public string[] StructStrings = new string[0]; NOT NEEDED
-		//public string[] DefinesStrings = new string[0]; NOT NEEDED
-		public string[] ConstantsStrings = new string[0]; //ATTENTION: THIS IS NOT THE LIST OF ALL CONSTANTS - IT INCLUDES MUCH MORE
+        public string[] ConstantsStrings = new string[0]; //ATTENTION: THIS IS NOT THE LIST OF ALL CONSTANTS - IT INCLUDES MUCH MORE
 
 		public void Sort()
 		{
-			try {
-				Functions = Functions.Distinct(new SMFunctionComparer()).ToList();
+            Functions = Functions.Distinct(new SMFunctionComparer()).ToList();
 				Functions.Sort((a, b) => string.Compare(a.Name, b.Name));
 				//Enums = Enums.Distinct(new SMEnumComparer()).ToList(); //enums can have the same name but not be the same...
 				Enums.Sort((a, b) => string.Compare(a.Name, b.Name));
@@ -29,9 +25,7 @@ namespace SourcepawnCondenser.SourcemodDefinition
 				Defines.Sort((a, b) => string.Compare(a.Name, b.Name));
 				Constants = Constants.Distinct(new SMConstantComparer()).ToList();
 				Constants.Sort((a, b) => string.Compare(a.Name, b.Name));
-			}
-			catch(Exception) { } //racing condition on save when the thread closes first or not..
-		}
+            }
 
 		public void AppendFiles(string[] paths)
 		{
@@ -40,9 +34,9 @@ namespace SourcepawnCondenser.SourcemodDefinition
                 if (Directory.Exists(path))
                 {
                     string[] files = Directory.GetFiles(path, "*.inc", SearchOption.AllDirectories);
-                    for (int j = 0; j < files.Length; ++j)
+                    foreach (var file in files)
                     {
-                        FileInfo fInfo = new FileInfo(files[j]);
+                        FileInfo fInfo = new FileInfo(file);
                         Condenser subCondenser = new Condenser(File.ReadAllText(fInfo.FullName), fInfo.Name);
                         var subDefinition = subCondenser.Condense();
                         Functions.AddRange(subDefinition.Functions);
@@ -64,67 +58,55 @@ namespace SourcepawnCondenser.SourcemodDefinition
 				FunctionStrings[i] = Functions[i].Name;
 			}
 
-			List<string> constantNames = new List<string>();
-			foreach (var i in Constants) { constantNames.Add(i.Name); }
-			foreach (var e in Enums) { constantNames.AddRange(e.Entries); }
-			foreach (var i in Defines) { constantNames.Add(i.Name); }
-			constantNames.Sort(string.Compare);
+			List<string> constantNames = Constants.Select(i => i.Name).ToList();
+            foreach (var e in Enums) { constantNames.AddRange(e.Entries); }
+            constantNames.AddRange(Defines.Select(i => i.Name));
+            constantNames.Sort(string.Compare);
 			ConstantsStrings = constantNames.ToArray();
         }
 
 		public ACNode[] ProduceACNodes()
 		{
-			List<ACNode> nodes = new List<ACNode>();
-			try
-			{
-				nodes.Capacity = Enums.Count + Constants.Count + Functions.Count;
-				nodes.AddRange(ACNode.ConvertFromStringArray(FunctionStrings, true, "▲ "));
-				nodes.AddRange(ACNode.ConvertFromStringArray(ConstantsStrings, false, "• "));
-                //nodes = nodes.Distinct(new ACNodeEqualityComparer()).ToList(); Methodmaps and Functions can and will be the same.
-				nodes.Sort((a, b) => string.Compare(a.EntryName, b.EntryName));
-			} catch (Exception) { }
-			return nodes.ToArray();
+            List<ACNode> nodes = new List<ACNode> {Capacity = Enums.Count + Constants.Count + Functions.Count};
+
+            nodes.AddRange(ACNode.ConvertFromStringArray(FunctionStrings, true, "▲ "));
+            nodes.AddRange(ACNode.ConvertFromStringArray(ConstantsStrings, false, "• "));
+            nodes.Sort((a, b) => string.Compare(a.EntryName, b.EntryName));
+            return nodes.ToArray();
 		}
-		public ISNode[] ProduceISNodes()
+		public ACNode[] ProduceISNodes()
 		{
-			List<ISNode> nodes = new List<ISNode>();
-			try
-			{
-                nodes = nodes.Distinct(new ISNodeEqualityComparer()).ToList();
-				nodes.Sort((a, b) => string.Compare(a.EntryName, b.EntryName));
-			} catch (Exception) { }
-			return nodes.ToArray();
+			List<ACNode> nodes = new List<ACNode>();
+
+            nodes = nodes.Distinct(new ACNodeEqualityComparer()).ToList();
+            nodes.Sort((a, b) => string.Compare(a.EntryName, b.EntryName));
+            return nodes.ToArray();
 		}
 
 		public void MergeDefinitions(SMDefinition def)
 		{
-			try
-			{
-				Functions.AddRange(def.Functions);
-				Enums.AddRange(def.Enums);
-                Defines.AddRange(def.Defines);
-				Constants.AddRange(def.Constants);
-            }
-			catch (Exception) { }
-		}
+            Functions.AddRange(def.Functions);
+            Enums.AddRange(def.Enums);
+            Defines.AddRange(def.Defines);
+            Constants.AddRange(def.Constants);
+        }
 
 		public SMDefinition ProduceTemporaryExpandedDefinition(SMDefinition[] definitions)
 		{
 			SMDefinition def = new SMDefinition();
-			try
-			{
-				def.MergeDefinitions(this);
-				foreach (var definition in definitions)
+
+            def.MergeDefinitions(this);
+            foreach (var definition in definitions)
+            {
+                if (definition != null)
                 {
-                    if (definition != null)
-                    {
-                        def.MergeDefinitions(definition);
-                    }
+                    def.MergeDefinitions(definition);
                 }
-				def.Sort();
-				def.ProduceStringArrays();
-			} catch (Exception) { }
-			return def;
+            }
+
+            def.Sort();
+            def.ProduceStringArrays();
+            return def;
 		}
 
 		private class SMFunctionComparer : IEqualityComparer<SMFunction>
@@ -160,22 +142,15 @@ namespace SourcepawnCondenser.SourcemodDefinition
 			{ return sm.Name.GetHashCode(); }
 		}
 
-        /*public class ACNodeEqualityComparer : IEqualityComparer<ACNode>
+        public class ACNodeEqualityComparer : IEqualityComparer<ACNode>
         {
             public bool Equals(ACNode nodeA, ACNode nodeB)
-            { return nodeA.EntryName == nodeB.EntryName; }
+            { return nodeA?.EntryName == nodeB?.EntryName; }
 
             public int GetHashCode(ACNode node)
             { return node.EntryName.GetHashCode(); }
-        }*/
-		public class ISNodeEqualityComparer : IEqualityComparer<ISNode>
-		{
-			public bool Equals(ISNode nodeA, ISNode nodeB)
-			{ return nodeA?.EntryName == nodeB?.EntryName; }
+        }
 
-			public int GetHashCode(ISNode node)
-			{ return node.EntryName.GetHashCode(); }
-		}
 	}
 
 	public class ACNode
@@ -185,38 +160,9 @@ namespace SourcepawnCondenser.SourcemodDefinition
 		public bool IsExecuteable;
 
 		public static List<ACNode> ConvertFromStringArray(string[] strings, bool Executable, string prefix = "")
-		{
-			List<ACNode> nodeList = new List<ACNode>();
-			int length = strings.Length;
-			for (int i = 0; i < length; ++i)
-			{
-				nodeList.Add(new ACNode { Name = prefix + strings[i], EntryName = strings[i], IsExecuteable = Executable });
-			}
-			return nodeList;
-		}
-
-		public override string ToString()
-		{
-			return Name;
-		}
-	}
-
-	public class ISNode
-	{
-		public string Name;
-		public string EntryName;
-		public bool IsExecuteable;
-
-		public static List<ISNode> ConvertFromStringArray(string[] strings, bool Executable, string prefix = "")
-		{
-			List<ISNode> nodeList = new List<ISNode>();
-			int length = strings.Length;
-			for (int i = 0; i < length; ++i)
-			{
-				nodeList.Add(new ISNode { Name = prefix + strings[i], EntryName = strings[i], IsExecuteable = Executable });
-			}
-			return nodeList;
-		}
+        {
+            return strings.Select(str => new ACNode {Name = prefix + str, EntryName = str, IsExecuteable = Executable}).ToList();
+        }
 
 		public override string ToString()
 		{
