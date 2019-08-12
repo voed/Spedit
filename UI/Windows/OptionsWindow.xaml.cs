@@ -1,10 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Resources;
+using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Spedit.Properties;
 using Spedit.UI.Components;
+using Spedit.Utils;
 
 namespace Spedit.UI.Windows
 {
@@ -250,9 +260,10 @@ namespace Spedit.UI.Windows
 		private void LanguageBox_Changed(object sender, RoutedEventArgs e)
 		{
 			if (!AllowChanging) { return; }
-			string selectedString = (string)LanguageBox.SelectedItem;
+
+            Program.OptionsObject.Language = Culture.cultures[LanguageBox.SelectedIndex].Name;
             ToggleRestartText(true);
-		}
+        }
 
 
 		private void AutoSave_Changed(object sender, RoutedEventArgs e)
@@ -299,10 +310,19 @@ namespace Spedit.UI.Windows
 
 		private void LoadSettings()
         {
+            
+            foreach (CultureInfo culture in Culture.cultures)
+            {
+                LanguageBox.Items.Add(culture.NativeName);
+            }
+
+            LanguageBox.SelectedItem = CultureInfo.CurrentUICulture.NativeName;
+            
 			foreach (string accent in AvailableAccents)
             {
                 AccentColor.Items.Add(accent);
             }
+
             HardwareAcc.IsChecked = Program.OptionsObject.Program_UseHardwareAcceleration;
             UIAnimation.IsChecked = Program.OptionsObject.UI_Animations;
             OpenIncludes.IsChecked = Program.OptionsObject.Program_OpenCustomIncludes;
@@ -365,6 +385,6 @@ namespace Spedit.UI.Windows
             }
         }
 
-
+ 
     }
 }

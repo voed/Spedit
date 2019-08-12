@@ -177,6 +177,7 @@
     <Compile Include="UI\Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Culture.cs" />
     <Compile Include="Utils\FTP.cs" />
     <Compile Include="Utils\SPSyntaxTidy\SPSyntaxTidy.cs" />
     <Compile Include="Utils\SPSyntaxTidy\SPTokenizer.cs" />

@@ -5,8 +5,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:resx="clr-namespace:Spedit.Properties"
-             Width="680" Height="400" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" GlowBrush="{DynamicResource AccentColorBrush}"
-                      Title="Options" ShowTitleBar="False">
+             xmlns:spedit="clr-namespace:Spedit"
+             Width="680" Height="400" ResizeMode="NoResize" 
+             WindowStartupLocation="CenterOwner" 
+             GlowBrush="{DynamicResource AccentColorBrush}"
+             Title="{x:Static resx:Resources.Options}" 
+             ShowTitleBar="False"
+             
+             >
     <controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,7 +35,7 @@
             <controls:MetroTabItem Name="ProgramHeader" Header="{x:Static resx:Resources.Program}">
                 <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
                     <Grid>
-                        <CheckBox Name="HardwareAcc" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Content="{x:Static resx:Resources.HardwareAcc}" Checked="HardwareAcc_Changed" Unchecked="HardwareAcc_Changed" />
+                        <CheckBox Name="HardwareAcc" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Content="{x:Static resx:Resources.HardwareAcc}" Checked="HardwareAcc_Changed" Unchecked="HardwareAcc_Changed"/>
                         <CheckBox Name="UIAnimation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,30,0,0" Content="{x:Static resx:Resources.UIAnim}" Checked="UIAnimation_Changed" Unchecked="UIAnimation_Changed" />
                         <CheckBox Name="OpenIncludes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,55,0,0" Content="{x:Static resx:Resources.OpenInc}" Checked="AutoOpenInclude_Changed" Unchecked="AutoOpenInclude_Changed" />
                         <CheckBox Name="OpenIncludesRecursive" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,80,0,0" Content="{x:Static resx:Resources.OpenIncRec}" Checked="OpenIncludeRecursively_Changed" Unchecked="OpenIncludeRecursively_Changed" />
@@ -40,7 +46,8 @@
                         <Label Name="ThemeColorLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,230,0,0" Content="{x:Static resx:Resources.ThemeColor}" />
                         <ComboBox Name="AccentColor" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,230,0,0" Width="200" SelectionChanged="AccentColor_Changed" />
                         <Label Name="LanguageLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,260,0,0" Content="{x:Static resx:Resources.LanguageStr}" />
-                        <ComboBox Name="LanguageBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,260,0,0" Width="200" SelectionChanged="LanguageBox_Changed" />
+                        <ComboBox Name="LanguageBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,260,0,0" Width="200" SelectionChanged="LanguageBox_Changed" >
+                        </ComboBox>
                     </Grid>
                 </ScrollViewer>
             </controls:MetroTabItem>

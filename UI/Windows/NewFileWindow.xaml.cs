@@ -20,7 +20,7 @@ namespace Spedit.UI.Windows
     /// </summary>
     public partial class NewFileWindow : MetroWindow
     {
-        string PathStr = "amxmodx\\scripts";
+        private const string PathStr = "amxmodx\\scripts";
         private const string TemplatePath = @"amxmodx\templates\Templates.xml";
 
         [XmlElement("Templates")]

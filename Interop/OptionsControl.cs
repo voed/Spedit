@@ -84,11 +84,18 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
                 //todo encrypt all file?
                 programIsNew = false;
                 var formatter = new BinaryFormatter();
-                using (FileStream fileStream = new FileStream("options_0.dat", FileMode.Open, FileAccess.Read,
-                    FileShare.ReadWrite))
+                try
                 {
-                    return (OptionsControl) formatter.Deserialize(fileStream);
+                    using (FileStream fileStream = new FileStream(OptionsFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    {
+                        return (OptionsControl) formatter.Deserialize(fileStream);
+                    }
                 }
+                catch (FileNotFoundException)
+                {
+                    return new OptionsControl();
+                }
+
             }
 
 #if DEBUG

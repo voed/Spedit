@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -12,6 +14,7 @@ using MahApps.Metro;
 using Spedit.Interop;
 using Spedit.UI;
 using Spedit.Properties;
+using Spedit.Utils;
 
 namespace Spedit
 {
@@ -22,6 +25,7 @@ namespace Spedit
         public static MainWindow MainWindow;
         public static OptionsControl OptionsObject;
         public static ConfigList ConfigList;
+
 
         public static bool RCCKMade;
 
@@ -39,13 +43,21 @@ namespace Spedit
                     {
 #endif
                         Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-#if !DEBUG
+#if !DEBUG  
 						ProfileOptimization.SetProfileRoot(Environment.CurrentDirectory);
 						ProfileOptimization.StartProfile("Startup.Profile");
 #endif
 						//todo implement own updater
 						OptionsObject = OptionsControl.Load(out ProgramIsNew);
 
+
+                        MessageBox.Show(OptionsObject.Language);
+                        Assembly assembly = Assembly.GetExecutingAssembly();
+                        NeutralResourcesLanguageAttribute a = (NeutralResourcesLanguageAttribute)assembly.GetCustomAttribute(typeof(NeutralResourcesLanguageAttribute));
+                        Culture.cultures = Culture.GetAvailableCultures();
+                        CultureInfo defCultureInfo = new CultureInfo(string.IsNullOrEmpty(OptionsObject.Language) ? a.CultureName : OptionsObject.Language);
+                        CultureInfo.DefaultThreadCurrentUICulture = defCultureInfo;
+                        CultureInfo.DefaultThreadCurrentCulture = defCultureInfo;
 
                         ConfigList = ConfigLoader.Load();
                         foreach (Config config in ConfigList.Configs.Where(config => config.Name == OptionsObject.Program_SelectedConfig))
