@@ -397,8 +397,6 @@
     <Resource Include="Resources\iconmonstr-code-fork-4-20.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\lang_0_spedit.xml" />
-    <Content Include="Resources\lang_0_spedit_entryTemplate.xml" />
     <Content Include="Resources\Misc\Configurations\amxmodx\amxxpc.exe" />
     <Content Include="Resources\Misc\Configurations\amxmodx\amxxpc32.dll" />
     <Content Include="Resources\Misc\Configurations\amxmodx\include\amxconst.inc" />
@@ -490,8 +488,7 @@ md ".\amxmodx\temp"
 md ".\amxmodx\scripts"
 md ".\amxmodx\errorfiles"
 C:\Windows\system32\xcopy ".\..\..\Resources\Misc\Templates\*.*" ".\amxmodx\templates\*.*" /e /y /q
-C:\Windows\system32\xcopy ".\..\..\Resources\Misc\Configurations" ".\amxmodx\configs" /e /y /q
-copy ".\..\..\Resources\lang_0_spedit.xml" ".\lang_0_spedit.xml" /y</PreBuildEvent>
+C:\Windows\system32\xcopy ".\..\..\Resources\Misc\Configurations" ".\amxmodx\configs" /e /y /q</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>

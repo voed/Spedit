@@ -17,7 +17,7 @@ namespace Spedit.UI
             EditorElement outElement = null;
             if (DockingPane.SelectedContent?.Content != null)
             {
-                var possElement = DockingManager.ActiveContent;
+                object possElement = DockingManager.ActiveContent;
                 if (possElement is EditorElement element)
                 {
                     outElement = element;

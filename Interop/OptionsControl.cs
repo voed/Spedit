@@ -9,6 +9,8 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
 	[Serializable]
     public class OptionsControl
     {
+        private const string OptionsFile = "options.dat";
+
         public bool Program_UseHardwareAcceleration = true;
 
         public bool Program_CheckForUpdates = true;
@@ -69,7 +71,7 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
 
         public static void Save()
         {
-            using (FileStream fileStream = new FileStream("options_0.dat", FileMode.Create, FileAccess.ReadWrite, FileShare.None))
+            using (FileStream fileStream = new FileStream(OptionsFile, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 new BinaryFormatter().Serialize(fileStream, Program.OptionsObject);
             }
@@ -77,7 +79,7 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
 
         public static OptionsControl Load(out bool programIsNew)
         {
-            if (File.Exists("options_0.dat"))
+            if (File.Exists(OptionsFile))
             {
                 //todo encrypt all file?
                 programIsNew = false;

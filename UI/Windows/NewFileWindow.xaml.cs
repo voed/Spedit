@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
+using System.Xml.Serialization;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 using Microsoft.Win32;
+using Newtonsoft.Json;
+using Spedit.Interop;
 
 namespace Spedit.UI.Windows
 {
@@ -16,13 +20,15 @@ namespace Spedit.UI.Windows
     /// </summary>
     public partial class NewFileWindow : MetroWindow
     {
-        string PathStr = "sourcepawn\\scripts";
-        Dictionary<string, TemplateInfo> TemplateDictionary;
+        string PathStr = "amxmodx\\scripts";
+        private const string TemplatePath = @"amxmodx\templates\Templates.xml";
+
+        [XmlElement("Templates")]
+        public List<TemplateInfo> TemplateList;
         public NewFileWindow()
         {
             InitializeComponent();
-			Language_Translate();
-			if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
+            if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
 			{ ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme)); }
 			ParseTemplateFile();
             TemplateListBox.SelectedIndex = 0;
@@ -30,43 +36,20 @@ namespace Spedit.UI.Windows
 
         private void ParseTemplateFile()
         {
-            TemplateDictionary = new Dictionary<string, TemplateInfo>();
-            if (File.Exists("sourcepawn\\templates\\Templates.xml"))
+            TemplateList = new List<TemplateInfo>();
+            if (File.Exists(TemplatePath))
             {
-                using (Stream stream = File.OpenRead("sourcepawn\\templates\\Templates.xml"))
+                using (Stream stream = File.OpenRead(TemplatePath))
                 {
-                    XmlDocument doc = new XmlDocument();
-                    doc.Load(stream);
-                    if (doc.ChildNodes.Count > 0)
-                    {
-                        if (doc.ChildNodes[0].Name == "Templates")
-                        {
-                            XmlNode mainNode = doc.ChildNodes[0];
-                            for (int i = 0; i < mainNode.ChildNodes.Count; ++i)
-                            {
-                                if (mainNode.ChildNodes[i].Name == "Template")
-                                {
-                                    XmlAttributeCollection attributes = mainNode.ChildNodes[i].Attributes;
-                                    string nameStr = attributes?["Name"].Value;
-                                    string fileNameStr = attributes?["File"].Value;
-                                    string newNameStr = attributes?["NewName"].Value;
-                                    string filePathStr = Path.Combine("sourcepawn\\templates\\", fileNameStr);
-                                    if (File.Exists(filePathStr))
-                                    {
-                                        TemplateDictionary.Add(nameStr, new TemplateInfo { Name = nameStr, FileName = fileNameStr, Path = filePathStr, NewName = newNameStr });
-                                        TemplateListBox.Items.Add(nameStr);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    TemplateList = (List<TemplateInfo>)new XmlSerializer(typeof(List<TemplateInfo>), new XmlRootAttribute("Templates")).Deserialize(stream);
+                    TemplateListBox.ItemsSource = TemplateList.Select(template => template.Name).ToList();
                 }
             }
         }
 
         private void TemplateListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TemplateInfo templateInfo = TemplateDictionary[(string)TemplateListBox.SelectedItem];
+            TemplateInfo templateInfo = TemplateList[TemplateListBox.SelectedIndex];
             PrevieBox.Text = File.ReadAllText(templateInfo.Path);
             PathBox.Text = Path.Combine(PathStr, templateInfo.NewName);
         }
@@ -74,17 +57,12 @@ namespace Spedit.UI.Windows
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             FileInfo destFile = new FileInfo(PathBox.Text);
-            TemplateInfo templateInfo = TemplateDictionary[(string)TemplateListBox.SelectedItem];
+            TemplateInfo templateInfo = TemplateList[TemplateListBox.SelectedIndex];
             File.Copy(templateInfo.Path, destFile.FullName, true);
             Program.MainWindow.TryLoadSourceFile(destFile.FullName, true, true, true);
             Close();
         }
 
-		private void Language_Translate()
-		{
-            PreviewBlock.Text = $"{Properties.Resources.Preview}:";//todo remove this
-			SaveButton.Content = Properties.Resources.Save;
-		}
 
         private ICommand textBoxButtonFileCmd;
 
@@ -148,11 +126,20 @@ namespace Spedit.UI.Windows
         }
     }
 
+    [XmlType(TypeName = "Template")]
     public class TemplateInfo
     {
-        public string Name;
-        public string FileName;
-        public string Path;
-        public string NewName;
+        private static readonly string _folderPath = @"amxmodx\templates\";
+        [XmlAttribute] 
+        public string Name = string.Empty;
+        [XmlAttribute("File")]
+        public string FileName = string.Empty;
+
+        [XmlIgnore]
+        public string Path => System.IO.Path.Combine(_folderPath, FileName);
+
+        [XmlAttribute]
+        public string NewName = string.Empty;
+
     }
 }
