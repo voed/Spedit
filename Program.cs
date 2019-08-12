@@ -44,16 +44,9 @@ namespace Spedit
 						ProfileOptimization.StartProfile("Startup.Profile");
 #endif
 						//todo implement own updater
-						OptionsObject = OptionsControlIOObject.Load(out ProgramIsNew);
+						OptionsObject = OptionsControl.Load(out ProgramIsNew);
 
-						foreach (var arg in args)
-                        {
-                            if (arg.ToLowerInvariant() == "-rcck") //ReCreateCryptoKey
-                            {
-                                OptionsObject.ReCreateCryptoKey();
-                                MakeRCCKAlert();
-                            }
-                        }
+
                         ConfigList = ConfigLoader.Load();
                         foreach (Config config in ConfigList.Configs.Where(config => config.Name == OptionsObject.Program_SelectedConfig))
                         {
@@ -107,7 +100,7 @@ namespace Spedit
 #endif
                         app.Startup += App_Startup;
                         app.Run(MainWindow);
-                        OptionsControlIOObject.Save();
+                        OptionsControl.Save();
 #if !DEBUG
                     }
                     catch (Exception e)

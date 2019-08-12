@@ -32,7 +32,6 @@ namespace Spedit.UI.Windows
             if (result == MessageDialogResult.Affirmative)
             {
                 Program.OptionsObject = new OptionsControl();
-				Program.OptionsObject.ReCreateCryptoKey();
                 Program.MainWindow.OptionMenuEntry.IsEnabled = false;
                 await this.ShowMessageAsync(Properties.Resources.RestartEditor, Properties.Resources.YRestartEditor, MessageDialogStyle.Affirmative, MetroDialogOptions);
                 Close();
@@ -172,33 +171,33 @@ namespace Spedit.UI.Windows
 		private void AutoCloseBrackets_Changed(object sender, RoutedEventArgs e)
 		{
 			if (!AllowChanging) { return; }
-			Program.OptionsObject.Editor_AutoCloseBrackets = AutoCloseBrackets.IsChecked.Value;
+			Program.OptionsObject.Editor_AutoCloseBrackets = AutoCloseBrackets.IsChecked ?? true;
 		}
 
 		private void AutoCloseStringChars_Changed(object sender, RoutedEventArgs e)
 		{
 			if (!AllowChanging) { return; }
-			Program.OptionsObject.Editor_AutoCloseStringChars = AutoCloseStringChars.IsChecked.Value;
+			Program.OptionsObject.Editor_AutoCloseStringChars = AutoCloseStringChars.IsChecked ?? true;
 		}
 
 		private void ShowSpaces_Changed(object sender, RoutedEventArgs e)
 		{
 			if (!AllowChanging) { return; }
-			bool showSpacesValue = Program.OptionsObject.Editor_ShowSpaces = ShowSpaces.IsChecked.Value;
+			bool showSpacesValue = Program.OptionsObject.Editor_ShowSpaces = ShowSpaces.IsChecked ?? true;
 			EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
 			if (editors != null)
-			{
-				for (int i = 0; i < editors.Length; ++i)
-				{
-					editors[i].editor.Options.ShowSpaces = showSpacesValue;
-				}
-			}
+            {
+                foreach (EditorElement t in editors)
+                {
+                    t.editor.Options.ShowSpaces = showSpacesValue;
+                }
+            }
 		}
 
 		private void ShowTabs_Changed(object sender, RoutedEventArgs e)
 		{
 			if (!AllowChanging) { return; }
-			bool showTabsValue = Program.OptionsObject.Editor_ShowTabs = ShowTabs.IsChecked.Value;
+			bool showTabsValue = Program.OptionsObject.Editor_ShowTabs = ShowTabs.IsChecked ?? true;
 			EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
 			if (editors != null)
 			{
@@ -244,7 +243,7 @@ namespace Spedit.UI.Windows
 		private void HighlightDeprecateds_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
-            Program.OptionsObject.SH_HighlightDeprecateds = HighlightDeprecateds.IsChecked.Value;
+            Program.OptionsObject.SH_HighlightDeprecateds = HighlightDeprecateds.IsChecked ?? true;
             ToggleRestartText();
         }
 
@@ -264,36 +263,38 @@ namespace Spedit.UI.Windows
 			if (newIndex == 0)
 			{
 				Program.OptionsObject.Editor_AutoSave = false;
-				if (editors != null)
-				{
-					for (int i = 0; i < editors.Length; ++i)
-					{
-						if (editors[i].AutoSaveTimer.Enabled)
-						{
-							editors[i].AutoSaveTimer.Stop();
-						}
-					}
-				}
-			}
+                foreach (EditorElement t in editors)
+                {
+                    if (t.AutoSaveTimer.Enabled)
+                    {
+                        t.AutoSaveTimer.Stop();
+                    }
+                }
+            }
 			else
 			{
 				Program.OptionsObject.Editor_AutoSave = true;
-				if (newIndex == 1)
-					Program.OptionsObject.Editor_AutoSaveInterval = 30;
-				else if (newIndex == 7)
-					Program.OptionsObject.Editor_AutoSaveInterval = 600;
-				else if (newIndex == 8)
-					Program.OptionsObject.Editor_AutoSaveInterval = 900;
-				else
-					Program.OptionsObject.Editor_AutoSaveInterval = (newIndex - 1) * 60;
-				if (editors != null)
+				switch (newIndex)
                 {
-                    foreach (var editor in editors)
-                    {
-                        editor.StartAutoSaveTimer();
-                    }
+                    case 1:
+                        Program.OptionsObject.Editor_AutoSaveInterval = 30;
+                        break;
+                    case 7:
+                        Program.OptionsObject.Editor_AutoSaveInterval = 600;
+                        break;
+                    case 8:
+                        Program.OptionsObject.Editor_AutoSaveInterval = 900;
+                        break;
+                    default:
+                        Program.OptionsObject.Editor_AutoSaveInterval = (newIndex - 1) * 60;
+                        break;
                 }
-			}
+
+                foreach (var editor in editors)
+                {
+                    editor.StartAutoSaveTimer();
+                }
+            }
 		}
 
 		private void LoadSettings()

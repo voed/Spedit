@@ -62,9 +62,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Deploy\DotNetChecker.nsh" />
-    <None Include="Deploy\FileAssociation.nsh" />
-    <None Include="Deploy\SPEdit.nsi" />
     <None Include="packages.config" />
     <None Include="Resources\Misc\Configurations\configs.json" />
     <None Include="Resources\Misc\Templates\EmptyPluginTemplate.sma" />
@@ -181,7 +178,6 @@
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\FTP.cs" />
-    <Compile Include="Utils\ManagedAES.cs" />
     <Compile Include="Utils\SPSyntaxTidy\SPSyntaxTidy.cs" />
     <Compile Include="Utils\SPSyntaxTidy\SPTokenizer.cs" />
   </ItemGroup>
@@ -263,8 +259,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\AboutImages\sourcemod.png" />
-    <None Include="Deploy\GPLv3.txt" />
-    <None Include="Deploy\icon.ico" />
     <Resource Include="Resources\AboutImages\smlib.png" />
     <Resource Include="Resources\AboutImages\alliedmodders.png" />
     <None Include="Resources\Misc\Templates\IncludeTemplate.inc" />
@@ -483,9 +477,6 @@
     <Content Include="Resources\Misc\Configurations\amxmodx\include\vault.inc" />
     <Content Include="Resources\Misc\Configurations\amxmodx\include\vector.inc" />
     <Content Include="Resources\Misc\Configurations\amxmodx\include\xs.inc" />
-  </ItemGroup>
-  <ItemGroup>
-    <XliffResource Include="MultilingualResources\Spedit.ru.xlf" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
