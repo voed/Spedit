@@ -9,7 +9,7 @@ namespace Spedit.UI.Components
     /// <summary>
     /// Interaction logic for ColorChangeControl.xaml
     /// </summary>
-    public partial class ColorChangeControl : UserControl
+    public partial class ColorChangeControl
     {
         public static readonly RoutedEvent ColorChangedEvent = EventManager.RegisterRoutedEvent(
         "ColorChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorChangeControl));

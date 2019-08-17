@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using ICSharpCode.AvalonEdit.Document;
 using Spedit.UI.Components;
 
 namespace Spedit.UI
@@ -32,14 +33,7 @@ namespace Spedit.UI
                 }
                 IsSearchFieldOpen = false;
                 FindReplaceGrid.IsHitTestVisible = false;
-                if (Program.OptionsObject.UI_Animations)
-                {
-                    FadeFindReplaceGridOut.Begin();
-                }
-                else
-                {
-                    FindReplaceGrid.Opacity = 0.0;
-                }
+                FindReplaceGrid.Height = 0;
                 if (ee == null)
                 {
                     return;
@@ -59,14 +53,8 @@ namespace Spedit.UI
                     FindBox.Text = ee.editor.SelectedText;
                 }
                 FindBox.SelectAll();
-                if (Program.OptionsObject.UI_Animations)
-                {
-                    FadeFindReplaceGridIn.Begin();
-                }
-                else
-                {
-                    FindReplaceGrid.Opacity = 1.0;
-                }
+                FindReplaceGrid.Height = double.NaN;
+                
                 FindBox.Focus();
             }
         }
@@ -81,14 +69,14 @@ namespace Spedit.UI
         }
         private void ReplaceButtonClicked(object sender, RoutedEventArgs e)
         {
-            if (ReplaceButton.SelectedIndex == 1)
+            /*if ( == 1)
             {
                 ReplaceAll();
             }
             else
             {
                 Replace();
-            }
+            }*/
         }
         private void CountButtonClicked(object sender, RoutedEventArgs e)
         {
@@ -118,6 +106,11 @@ namespace Spedit.UI
             {
                 ToggleSearchField();
             }
+        }
+
+        private void Button_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
         }
 
         private void Search()
@@ -153,21 +146,20 @@ namespace Spedit.UI
                 if (!string.IsNullOrWhiteSpace(searchText))
                 {
                     Match m = regex.Match(searchText);
-                    if (m != null) //can this happen?
-                    {
-                        if (m.Success)
-                        {
-                            foundOccurence = true;
-                            editors[index].Parent.IsSelected = true;
-                            editors[index].editor.CaretOffset = m.Index + addToOffset + m.Length;
-                            editors[index].editor.Select(m.Index + addToOffset, m.Length);
-                            var location = editors[index].editor.Document.GetLocation(m.Index + addToOffset);
-                            editors[index].editor.ScrollTo(location.Line, location.Column);
-							//FindResultBlock.Text = "Found in offset " + (m.Index + addToOffset).ToString() + " with length " + m.Length.ToString();
-							FindResultBlock.Text = string.Format(Properties.Resources.FoundInOff, m.Index + addToOffset, m.Length);
-                            break;
-                        }
-                    }
+                     if (m.Success)
+                     {
+                         foundOccurence = true;
+                         editors[index].Parent.IsSelected = true;
+                         editors[index].editor.CaretOffset = m.Index + addToOffset + m.Length;
+                         editors[index].editor.Select(m.Index + addToOffset, m.Length);
+                         TextLocation location = editors[index].editor.Document.GetLocation(m.Index + addToOffset);
+                         editors[index].editor.ScrollTo(location.Line, location.Column);
+                         //FindResultBlock.Text = "Found in offset " + (m.Index + addToOffset).ToString() + " with length " + m.Length.ToString();
+                         FindResultBlock.Text = string.Format(Properties.Resources.FoundInOff, m.Index + addToOffset,
+                             m.Length);
+                         break;
+                     }
+                    
                 }
             }
             if (!foundOccurence)
@@ -213,7 +205,7 @@ namespace Spedit.UI
 
                 Match m = regex.Match(searchText);
 
-                if (m?.Success != true)
+                if (!m.Success)
                     continue;
 
                 foundOccurence = true;
@@ -300,22 +292,25 @@ namespace Spedit.UI
             RegexOptions regexOptions = RegexOptions.Compiled | RegexOptions.CultureInvariant;
             if (CCBox.IsChecked != null && !CCBox.IsChecked.Value)
             { regexOptions |= RegexOptions.IgnoreCase; }
-            if (NSearch_RButton.IsChecked != null && NSearch_RButton.IsChecked.Value)
+
+
+            string searchType = SearchTypeBox.SelectedValue.ToString();
+            if (searchType.Equals(Properties.Resources.NormalSearch))
             {
                 regex = new Regex(Regex.Escape(findString), regexOptions);
             }
-            else if (WSearch_RButton.IsChecked != null && WSearch_RButton.IsChecked.Value)
+            else if (searchType.Equals(Properties.Resources.MatchWholeWords))
             {
                 regex = new Regex("\\b" + Regex.Escape(findString) + "\\b", regexOptions);
             }
-            else if (ASearch_RButton.IsChecked != null && ASearch_RButton.IsChecked.Value)
+            else if (searchType.Equals(Properties.Resources.AdvancSearch))
             {
                 findString = findString.Replace("\\t", "\t").Replace("\\r", "\r").Replace("\\n", "\n");
                 Regex rx = new Regex(@"\\[uUxX]([0-9A-F]{4})");
                 findString = rx.Replace(findString, delegate(Match match) { return ((char)Int32.Parse(match.Value.Substring(2), NumberStyles.HexNumber)).ToString(); });
                 regex = new Regex(Regex.Escape(findString), regexOptions);
             }
-            else //if (RSearch_RButton.IsChecked.Value)
+            else
             {
                 regexOptions |= RegexOptions.Multiline;
                 if (MLRBox.IsChecked != null && MLRBox.IsChecked.Value)
@@ -356,7 +351,7 @@ namespace Spedit.UI
             return editors;
         }
 
-        private int ValueUnderMap(int value, int map)
+        private static int ValueUnderMap(int value, int map)
         {
             while (value >= map)
             {

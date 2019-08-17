@@ -10,7 +10,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using MahApps.Metro;
 using Spedit.Interop;
 using Spedit.UI;
 using Spedit.Properties;
@@ -23,8 +22,10 @@ namespace Spedit
         public const string ProgramInternalVersion = "13";
 
         public static MainWindow MainWindow;
-        public static OptionsControl OptionsObject;
+        public static OptionsControl Options;
         public static ConfigList ConfigList;
+        public static readonly List<string> SupportedExtensions = new List<string>(new[] { "inc", "txt", "cfg", "ini", "sma", "vdf", "json" });
+
 
 
         public static bool RCCKMade;
@@ -48,24 +49,22 @@ namespace Spedit
 						ProfileOptimization.StartProfile("Startup.Profile");
 #endif
 						//todo implement own updater
-						OptionsObject = OptionsControl.Load(out ProgramIsNew);
+						Options = OptionsControl.Load(out ProgramIsNew);
 
-
-                        MessageBox.Show(OptionsObject.Language);
                         Assembly assembly = Assembly.GetExecutingAssembly();
                         NeutralResourcesLanguageAttribute a = (NeutralResourcesLanguageAttribute)assembly.GetCustomAttribute(typeof(NeutralResourcesLanguageAttribute));
                         Culture.cultures = Culture.GetAvailableCultures();
-                        CultureInfo defCultureInfo = new CultureInfo(string.IsNullOrEmpty(OptionsObject.Language) ? a.CultureName : OptionsObject.Language);
+                        CultureInfo defCultureInfo = new CultureInfo(string.IsNullOrEmpty(Options.Language) ? a.CultureName : Options.Language);
                         CultureInfo.DefaultThreadCurrentUICulture = defCultureInfo;
                         CultureInfo.DefaultThreadCurrentCulture = defCultureInfo;
 
                         ConfigList = ConfigLoader.Load();
-                        foreach (Config config in ConfigList.Configs.Where(config => config.Name == OptionsObject.Program_SelectedConfig))
+                        foreach (Config config in ConfigList.Configs.Where(config => config.Name == Options.Program_SelectedConfig))
                         {
                             ConfigList.CurrentConfig = ConfigList.Configs.IndexOf(config);
                             break;
                         }
-                        if (!OptionsObject.Program_UseHardwareAcceleration)
+                        if (!Options.Program_UseHardwareAcceleration)
                         {
                             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 						}
@@ -110,8 +109,7 @@ namespace Spedit
                             UpdateCheck.Check(true);
                         }
 #endif
-                        app.Startup += App_Startup;
-                        app.Run(MainWindow);
+                    app.Run(MainWindow);
                         OptionsControl.Save();
 #if !DEBUG
                     }
@@ -159,38 +157,7 @@ namespace Spedit
             }
         }
 
-		public static void MakeRCCKAlert()
-		{
-			if (RCCKMade)
-			{
-				return;
-			}
-			RCCKMade = true;
-			MessageBox.Show("All FTP/RCon passwords are now encrypted wrong!" + Environment.NewLine + "You have to replace them!",
-				"Created new crypto key", MessageBoxButton.OK, MessageBoxImage.Information);
-		}
 
-		public static void ClearUpdateFiles()
-        {
-            string[] files = Directory.GetFiles(Environment.CurrentDirectory, "*.exe", SearchOption.TopDirectoryOnly);
-            foreach (var file in files)
-            {
-                FileInfo fInfo = new FileInfo(file);
-                if (fInfo.Name.StartsWith("updater_", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    fInfo.Delete();
-                }
-            }
-        }
-
-		private static void App_Startup(object sender, StartupEventArgs e)
-		{
-			
-			Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
-			ThemeManager.ChangeAppStyle(Application.Current,
-									ThemeManager.GetAccent("Green"),
-									ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1
-		}
 
 		private static string BuildExceptionString(Exception e, string sectionName)
         {

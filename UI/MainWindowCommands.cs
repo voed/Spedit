@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text;
 using System.Windows;
-using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using Spedit.UI.Components;
 using Spedit.UI.Windows;
@@ -33,14 +32,13 @@ namespace Spedit.UI
 
         private void Command_New()
         {
-            NewFileWindow nfWindow = new NewFileWindow { Owner = this, ShowInTaskbar = false };
+            NewFileWindow nfWindow = new NewFileWindow(this);
             nfWindow.ShowDialog();
         }
 
         private void Command_Open()
         {
-            try
-            {
+
                 OpenFileDialog ofd = new OpenFileDialog
                 {
                     AddExtension = true, CheckFileExists = true, CheckPathExists = true,
@@ -48,6 +46,7 @@ namespace Spedit.UI
                     Multiselect = true, Title = Properties.Resources.OpenNewFile
                 };
                 var result = ofd.ShowDialog();//this);
+
                 if (result.Value)
                 {
                     bool AnyFileLoaded = false;
@@ -60,30 +59,19 @@ namespace Spedit.UI
 
                         if (!AnyFileLoaded)
                         {
-                            MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Theme;
-                            this.ShowMessageAsync(Properties.Resources.NoFileOpened,
-                                Properties.Resources.NoFileOpenedCap, MessageDialogStyle.Affirmative,
-                                MetroDialogOptions);
+                            MessageBox.Show(Properties.Resources.NoFileOpened,
+                                Properties.Resources.NoFileOpenedCap);
                         }
                     }
                 }
 
                 Activate();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }
         }
 
         private void Command_Save()
         {
             EditorElement ee = GetCurrentEditorElement();
-            if (ee != null)
-            {
-                ee.Save(true);
-                BlendOverEffect.Begin();
-            }
+            ee?.Save(true);
         }
 
         private void Command_SaveAs()
@@ -104,7 +92,6 @@ namespace Spedit.UI
                 {
                     ee.FullFilePath = sfd.FileName;
                     ee.Save(true);
-                    BlendOverEffect.Begin();
                 }
             }
         }
@@ -122,8 +109,6 @@ namespace Spedit.UI
                 {
                     editor.Save();
                 }
-
-                BlendOverEffect.Begin();
             }
         }
 
@@ -133,7 +118,7 @@ namespace Spedit.UI
             ee?.Close();
         }
 
-        private async void Command_CloseAll()
+        private void Command_CloseAll()
         {
             EditorElement[] editors = GetAllEditorElements();
             if (editors == null)
@@ -154,8 +139,8 @@ namespace Spedit.UI
                         else
                         { str.AppendLine(editors[i].Parent.Title.Trim('*')); }
                     }
-                    var result = await this.ShowMessageAsync(Properties.Resources.SaveFollow, str.ToString(), MessageDialogStyle.AffirmativeAndNegative, MetroDialogOptions);
-                    if (result == MessageDialogResult.Affirmative)
+                    var result = MessageBox.Show(Properties.Resources.SaveFollow, str.ToString());
+                    if (result == MessageBoxResult.OK)
                     {
                         forceSave = true;
                     }

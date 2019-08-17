@@ -9,9 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml;
-using MahApps.Metro;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
 using Spedit.Interop;
 using Spedit.Utils;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -22,18 +19,19 @@ namespace Spedit.UI.Windows
     /// <summary>
     /// Interaction logic for AboutWindow.xaml
     /// </summary>
-    public partial class ConfigWindow : MetroWindow
+    public partial class ConfigWindow : Window
     {
         private bool NeedsSMDefInvalidation;
         private bool AllowChange;
-
-        public ConfigWindow()
+        private MainWindow mainWindow;
+        public ConfigWindow(MainWindow mainWindow)
         {
+            
             InitializeComponent();
+            this.mainWindow = mainWindow;
 			Language_Translate();
-			if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
-			{ ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme)); }
-			foreach (Config config in Program.ConfigList.Configs)
+
+            foreach (Config config in Program.ConfigList.Configs)
             {
                 ConfigListBox.Items.Add(new ListBoxItem { Content = config.Name });
             }
@@ -89,7 +87,7 @@ namespace Spedit.UI.Windows
             int index = ConfigListBox.SelectedIndex;
             if (Program.ConfigList.Configs[index].Standard)
             {
-                this.ShowMessageAsync(Properties.Resources.CannotDelConf, Properties.Resources.YCannotDelConf, MessageDialogStyle.Affirmative, MetroDialogOptions);
+                System.Windows.MessageBox.Show(Properties.Resources.CannotDelConf, Properties.Resources.YCannotDelConf);
                 return;
             }
 
@@ -242,8 +240,8 @@ namespace Spedit.UI.Windows
                     config.InvalidateSMDef();
                 }
             }
-            Program.MainWindow.FillConfigMenu();
-            Program.MainWindow.ChangeConfig(Program.ConfigList.Current.Name);
+            mainWindow.FillConfigMenu();
+            mainWindow.ChangeConfig(Program.ConfigList.Current.Name);
 
             ConfigLoader.Save(Program.ConfigList);
         }

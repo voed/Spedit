@@ -12,7 +12,6 @@ using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Rendering;
 using ICSharpCode.AvalonEdit.Utils;
-using MahApps.Metro.Controls.Dialogs;
 using Spedit.Utils.SPSyntaxTidy;
 using Xceed.Wpf.AvalonDock.Layout;
 using Timer = System.Timers.Timer;
@@ -39,9 +38,6 @@ namespace Spedit.UI.Components
         bool WantFoldingUpdate;
         bool SelectionIsHighlited;
         bool CompileChecked;
-
-        Storyboard FadeJumpGridIn;
-        Storyboard FadeJumpGridOut;
 
         double LineHeight;
         MainWindow Main;
@@ -100,9 +96,6 @@ namespace Spedit.UI.Components
             bracketHighlightRenderer = new BracketHighlightRenderer(editor.TextArea.TextView);
             editor.TextArea.IndentationStrategy = new EditorIndetationStrategy();
 
-            FadeJumpGridIn = (Storyboard)Resources["FadeJumpGridIn"];
-            FadeJumpGridOut = (Storyboard)Resources["FadeJumpGridOut"];
-
             KeyDown += EditorElement_KeyDown;
 
             editor.TextArea.Caret.PositionChanged += Caret_PositionChanged;
@@ -134,11 +127,11 @@ namespace Spedit.UI.Components
 			editor.Options.EnableEmailHyperlinks = false;
             editor.Options.HighlightCurrentLine = true;
             editor.Options.AllowScrollBelowDocument = false;
-			editor.Options.ShowSpaces = Program.OptionsObject.Editor_ShowSpaces;
-			editor.Options.ShowTabs = Program.OptionsObject.Editor_ShowTabs;
-			editor.Options.IndentationSize = Program.OptionsObject.Editor_IndentationSize;
+			editor.Options.ShowSpaces = Program.Options.Editor_ShowSpaces;
+			editor.Options.ShowTabs = Program.Options.Editor_ShowTabs;
+			editor.Options.IndentationSize = Program.Options.Editor_IndentationSize;
 			editor.TextArea.SelectionCornerRadius = 0.0;
-            editor.Options.ConvertTabsToSpaces = Program.OptionsObject.Editor_ReplaceTabsToWhitespace;
+            editor.Options.ConvertTabsToSpaces = Program.Options.Editor_ReplaceTabsToWhitespace;
 
 			Brush currentLineBackground = new SolidColorBrush(Color.FromArgb(0x20, 0x88, 0x88, 0x88));
 			Brush currentLinePenBrush = new SolidColorBrush(Color.FromArgb(0x30, 0x88, 0x88, 0x88));
@@ -149,9 +142,9 @@ namespace Spedit.UI.Components
 			editor.TextArea.TextView.CurrentLineBackground = currentLineBackground;
 			editor.TextArea.TextView.CurrentLineBorder = currentLinePen;
 
-            editor.FontFamily = new FontFamily(Program.OptionsObject.Editor_FontFamily);
-            editor.WordWrap = Program.OptionsObject.Editor_WordWrap;
-            UpdateFontSize(Program.OptionsObject.Editor_FontSize, false);
+            editor.FontFamily = new FontFamily(Program.Options.Editor_FontFamily);
+            editor.WordWrap = Program.Options.Editor_WordWrap;
+            UpdateFontSize(Program.Options.Editor_FontSize, false);
 			
 			colorizeSelection = new ColorizeSelection();
             editor.TextArea.TextView.LineTransformers.Add(colorizeSelection);
@@ -202,13 +195,13 @@ namespace Spedit.UI.Components
 
 		public void StartAutoSaveTimer()
 		{
-			if (Program.OptionsObject.Editor_AutoSave)
+			if (Program.Options.Editor_AutoSave)
 			{
 				if (AutoSaveTimer.Enabled)
 				{
 					AutoSaveTimer.Stop();
 				}
-				AutoSaveTimer.Interval = 1000.0 * Program.OptionsObject.Editor_AutoSaveInterval;
+				AutoSaveTimer.Interval = 1000.0 * Program.Options.Editor_AutoSaveInterval;
 				AutoSaveTimer.Start();
 			}
 		}
@@ -231,12 +224,10 @@ namespace Spedit.UI.Components
         {
             if (JumpGridIsOpen)
             {
-                FadeJumpGridOut.Begin();
                 JumpGridIsOpen = false;
             }
             else
             {
-                FadeJumpGridIn.Begin();
                 JumpGridIsOpen = true;
                 JumpNumber.Focus();
                 JumpNumber.SelectAll();
@@ -392,7 +383,7 @@ namespace Spedit.UI.Components
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(Program.MainWindow, Properties.Resources.DSaveError + Environment.NewLine + "(" + e.Message + ")", Properties.Resources.SaveError,
+                    MessageBox.Show(Properties.Resources.DSaveError + Environment.NewLine + "(" + e.Message + ")", Properties.Resources.SaveError,
 						MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
@@ -516,17 +507,16 @@ namespace Spedit.UI.Components
                     }
                     else
                     {
-                        var Result = Program.MainWindow.ShowMessageAsync($"{Properties.Resources.SavingFile} '" + Parent.Title.Trim('*') + "'", "", MessageDialogStyle.AffirmativeAndNegative, Program.MainWindow.MetroDialogOptions);
-						Result.Wait();
-						if (Result.Result == MessageDialogResult.Affirmative)
+                        MessageBoxResult result = MessageBox.Show($"{Properties.Resources.SavingFile} '" + Parent.Title.Trim('*') + "'", "");
+                        if (result == MessageBoxResult.OK)
                         {
                             Save();
                         }
                     }
                 }
             }
-            Program.MainWindow.EditorsReferences.Remove(this);
-			var childs = Program.MainWindow.DockingPaneGroup.Children;
+            Main.EditorsReferences.Remove(this);
+			var childs = Main.DockingPaneGroup.Children;
 			foreach (var c in childs)
 			{
 				if (c is LayoutDocumentPane pane)
@@ -554,7 +544,7 @@ namespace Spedit.UI.Components
 
         private void TextArea_TextEntered(object sender, TextCompositionEventArgs e)
         {
-            if (Program.OptionsObject.Editor_ReformatLineAfterSemicolon)
+            if (Program.Options.Editor_ReformatLineAfterSemicolon)
             {
                 if (e.Text == ";")
                 {
@@ -574,14 +564,14 @@ namespace Spedit.UI.Components
             }
             else if (e.Text == "{")
 			{
-				if (Program.OptionsObject.Editor_AutoCloseBrackets)
+				if (Program.Options.Editor_AutoCloseBrackets)
 				{
 					editor.Document.Insert(editor.CaretOffset, "}");
 					editor.CaretOffset -= 1;
 				}
 				foldingStrategy.UpdateFoldings(foldingManager, editor.Document);
             }
-			else if (Program.OptionsObject.Editor_AutoCloseBrackets)
+			else if (Program.Options.Editor_AutoCloseBrackets)
 			{
 				if (e.Text == "(")
 				{
@@ -594,7 +584,7 @@ namespace Spedit.UI.Components
 					editor.CaretOffset -= 1;
 				}
 			}
-			if (Program.OptionsObject.Editor_AutoCloseStringChars)
+			if (Program.Options.Editor_AutoCloseStringChars)
 			{
 				if (e.Text == "\"")
 				{
@@ -643,7 +633,7 @@ namespace Spedit.UI.Components
                 {
                     LineHeight = editor.TextArea.TextView.DefaultLineHeight;
                 }
-                editor.ScrollToVerticalOffset(editor.VerticalOffset - (Math.Sign((double)e.Delta) * LineHeight * Program.OptionsObject.Editor_ScrollLines));
+                editor.ScrollToVerticalOffset(editor.VerticalOffset - (Math.Sign((double)e.Delta) * LineHeight * Program.Options.Editor_ScrollLines));
                 //editor.ScrollToVerticalOffset(editor.VerticalOffset - ((double)e.Delta * editor.FontSize * Program.OptionsObject.Editor_ScrollSpeed));
                 e.Handled = true;
             }
@@ -733,8 +723,7 @@ namespace Spedit.UI.Components
 			MenuC_Copy.Header = Properties.Resources.Copy;
 			MenuC_Paste.Header = Properties.Resources.Paste;
 			MenuC_SelectAll.Header = Properties.Resources.SelectAll;
-			Main.CompileBox.Content = Properties.Resources.Compile;
-			if (!Initial)
+            if (!Initial)
 			{
                 Main.StatusLine_Coloumn.Text = $"{Properties.Resources.ColAbb} {editor.TextArea.Caret.Column}";
                 Main.StatusLine_Line.Text = $"{Properties.Resources.LnAbb} {editor.TextArea.Caret.Line}";

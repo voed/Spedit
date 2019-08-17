@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using Spedit.UI.Components;
+﻿using Spedit.UI.Components;
 using Spedit.UI.Windows;
 using System.Diagnostics;
 using System.Windows;
@@ -7,7 +6,7 @@ using System.Windows.Controls;
 
 namespace Spedit.UI
 {
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow
     {
         private void FileMenu_Open(object sender, RoutedEventArgs e)
         {
@@ -181,8 +180,8 @@ namespace Spedit.UI
 
         private void Menu_About(object sender, RoutedEventArgs e)
         {
-            AboutWindow aboutWindow = new AboutWindow() { Owner = this, ShowInTaskbar = false };
-            aboutWindow.ShowDialog();
+            //AboutWindow aboutWindow = new AboutWindow() { Owner = this, ShowInTaskbar = false };
+            //aboutWindow.ShowDialog();
         }
 
         private void Menu_OpenSPDef(object sender, RoutedEventArgs e)
@@ -193,7 +192,7 @@ namespace Spedit.UI
 
         private void Menu_OpenOptions(object sender, RoutedEventArgs e)
         {
-            OptionsWindow optionsWindow = new OptionsWindow() { Owner = this, ShowInTaskbar = false };
+            OptionsWindow optionsWindow = new OptionsWindow(this) { Owner = this, ShowInTaskbar = false };
             optionsWindow.ShowDialog();
         }
 
@@ -214,26 +213,5 @@ namespace Spedit.UI
         }
 
 
-        private void MenuButton_Compile(object sender, RoutedEventArgs e)
-        {
-            int selected = CompileButton.SelectedIndex;
-            Compile_SPScripts(selected != 1);
-        }
-
-        private void MenuButton_Action(object sender, RoutedEventArgs e)
-        {
-            switch (CActionButton.SelectedIndex)
-            {
-                case 0:
-                    Copy_Plugins(false);
-                    break;
-                case 1:
-                    FTPUpload_Plugins();
-                    break;
-                case 2:
-                    Server_Start();
-                    break;
-            }
-        }
     }
 }

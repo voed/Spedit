@@ -24,12 +24,12 @@ namespace Spedit.UI.Components
                 commentMarkerSet.Rules.Add(new HighlightingRule
                 {
                     Regex = RegexKeywordsHelper.GetRegexFromKeywords(new[] { "TODO", "FIX", "FIXME", "HACK", "WORKAROUND", "BUG" }),
-                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_CommentsMarker), FontWeight = FontWeights.Bold }
+                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_CommentsMarker), FontWeight = FontWeights.Bold }
                 });
                 HighlightingRuleSet excludeInnerSingleLineComment = new HighlightingRuleSet();
                 excludeInnerSingleLineComment.Spans.Add(new HighlightingSpan { StartExpression = new Regex(@"\\"), EndExpression = new Regex(@".") });
                 HighlightingRuleSet rs = new HighlightingRuleSet();
-                SimpleHighlightingBrush commentBrush = new SimpleHighlightingBrush(Program.OptionsObject.SH_Comments);
+                SimpleHighlightingBrush commentBrush = new SimpleHighlightingBrush(Program.Options.SH_Comments);
                 rs.Spans.Add(new HighlightingSpan //singleline comments
                 {
                     StartExpression = new Regex(@"//", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture),
@@ -48,7 +48,7 @@ namespace Spedit.UI.Components
                     EndColor = new HighlightingColor { Foreground = commentBrush },
                     RuleSet = commentMarkerSet
                 });
-                SimpleHighlightingBrush stringBrush = new SimpleHighlightingBrush(Program.OptionsObject.SH_Strings);
+                SimpleHighlightingBrush stringBrush = new SimpleHighlightingBrush(Program.Options.SH_Strings);
                 rs.Spans.Add(new HighlightingSpan //strings
                 {
                     StartExpression = new Regex(@"(?<!')""", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture),
@@ -58,69 +58,69 @@ namespace Spedit.UI.Components
                     EndColor = new HighlightingColor { Foreground = stringBrush },
                     RuleSet = excludeInnerSingleLineComment
                 });
-                if (Program.OptionsObject.SH_HighlightDeprecateds)
+                if (Program.Options.SH_HighlightDeprecateds)
                 {
                     rs.Rules.Add(new HighlightingRule //deprecated variable declaration
                     {
                         Regex = new Regex(@"^\s*(decl|new)\s+([a-zA-z_][a-zA-z1-9_]*:)?", RegexOptions.CultureInvariant | RegexOptions.Multiline | RegexOptions.ExplicitCapture),
-                        Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_Deprecated) }
+                        Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_Deprecated) }
                     });
                     rs.Rules.Add(new HighlightingRule //deprecated function declaration
                     {
                         Regex = new Regex(@"^(public|stock|forward)\s+[a-zA-z_][a-zA-z1-9_]*:", RegexOptions.CultureInvariant | RegexOptions.Multiline | RegexOptions.ExplicitCapture),
-                        Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_Deprecated) }
+                        Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_Deprecated) }
                     });
                     rs.Rules.Add(new HighlightingRule //deprecated taggings (from std types)
                     {
                         Regex = new Regex(@"\b(bool|Float|float|Handle|String|char|void|int):", RegexOptions.CultureInvariant | RegexOptions.Multiline | RegexOptions.ExplicitCapture),
-                        Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_Deprecated) }
+                        Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_Deprecated) }
                     });
                     rs.Rules.Add(new HighlightingRule //deprecated keywords
                     {
                         Regex = RegexKeywordsHelper.GetRegexFromKeywords(new[] { "decl", "String", "Float", "functag", "funcenum" }),
-                        Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_Deprecated) }
+                        Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_Deprecated) }
                     });
                 }
                 rs.Rules.Add(new HighlightingRule //preprocessor keywords
                 {
                     //Regex = RegexKeywordsHelper.GetRegexFromKeywords(new string[] { "#include", "#if", "#else", "#elif", "#endif", "#define", "#undef", "#pragma", "#endinput" }),
                     Regex = new Regex(@"\#[a-zA-Z_][a-zA-Z0-9_]+", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture),
-                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_PreProcessor) }
+                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_PreProcessor) }
                 });
                 rs.Rules.Add(new HighlightingRule //type-values keywords
                 {
                     Regex = RegexKeywordsHelper.GetRegexFromKeywords(new[] { "sizeof", "true", "false", "null" }),
-                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_TypesValues) }
+                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_TypesValues) }
                 });
                 rs.Rules.Add(new HighlightingRule //main keywords
                 {
                     Regex = RegexKeywordsHelper.GetRegexFromKeywords(new[] { "if", "else", "switch", "case", "default", "for", "while", "do", "break", "continue", "return", "new", "view_as", "delete" }),
-                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_Keywords) }
+                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_Keywords) }
                 });
                 rs.Rules.Add(new HighlightingRule //context keywords
                 {
                     Regex = RegexKeywordsHelper.GetRegexFromKeywords(new[] { "stock", "normal", "native", "public", "static", "const", "methodmap", "enum", "forward", "function", "struct", "property", "get", "set", "typeset", "typedef", "this" }),
-                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_ContextKeywords) }
+                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_ContextKeywords) }
                 });
                 rs.Rules.Add(new HighlightingRule //value types
                 {
                     Regex = RegexKeywordsHelper.GetRegexFromKeywords(new[] { "bool", "char", "float", "int", "void", "any", "Handle" }),
-                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_Types) }
+                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_Types) }
                 });
                 rs.Rules.Add(new HighlightingRule //char type
                 {
                     Regex = new Regex(@"'\\?.?'", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture),
-                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_Chars) }
+                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_Chars) }
                 });
                 rs.Rules.Add(new HighlightingRule //numbers
                 {
                     Regex = new Regex(@"\b0[x][0-9a-fA-F]+|\b0[b][01]+|\b0[o][0-7]+|([+-]?\b[0-9]+(\.[0-9]+)?|\.[0-9]+)([eE][+-]?[0-9]+)?", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture),
-                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_Numbers) }
+                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_Numbers) }
                 });
                 rs.Rules.Add(new HighlightingRule //special characters
                 {
                     Regex = new Regex(@"[?.;()\[\]{}+\-/%*&<>^+~!|&]+", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture),
-                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_SpecialCharacters) }
+                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_SpecialCharacters) }
                 });
                 rs.Rules.Add(new HighlightingRule //std includes - string color!
                 {
@@ -134,7 +134,7 @@ namespace Spedit.UI.Components
                     rs.Rules.Add(new HighlightingRule //constants
                     {
                         Regex = RegexKeywordsHelper.GetRegexFromKeywords(def.ConstantsStrings, true),
-                        Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_Constants) }
+                        Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_Constants) }
                     });
                 }
                 if (def.FunctionStrings.Length > 0)
@@ -142,14 +142,14 @@ namespace Spedit.UI.Components
                     rs.Rules.Add(new HighlightingRule //Functions
                     {
                         Regex = RegexKeywordsHelper.GetRegexFromKeywords(def.FunctionStrings, true),
-                        Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_Functions) }
+                        Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_Functions) }
                     });
                 }
 
                 rs.Rules.Add(new HighlightingRule //unknown function calls
                 {
                     Regex = new Regex(@"\b\w+(?=\s*\()", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture),
-                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.OptionsObject.SH_UnkownFunctions) }
+                    Color = new HighlightingColor { Foreground = new SimpleHighlightingBrush(Program.Options.SH_UnkownFunctions) }
                 });
                 
                 rs.Name = "MainRule";

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Spedit</RootNamespace>
     <AssemblyName>Spedit</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -69,8 +69,14 @@
     <None Include="Resources\Misc\Templates\ReapiPluginTemplate.sma" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+    <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
+      <HintPath>packages\ControlzEx.4.0.1\lib\net45\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="FontAwesome5, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9cfaf01297a008f8, processorArchitecture=MSIL">
+      <HintPath>packages\FontAwesome5.1.0.13\lib\net40\FontAwesome5.dll</HintPath>
+    </Reference>
+    <Reference Include="FontAwesome5.WPF, Version=1.0.13.95, Culture=neutral, PublicKeyToken=9cfaf01297a008f8, processorArchitecture=MSIL">
+      <HintPath>packages\FontAwesome5.1.0.13\lib\net40\FontAwesome5.WPF.dll</HintPath>
     </Reference>
     <Reference Include="Hjson, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Hjson.3.0.0\lib\net40\Hjson.dll</HintPath>
@@ -78,8 +84,8 @@
     <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <HintPath>packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Xaml.Behaviors.Wpf.1.0.1\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -94,21 +100,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.XML" />
     <Reference Include="WindowsBase" />
     <Reference Include="Xceed.Wpf.AvalonDock, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
@@ -160,7 +156,6 @@
     <Compile Include="UI\MainWindowMenuHandler.cs" />
     <Compile Include="UI\MainWindowConfigHandler.cs" />
     <Compile Include="UI\MainWindowObjectBrowser.cs" />
-    <Compile Include="UI\STheme\SMetroTheme.cs" />
     <Compile Include="UI\Windows\ConfigWindow.xaml.cs">
       <DependentUpon>ConfigWindow.xaml</DependentUpon>
     </Compile>
@@ -173,9 +168,6 @@
     <Compile Include="UI\Windows\OptionsWindowHighlighting.cs" />
     <Compile Include="UI\Windows\SPDefinitionWindow.xaml.cs">
       <DependentUpon>SPDefinitionWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Windows\AboutWindow.xaml.cs">
-      <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\Culture.cs" />
     <Compile Include="Utils\FTP.cs" />
@@ -199,14 +191,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\STheme\Brushes.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\STheme\STheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\Windows\ConfigWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -222,10 +206,6 @@
     <Page Include="UI\Windows\SPDefinitionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Windows\AboutWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -281,111 +261,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockAnchorableBottom.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockAnchorableLeft.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockAnchorableRight.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockAnchorableTop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockDocumentAsAnchorableBottom.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockDocumentAsAnchorableLeft.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockDocumentAsAnchorableRight.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockDocumentAsAnchorableTop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockDocumentBottom.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockDocumentInside.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockDocumentLeft.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockDocumentRight.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockDocumentTop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockPaneEmpty.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\DockPaneLargeEmpty.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\HTabGroup.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\Locked.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinAutoHide.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinAutoHide_Black.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinAutoHide_Dark.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinClose.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinClose_Black.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinClose_Dark.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinDocMenu.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinDocMenu_Black.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinMaximize.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinMaximize_Black.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinMaximize_Dark.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinMenu.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinMenu_Black.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinMenu_Dark.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinRestore.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinRestore_Black.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\PinRestore_Dark.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\STheme\Images\VTabGroup.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\iconmonstr-file-5-16.png" />

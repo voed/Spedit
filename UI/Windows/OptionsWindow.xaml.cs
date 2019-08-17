@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Resources;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
-using MahApps.Metro;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using Spedit.Properties;
 using Spedit.UI.Components;
 using Spedit.Utils;
 
@@ -21,29 +10,34 @@ namespace Spedit.UI.Windows
     /// <summary>
     /// Interaction logic for AboutWindow.xaml
     /// </summary>
-    public partial class OptionsWindow : MetroWindow
+    public partial class OptionsWindow : Window
     {
+        
 		string[] AvailableAccents = { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber",
 			"Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
+
+
+
         bool RestartTextIsShown;
         bool AllowChanging;
-        public OptionsWindow()
+        private MainWindow mainWindow;
+        public OptionsWindow(MainWindow mainWindow)
         {
             InitializeComponent();
-			if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
-			{ ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme)); }
+            
 			LoadSettings();
             AllowChanging = true;
+            this.mainWindow = mainWindow;
         }
 
-        private async void RestoreButton_Clicked(object sender, RoutedEventArgs e)
+        private void RestoreButton_Clicked(object sender, RoutedEventArgs e)
         {
-            var result = await this.ShowMessageAsync(Properties.Resources.ResetOptions, Properties.Resources.ResetOptQues, MessageDialogStyle.AffirmativeAndNegative);
-            if (result == MessageDialogResult.Affirmative)
+            var result = MessageBox.Show(Properties.Resources.ResetOptions, Properties.Resources.ResetOptQues, MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
             {
-                Program.OptionsObject = new OptionsControl();
+                Program.Options = new OptionsControl();
                 Program.MainWindow.OptionMenuEntry.IsEnabled = false;
-                await this.ShowMessageAsync(Properties.Resources.RestartEditor, Properties.Resources.YRestartEditor, MessageDialogStyle.Affirmative, MetroDialogOptions);
+                MessageBox.Show(Properties.Resources.RestartEditor, Properties.Resources.YRestartEditor);
                 Close();
             }
         }
@@ -51,75 +45,40 @@ namespace Spedit.UI.Windows
         private void HardwareAcc_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
-            Program.OptionsObject.Program_UseHardwareAcceleration = HardwareAcc.IsChecked.Value;
+            Program.Options.Program_UseHardwareAcceleration = HardwareAcc.IsChecked.Value;
             ToggleRestartText();
         }
 
-        private void UIAnimation_Changed(object sender, RoutedEventArgs e)
-        {
-            if (!AllowChanging) { return; }
-            Program.OptionsObject.UI_Animations = UIAnimation.IsChecked.Value;
-            ToggleRestartText();
-        }
 
         private void AutoOpenInclude_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
-            Program.OptionsObject.Program_OpenCustomIncludes = OpenIncludes.IsChecked.Value;
+            Program.Options.Program_OpenCustomIncludes = OpenIncludes.IsChecked.Value;
             OpenIncludesRecursive.IsEnabled = OpenIncludes.IsChecked.Value;
         }
         private void OpenIncludeRecursively_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
-            Program.OptionsObject.Program_OpenIncludesRecursively = OpenIncludesRecursive.IsChecked.Value;
+            Program.Options.Program_OpenIncludesRecursively = OpenIncludesRecursive.IsChecked.Value;
         }
 
         private void AutoUpdate_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
-            Program.OptionsObject.Program_CheckForUpdates = AutoUpdate.IsChecked.Value;
+            Program.Options.Program_CheckForUpdates = AutoUpdate.IsChecked.Value;
         }
 
-        private void ShowToolbar_Changed(object sender, RoutedEventArgs e)
-        {
-            if (!AllowChanging) { return; }
-
-            if (ShowToolBar.IsChecked != null)
-                Program.OptionsObject.UI_ShowToolBar = ShowToolBar.IsChecked.Value;
-            Program.MainWindow.Win_ToolBar.Height = Program.OptionsObject.UI_ShowToolBar ? double.NaN : 0.0;
-        }
-
-		private void DynamicISAC_Changed(object sender, RoutedEventArgs e)
+        private void DynamicISAC_Changed(object sender, RoutedEventArgs e)
 		{
 			if (!AllowChanging) { return; }
-			Program.OptionsObject.Program_DynamicISAC = DynamicISAC.IsChecked.Value;
+			Program.Options.Program_DynamicISAC = DynamicISAC.IsChecked.Value;
 		}
 
-		private void DarkTheme_Changed(object sender, RoutedEventArgs e)
-		{
-			if (!AllowChanging) { return; }
-			if (DarkTheme.IsChecked.Value)
-			{ Program.OptionsObject.Program_Theme = "BaseDark"; }
-			else
-			{ Program.OptionsObject.Program_Theme = "BaseLight"; }
-			ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-			ThemeManager.ChangeAppStyle(Program.MainWindow, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-			ToggleRestartText(true);
-		}
-
-		private void AccentColor_Changed(object sender, RoutedEventArgs e)
-		{
-			if (!AllowChanging) { return; }
-			Program.OptionsObject.Program_AccentColor = (string)AccentColor.SelectedItem;
-			ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-			ThemeManager.ChangeAppStyle(Program.MainWindow, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-		}
-
-		private void FontSize_Changed(object sender, RoutedEventArgs e)
+        private void FontSize_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
             double size = FontSizeD.Value;
-            Program.OptionsObject.Editor_FontSize = size;
+            Program.Options.Editor_FontSize = size;
             EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
 			if (editors != null)
             {
@@ -133,14 +92,14 @@ namespace Spedit.UI.Windows
         private void ScrollSpeed_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
-            Program.OptionsObject.Editor_ScrollLines = ScrollSpeed.Value;
+            Program.Options.Editor_ScrollLines = ScrollSpeed.Value;
         }
 
         private void WordWrap_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
             bool wrapping = WordWrap.IsChecked.Value;
-            Program.OptionsObject.Editor_WordWrap = wrapping;
+            Program.Options.Editor_WordWrap = wrapping;
             EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
 			if (editors != null)
             {
@@ -154,26 +113,26 @@ namespace Spedit.UI.Windows
         private void AIndentation_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
-            Program.OptionsObject.Editor_AgressiveIndentation = AgressiveIndentation.IsChecked.Value;
+            Program.Options.Editor_AgressiveIndentation = AgressiveIndentation.IsChecked.Value;
         }
 
         private void LineReformat_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
-            Program.OptionsObject.Editor_ReformatLineAfterSemicolon = LineReformatting.IsChecked.Value;
+            Program.Options.Editor_ReformatLineAfterSemicolon = LineReformatting.IsChecked.Value;
         }
 
         private void TabToSpace_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
             bool replaceTabs = TabToSpace.IsChecked.Value;
-            Program.OptionsObject.Editor_ReplaceTabsToWhitespace = replaceTabs;
+            Program.Options.Editor_ReplaceTabsToWhitespace = replaceTabs;
             EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
             if (editors != null)
             {
-                for (int i = 0; i < editors.Length; ++i)
+                foreach (EditorElement t in editors)
                 {
-                    editors[i].editor.Options.ConvertTabsToSpaces = replaceTabs;
+                    t.editor.Options.ConvertTabsToSpaces = replaceTabs;
                 }
             }
         }
@@ -181,19 +140,19 @@ namespace Spedit.UI.Windows
 		private void AutoCloseBrackets_Changed(object sender, RoutedEventArgs e)
 		{
 			if (!AllowChanging) { return; }
-			Program.OptionsObject.Editor_AutoCloseBrackets = AutoCloseBrackets.IsChecked ?? true;
+			Program.Options.Editor_AutoCloseBrackets = AutoCloseBrackets.IsChecked ?? true;
 		}
 
 		private void AutoCloseStringChars_Changed(object sender, RoutedEventArgs e)
 		{
 			if (!AllowChanging) { return; }
-			Program.OptionsObject.Editor_AutoCloseStringChars = AutoCloseStringChars.IsChecked ?? true;
+			Program.Options.Editor_AutoCloseStringChars = AutoCloseStringChars.IsChecked ?? true;
 		}
 
 		private void ShowSpaces_Changed(object sender, RoutedEventArgs e)
 		{
 			if (!AllowChanging) { return; }
-			bool showSpacesValue = Program.OptionsObject.Editor_ShowSpaces = ShowSpaces.IsChecked ?? true;
+			bool showSpacesValue = Program.Options.Editor_ShowSpaces = ShowSpaces.IsChecked ?? true;
 			EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
 			if (editors != null)
             {
@@ -207,7 +166,7 @@ namespace Spedit.UI.Windows
 		private void ShowTabs_Changed(object sender, RoutedEventArgs e)
 		{
 			if (!AllowChanging) { return; }
-			bool showTabsValue = Program.OptionsObject.Editor_ShowTabs = ShowTabs.IsChecked ?? true;
+			bool showTabsValue = Program.Options.Editor_ShowTabs = ShowTabs.IsChecked ?? true;
 			EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
 			if (editors != null)
 			{
@@ -223,9 +182,9 @@ namespace Spedit.UI.Windows
             if (!AllowChanging) { return; }
             FontFamily family = (FontFamily)FontFamilyCB.SelectedItem;
             string familyString = family.Source;
-            Program.OptionsObject.Editor_FontFamily = familyString;
+            Program.Options.Editor_FontFamily = familyString;
             FontFamilyTB.Content = "Font (" + familyString + "):";
-            EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
+            EditorElement[] editors = mainWindow.GetAllEditorElements();
 			if (editors != null)
             {
                 foreach (var editor in editors)
@@ -238,7 +197,7 @@ namespace Spedit.UI.Windows
 		private void IndentationSize_Changed(object sender, RoutedEventArgs e)
 		{
 			if (!AllowChanging) { return; }
-			int indentationSizeValue = Program.OptionsObject.Editor_IndentationSize = (int)Math.Round(IndentationSize.Value);
+			int indentationSizeValue = Program.Options.Editor_IndentationSize = (int)Math.Round(IndentationSize.Value);
 			EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
 			if (editors != null)
             {
@@ -253,7 +212,7 @@ namespace Spedit.UI.Windows
 		private void HighlightDeprecateds_Changed(object sender, RoutedEventArgs e)
         {
             if (!AllowChanging) { return; }
-            Program.OptionsObject.SH_HighlightDeprecateds = HighlightDeprecateds.IsChecked ?? true;
+            Program.Options.SH_HighlightDeprecateds = HighlightDeprecateds.IsChecked ?? true;
             ToggleRestartText();
         }
 
@@ -261,7 +220,7 @@ namespace Spedit.UI.Windows
 		{
 			if (!AllowChanging) { return; }
 
-            Program.OptionsObject.Language = Culture.cultures[LanguageBox.SelectedIndex].Name;
+            Program.Options.Language = Culture.cultures[LanguageBox.SelectedIndex].Name;
             ToggleRestartText(true);
         }
 
@@ -270,10 +229,10 @@ namespace Spedit.UI.Windows
 		{
 			if (!AllowChanging) { return; }
 			int newIndex = AutoSave.SelectedIndex;
-			EditorElement[] editors = Program.MainWindow.GetAllEditorElements();
+			EditorElement[] editors = mainWindow.GetAllEditorElements();
 			if (newIndex == 0)
 			{
-				Program.OptionsObject.Editor_AutoSave = false;
+				Program.Options.Editor_AutoSave = false;
                 foreach (EditorElement t in editors)
                 {
                     if (t.AutoSaveTimer.Enabled)
@@ -284,20 +243,20 @@ namespace Spedit.UI.Windows
             }
 			else
 			{
-				Program.OptionsObject.Editor_AutoSave = true;
+				Program.Options.Editor_AutoSave = true;
 				switch (newIndex)
                 {
                     case 1:
-                        Program.OptionsObject.Editor_AutoSaveInterval = 30;
+                        Program.Options.Editor_AutoSaveInterval = 30;
                         break;
                     case 7:
-                        Program.OptionsObject.Editor_AutoSaveInterval = 600;
+                        Program.Options.Editor_AutoSaveInterval = 600;
                         break;
                     case 8:
-                        Program.OptionsObject.Editor_AutoSaveInterval = 900;
+                        Program.Options.Editor_AutoSaveInterval = 900;
                         break;
                     default:
-                        Program.OptionsObject.Editor_AutoSaveInterval = (newIndex - 1) * 60;
+                        Program.Options.Editor_AutoSaveInterval = (newIndex - 1) * 60;
                         break;
                 }
 
@@ -318,34 +277,20 @@ namespace Spedit.UI.Windows
 
             LanguageBox.SelectedItem = CultureInfo.CurrentUICulture.NativeName;
             
-			foreach (string accent in AvailableAccents)
-            {
-                AccentColor.Items.Add(accent);
-            }
 
-            HardwareAcc.IsChecked = Program.OptionsObject.Program_UseHardwareAcceleration;
-            UIAnimation.IsChecked = Program.OptionsObject.UI_Animations;
-            OpenIncludes.IsChecked = Program.OptionsObject.Program_OpenCustomIncludes;
-            OpenIncludesRecursive.IsChecked = Program.OptionsObject.Program_OpenIncludesRecursively;
-            AutoUpdate.IsChecked = Program.OptionsObject.Program_CheckForUpdates;
-            if (!Program.OptionsObject.Program_OpenCustomIncludes)
+            HardwareAcc.IsChecked = Program.Options.Program_UseHardwareAcceleration;
+            OpenIncludes.IsChecked = Program.Options.Program_OpenCustomIncludes;
+            OpenIncludesRecursive.IsChecked = Program.Options.Program_OpenIncludesRecursively;
+            AutoUpdate.IsChecked = Program.Options.Program_CheckForUpdates;
+            if (!Program.Options.Program_OpenCustomIncludes)
             {
                 OpenIncludesRecursive.IsEnabled = false;
             }
-            ShowToolBar.IsChecked = Program.OptionsObject.UI_ShowToolBar;
-			DynamicISAC.IsChecked = Program.OptionsObject.Program_DynamicISAC;
-			DarkTheme.IsChecked = (Program.OptionsObject.Program_Theme == "BaseDark");
-			for (int i = 0; i < AvailableAccents.Length; ++i)
+            DynamicISAC.IsChecked = Program.Options.Program_DynamicISAC;
+            
+            if (Program.Options.Editor_AutoSave)
 			{
-				if (AvailableAccents[i] == Program.OptionsObject.Program_AccentColor)
-				{
-					AccentColor.SelectedIndex = i;
-					break;
-				}
-			}
-            if (Program.OptionsObject.Editor_AutoSave)
-			{
-				int seconds = Program.OptionsObject.Editor_AutoSaveInterval;
+				int seconds = Program.Options.Editor_AutoSaveInterval;
 				if (seconds < 60)
 					AutoSave.SelectedIndex = 1;
 				else if (seconds <= 300)
@@ -359,20 +304,20 @@ namespace Spedit.UI.Windows
 			{
 				AutoSave.SelectedIndex = 0;
 			}
-            HighlightDeprecateds.IsChecked = Program.OptionsObject.SH_HighlightDeprecateds;
-            FontSizeD.Value = Program.OptionsObject.Editor_FontSize;
-            ScrollSpeed.Value = Program.OptionsObject.Editor_ScrollLines;
-            WordWrap.IsChecked = Program.OptionsObject.Editor_WordWrap;
-            AgressiveIndentation.IsChecked = Program.OptionsObject.Editor_AgressiveIndentation;
-            LineReformatting.IsChecked = Program.OptionsObject.Editor_ReformatLineAfterSemicolon;
-            TabToSpace.IsChecked = Program.OptionsObject.Editor_ReplaceTabsToWhitespace;
-			AutoCloseBrackets.IsChecked = Program.OptionsObject.Editor_AutoCloseBrackets;
-			AutoCloseStringChars.IsChecked = Program.OptionsObject.Editor_AutoCloseStringChars;
-			ShowSpaces.IsChecked = Program.OptionsObject.Editor_ShowSpaces;
-			ShowTabs.IsChecked = Program.OptionsObject.Editor_ShowTabs;
-			FontFamilyTB.Content = $"{Properties.Resources.FontFamily} ({Program.OptionsObject.Editor_FontFamily}):";
-            FontFamilyCB.SelectedValue = new FontFamily(Program.OptionsObject.Editor_FontFamily);
-			IndentationSize.Value = Program.OptionsObject.Editor_IndentationSize;
+            HighlightDeprecateds.IsChecked = Program.Options.SH_HighlightDeprecateds;
+            FontSizeD.Value = Program.Options.Editor_FontSize;
+            ScrollSpeed.Value = Program.Options.Editor_ScrollLines;
+            WordWrap.IsChecked = Program.Options.Editor_WordWrap;
+            AgressiveIndentation.IsChecked = Program.Options.Editor_AgressiveIndentation;
+            LineReformatting.IsChecked = Program.Options.Editor_ReformatLineAfterSemicolon;
+            TabToSpace.IsChecked = Program.Options.Editor_ReplaceTabsToWhitespace;
+			AutoCloseBrackets.IsChecked = Program.Options.Editor_AutoCloseBrackets;
+			AutoCloseStringChars.IsChecked = Program.Options.Editor_AutoCloseStringChars;
+			ShowSpaces.IsChecked = Program.Options.Editor_ShowSpaces;
+			ShowTabs.IsChecked = Program.Options.Editor_ShowTabs;
+			FontFamilyTB.Content = $"{Properties.Resources.FontFamily} ({Program.Options.Editor_FontFamily}):";
+            FontFamilyCB.SelectedValue = new FontFamily(Program.Options.Editor_FontFamily);
+			IndentationSize.Value = Program.Options.Editor_IndentationSize;
             LoadSH();
         }
 
@@ -380,7 +325,7 @@ namespace Spedit.UI.Windows
         {
             if (AllowChanging && !RestartTextIsShown)
             {
-                StatusTextBlock.Content = (FullEffect) ? Properties.Resources.RestartEdiFullEff : Properties.Resources.RestartEdiEff;
+                //StatusTextBlock.Content = (FullEffect) ? Properties.Resources.RestartEdiFullEff : Properties.Resources.RestartEdiEff;
                 RestartTextIsShown = true;
             }
         }

@@ -16,7 +16,7 @@ namespace Spedit.UI.Components
             {
                 ISegment indentationSegment = TextUtilities.GetWhitespaceAfter(document, previousLine.Offset);
                 string indentation = document.GetText(indentationSegment);
-                if (Program.OptionsObject.Editor_AgressiveIndentation)
+                if (Program.Options.Editor_AgressiveIndentation)
                 {
                     string currentLineTextTrimmed = (document.GetText(line)).Trim();
                     string lastLineTextTrimmed = (document.GetText(previousLine)).Trim();
@@ -32,9 +32,9 @@ namespace Spedit.UI.Components
                     }
                     if (lastLineLastNonWhitespaceChar == '{' && currentLineFirstNonWhitespaceChar != '}')
                     {
-                        if (Program.OptionsObject.Editor_ReplaceTabsToWhitespace)
+                        if (Program.Options.Editor_ReplaceTabsToWhitespace)
                         {
-                            indentation += new string(' ', Program.OptionsObject.Editor_IndentationSize);
+                            indentation += new string(' ', Program.Options.Editor_IndentationSize);
                         }
                         else
                         {

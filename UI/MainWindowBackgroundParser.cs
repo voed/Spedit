@@ -28,7 +28,7 @@ namespace Spedit.UI
 			if (currentSMDefUID == 0) { return; }
 			EditorElement[] ee = null;
 			EditorElement ce = null;
-			Dispatcher.Invoke(() =>
+			Dispatcher?.Invoke(() =>
 			{
 				ee = GetAllEditorElements();
 				ce = GetCurrentEditorElement();
@@ -59,7 +59,7 @@ namespace Spedit.UI
 		{
 			while (true)
 			{
-				while (Program.OptionsObject.Program_DynamicISAC)
+				while (Program.Options.Program_DynamicISAC)
 				{
 					Thread.Sleep(5000);
 					var ee = GetAllEditorElements();

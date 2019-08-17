@@ -12,10 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
-using MahApps.Metro;
-using MahApps.Metro.Controls;
 using Spedit.UI.Components;
-using Spedit.Utils;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout;
 
@@ -25,15 +22,10 @@ namespace Spedit.UI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : Window
     {
         public List<EditorElement> EditorsReferences = new List<EditorElement>();
         
-        Storyboard BlendOverEffect;
-        Storyboard FadeFindReplaceGridIn;
-        Storyboard FadeFindReplaceGridOut;
-        Storyboard EnableServerAnim;
-        Storyboard DisableServerAnim;
 
 		private bool FullyInitialized;
 
@@ -42,35 +34,15 @@ namespace Spedit.UI
             InitializeComponent();
 
 
-            if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
-			{ ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme)); }
-			ObjectBrowserColumn.Width = new GridLength(Program.OptionsObject.Program_ObjectbrowserWidth, GridUnitType.Pixel);
+			ObjectBrowserColumn.Width = new GridLength(Program.Options.Program_ObjectbrowserWidth, GridUnitType.Pixel);
 			var heightDescriptor = DependencyPropertyDescriptor.FromProperty(ColumnDefinition.WidthProperty, typeof(ItemsControl));
 			heightDescriptor.AddValueChanged(EditorObjectBrowserGrid.ColumnDefinitions[1], EditorObjectBrowserGridRow_WidthChanged);
 			FillConfigMenu();
-            CompileButton.ItemsSource = compileButtonDict;
-			CompileButton.SelectedIndex = 0;
-            CActionButton.ItemsSource = actionButtonDict;
-			CActionButton.SelectedIndex = 0;
-            ReplaceButton.ItemsSource = findReplaceButtonDict;
-			ReplaceButton.SelectedIndex = 0;
+            ChangeObjectBrowserToDirectory(Program.Options.Program_ObjectBrowserDirectory);
 
-            if (Program.OptionsObject.UI_ShowToolBar)
+            if (Program.Options.LastOpenFiles != null)
             {
-                Win_ToolBar.Height = double.NaN;
-            }
-
-            MetroDialogOptions.AnimateHide = MetroDialogOptions.AnimateShow = false;
-            BlendOverEffect = (Storyboard)Resources["BlendOverEffect"];
-            FadeFindReplaceGridIn = (Storyboard)Resources["FadeFindReplaceGridIn"];
-            FadeFindReplaceGridOut = (Storyboard)Resources["FadeFindReplaceGridOut"];
-            EnableServerAnim = (Storyboard)Resources["EnableServerAnim"];
-            DisableServerAnim = (Storyboard)Resources["DisableServerAnim"];
-			ChangeObjectBrowserToDirectory(Program.OptionsObject.Program_ObjectBrowserDirectory);
-
-            if (Program.OptionsObject.LastOpenFiles != null)
-            {
-                foreach (var t in Program.OptionsObject.LastOpenFiles)
+                foreach (var t in Program.Options.LastOpenFiles)
                 {
                     TryLoadSourceFile(t, false);
                 }
@@ -94,7 +66,7 @@ namespace Spedit.UI
             if (fileInfo.Exists)
             {
                 string extension = fileInfo.Extension.ToLowerInvariant().Trim('.', ' ');
-                if (extension == "inc" || extension == "txt" || extension == "cfg" || extension == "ini" || extension == "sma" || extension == "vdf" || extension == "json")
+                if (Program.SupportedExtensions.Contains(extension))
                 {
                     string finalPath = fileInfo.FullName;
                     try
@@ -121,7 +93,7 @@ namespace Spedit.UI
                         }
                     }
                     AddEditorElement(finalPath, fileInfo.Name, SelectMe);
-                    if (TryOpenIncludes && Program.OptionsObject.Program_OpenCustomIncludes)
+                    if (TryOpenIncludes && Program.Options.Program_OpenCustomIncludes)
                     {
                         using (var textReader = fileInfo.OpenText())
                         {
@@ -143,13 +115,13 @@ namespace Spedit.UI
 
                                     fileName = Path.Combine(fileInfo.DirectoryName, fileName);
                                     TryLoadSourceFile(fileName, false,
-                                        Program.OptionsObject.Program_OpenIncludesRecursively);
+                                        Program.Options.Program_OpenIncludesRecursively);
                                 }
                                 catch (PathTooLongException)
                                 {
                                     MessageBox.Show($"Error: path '{fileInfo.FullName}' is too long");
                                 }
-                                catch (Exception e)
+                                catch (Exception)
                                 {
                                     //
                                 }
@@ -162,10 +134,6 @@ namespace Spedit.UI
                     //TODO sugar it
                     MessageBox.Show("This file type is not supported");
                 }
-                if (UseBlendoverEffect)
-                {
-                    BlendOverEffect.Begin();
-                }
                 return true;
             }
             return false;
@@ -177,7 +145,6 @@ namespace Spedit.UI
             layoutDocument.Closing += layoutDocument_Closing;
             layoutDocument.ToolTip = filePath;
             bool compileChecked = filePath.EndsWith(".sma");
-            CompileBox.IsChecked = compileChecked;
             EditorElement editor = new EditorElement(filePath, compileChecked, this) {Parent = layoutDocument};
             
             layoutDocument.Content = editor;
@@ -243,7 +210,7 @@ namespace Spedit.UI
                     }
                 }
             }
-            Program.OptionsObject.LastOpenFiles = lastOpenFiles.ToArray();
+            Program.Options.LastOpenFiles = lastOpenFiles.ToArray();
 #if !DEBUG
             if (Program.UpdateStatus.IsAvailable)
             {
@@ -318,7 +285,7 @@ namespace Spedit.UI
 		{
 			if (FullyInitialized)
 			{
-				Program.OptionsObject.Program_ObjectbrowserWidth = ObjectBrowserColumn.Width.Value;
+				Program.Options.Program_ObjectbrowserWidth = ObjectBrowserColumn.Width.Value;
 			}
 		}
 
@@ -366,5 +333,7 @@ namespace Spedit.UI
         private ObservableCollection<string> compileButtonDict = new ObservableCollection<string> { Properties.Resources.CompileAll, Properties.Resources.CompileCurr };
         private ObservableCollection<string> actionButtonDict = new ObservableCollection<string> { Properties.Resources.Copy, Properties.Resources.FTPUp, Properties.Resources.StartServer };
         private ObservableCollection<string> findReplaceButtonDict = new ObservableCollection<string> { Properties.Resources.Replace, Properties.Resources.ReplaceAll };
+
+
     }
 }

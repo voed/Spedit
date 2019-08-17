@@ -49,7 +49,7 @@ namespace Spedit.UI
             {
                 stringOutput.AppendLine("Error: " + e.Message);
             }
-            CompileOutput.Text = stringOutput.ToString();
+            //CompileOutput.Text = stringOutput.ToString();
             if (CompileOutputRow.Height.Value < 11.0)
             {
                 CompileOutputRow.Height = new GridLength(200.0);

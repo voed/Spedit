@@ -73,7 +73,7 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
         {
             using (FileStream fileStream = new FileStream(OptionsFile, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                new BinaryFormatter().Serialize(fileStream, Program.OptionsObject);
+                new BinaryFormatter().Serialize(fileStream, Program.Options);
             }
         }
 
@@ -83,12 +83,11 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
             {
                 //todo encrypt all file?
                 programIsNew = false;
-                var formatter = new BinaryFormatter();
                 try
                 {
                     using (FileStream fileStream = new FileStream(OptionsFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
-                        return (OptionsControl) formatter.Deserialize(fileStream);
+                        return (OptionsControl)new BinaryFormatter().Deserialize(fileStream);
                     }
                 }
                 catch (FileNotFoundException)

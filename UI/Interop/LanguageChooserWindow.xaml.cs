@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace Spedit.UI.Interop
@@ -7,7 +6,7 @@ namespace Spedit.UI.Interop
 	/// <summary>
 	/// Interaction logic for LanguageChooserWindow.xaml
 	/// </summary>
-	public partial class LanguageChooserWindow : MetroWindow
+	public partial class LanguageChooserWindow : Window
 	{
 		public string SelectedID = string.Empty;
 		public LanguageChooserWindow()

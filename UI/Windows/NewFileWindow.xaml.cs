@@ -7,8 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Serialization;
-using MahApps.Metro;
-using MahApps.Metro.Controls;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Spedit.Interop;
@@ -18,19 +16,21 @@ namespace Spedit.UI.Windows
     /// <summary>
     /// Interaction logic for AboutWindow.xaml
     /// </summary>
-    public partial class NewFileWindow : MetroWindow
+    public partial class NewFileWindow : Window
     {
         private const string PathStr = "amxmodx\\scripts";
         private const string TemplatePath = @"amxmodx\templates\Templates.xml";
 
         [XmlElement("Templates")]
         public List<TemplateInfo> TemplateList;
-        public NewFileWindow()
+
+        private MainWindow mainWindow;
+        public NewFileWindow(MainWindow mainWindow)
         {
+
             InitializeComponent();
-            if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
-			{ ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme)); }
-			ParseTemplateFile();
+            this.mainWindow = mainWindow;
+            ParseTemplateFile();
             TemplateListBox.SelectedIndex = 0;
         }
 
@@ -59,7 +59,7 @@ namespace Spedit.UI.Windows
             FileInfo destFile = new FileInfo(PathBox.Text);
             TemplateInfo templateInfo = TemplateList[TemplateListBox.SelectedIndex];
             File.Copy(templateInfo.Path, destFile.FullName, true);
-            Program.MainWindow.TryLoadSourceFile(destFile.FullName, true, true, true);
+            mainWindow.TryLoadSourceFile(destFile.FullName, true, true, true);
             Close();
         }
 

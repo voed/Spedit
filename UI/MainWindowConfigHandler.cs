@@ -31,7 +31,7 @@ namespace Spedit.UI
 
         private void editItem_Click(object sender, RoutedEventArgs e)
         {
-            ConfigWindow configWindow = new ConfigWindow() { Owner = this, ShowInTaskbar = false };
+            ConfigWindow configWindow = new ConfigWindow(this);
             configWindow.ShowDialog();
         }
 
@@ -60,7 +60,7 @@ namespace Spedit.UI
 
                 Program.ConfigList.Current = config;
 
-                Program.OptionsObject.Program_SelectedConfig = name;
+                Program.Options.Program_SelectedConfig = name;
 
                 foreach (EditorElement element in GetAllEditorElements())
                 {

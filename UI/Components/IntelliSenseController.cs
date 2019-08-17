@@ -13,14 +13,6 @@ namespace Spedit.UI.Components
 {
     public partial class EditorElement
     {
-        Storyboard FadeISACIn;
-        Storyboard FadeISACOut;
-
-        Storyboard FadeACIn;
-        Storyboard FadeACOut;
-
-        Storyboard FadeAC_FuncC_In;
-        Storyboard FadeAC_MethodC_In;
 
         Regex ISFindRegex = new Regex(@"\b(?<name>[a-zA-Z_][a-zA-Z0-9_]+)\(", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
         Regex multilineCommentRegex = new Regex(@"/\*.*?\*/", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.Singleline);
@@ -32,7 +24,6 @@ namespace Spedit.UI.Components
 
         private bool AC_IsFuncC = true;
 
-        private bool AnimationsLoaded;
 
         private int LastShowedLine = -1;
 
@@ -43,18 +34,6 @@ namespace Spedit.UI.Components
         //private string[] methodNames;
         public void LoadAutoCompletes()
         {
-            if (!AnimationsLoaded)
-            {
-                FadeISACIn = (Storyboard)Resources["FadeISACIn"];
-                FadeISACOut = (Storyboard)Resources["FadeISACOut"];
-                FadeACIn = (Storyboard)Resources["FadeACIn"];
-                FadeACOut = (Storyboard)Resources["FadeACOut"];
-                FadeAC_FuncC_In = (Storyboard)Resources["FadeAC_FuncC_In"];
-                FadeAC_MethodC_In = (Storyboard)Resources["FadeAC_MethodC_In"];
-                FadeISACOut.Completed += FadeISACOut_Completed;
-                FadeACOut.Completed += FadeACOut_Completed;
-                AnimationsLoaded = true;
-            }
 
             if (ISAC_Open)
 			{
@@ -406,14 +385,7 @@ namespace Spedit.UI.Components
                 ISAC_Open = true;
                 ISAC_Grid.Visibility = Visibility.Visible;
                 SetISACPosition(forcedXPos);
-                if (Program.OptionsObject.UI_Animations)
-                {
-                    FadeISACIn.Begin();
-                }
-                else
-                {
-                    ISAC_Grid.Opacity = 1.0;
-                }
+                ISAC_Grid.Opacity = 1.0;
             }
         }
         private void HideISAC()
@@ -421,15 +393,8 @@ namespace Spedit.UI.Components
             if (ISAC_Open)
             {
                 ISAC_Open = false;
-                if (Program.OptionsObject.UI_Animations)
-                {
-                    FadeISACOut.Begin();
-                }
-                else
-                {
-                    ISAC_Grid.Opacity = 0.0;
-                    ISAC_Grid.Visibility = Visibility.Collapsed;
-                }
+                ISAC_Grid.Opacity = 0.0;
+                ISAC_Grid.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -439,15 +404,10 @@ namespace Spedit.UI.Components
             {
                 AC_Open = true;
                 ACBorder.Height = 175.0;
-                if (Program.OptionsObject.UI_Animations)
-                {
-                    FadeACIn.Begin();
-                }
-                else
-                {
+
                     AutoCompleteBox.Width = 260.0;
                     MethodAutoCompleteBox.Width = 260.0;
-                }
+                
             }
             if ((!(IsFunc && AC_IsFuncC)) && AC_Open)
             {
@@ -456,15 +416,10 @@ namespace Spedit.UI.Components
                     if (!AC_IsFuncC)
                     {
                         AC_IsFuncC = true;
-                        if (Program.OptionsObject.UI_Animations)
-                        {
-                            FadeAC_FuncC_In.Begin();
-                        }
-                        else
-                        {
+
                             AutoCompleteBox.Opacity = 1.0;
                             MethodAutoCompleteBox.Opacity = 0.0;
-                        }
+                        
                     }
                 }
                 else
@@ -472,15 +427,10 @@ namespace Spedit.UI.Components
                     if (AC_IsFuncC)
                     {
                         AC_IsFuncC = false;
-                        if (Program.OptionsObject.UI_Animations)
-                        {
-                            FadeAC_MethodC_In.Begin();
-                        }
-                        else
-                        {
-                            AutoCompleteBox.Opacity = 0.0;
-                            MethodAutoCompleteBox.Opacity = 1.0;
-                        }
+
+                        AutoCompleteBox.Opacity = 0.0;
+                        MethodAutoCompleteBox.Opacity = 1.0;
+                        
                     }
                 }
             }
@@ -490,16 +440,10 @@ namespace Spedit.UI.Components
             if (AC_Open)
             {
                 AC_Open = false;
-                if (Program.OptionsObject.UI_Animations)
-                {
-                    FadeACOut.Begin();
-                }
-                else
-                {
-                    AutoCompleteBox.Width = 0.0;
-                    MethodAutoCompleteBox.Width = 0.0;
-                    ACBorder.Height = 0.0;
-                }
+                AutoCompleteBox.Width = 0.0;
+                MethodAutoCompleteBox.Width = 0.0;
+                ACBorder.Height = 0.0;
+                
             }
         }
 
@@ -560,18 +504,6 @@ namespace Spedit.UI.Components
             ISAC_Grid.Margin = new Thickness(p.X + ((LineNumberMargin)editor.TextArea.LeftMargins[0]).ActualWidth + 20.0, y, 0.0, 0.0);
         }
 
-        private void FadeISACOut_Completed(object sender, EventArgs e)
-        {
-            ISAC_Grid.Visibility = Visibility.Collapsed;
-        }
-
-        private void FadeACOut_Completed(object sender, EventArgs e)
-        {
-            if (FadeACIn.GetCurrentState() != ClockState.Active)
-            {
-                ACBorder.Height = 0.0;
-            }
-        }
 
         private bool IsValidFunctionChar(char c)
         {

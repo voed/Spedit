@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using Spedit.UI.Components;
+﻿using Spedit.UI.Components;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +9,7 @@ using Spedit.Interop;
 
 namespace Spedit.UI
 {
-	public partial class MainWindow : MetroWindow
+	public partial class MainWindow
 	{
 		private string CurrentObjectBrowserDirectory = string.Empty;
 		private void TreeViewOBItem_Expanded(object sender, RoutedEventArgs e)
@@ -65,37 +64,30 @@ namespace Spedit.UI
 			}
 		}
 
-		private void ListViewOBItem_SelectFile(object sender, RoutedEventArgs e)
+		private void SelectOBFile(object sender, RoutedEventArgs e)
 		{
-			if (sender is ListViewItem item)
-			{
-				EditorElement ee = GetCurrentEditorElement();
+            EditorElement ee = GetCurrentEditorElement();
 				if (ee != null)
 				{
 					FileInfo fInfo = new FileInfo(ee.FullFilePath);
 					ChangeObjectBrowserToDirectory(fInfo.DirectoryName);
 				}
-				item.IsSelected = false;
-				ObjectBrowserButtonHolder.SelectedIndex = -1;
-			}
+                //ObjectBrowserButtonHolder.SelectedIndex = -1;
+			
 		}
-		private void ListViewOBItem_SelectConfig(object sender, RoutedEventArgs e)
+		private void SelectOBConfig(object sender, RoutedEventArgs e)
 		{
-			if (sender is ListViewItem item)
-            {
+
                 var cc = Program.ConfigList.Current;
 				if (cc.SMDirectories.Length > 0)
 				{
 					ChangeObjectBrowserToDirectory(cc.SMDirectories[0]);
 				}
-				item.IsSelected = false;
-				ObjectBrowserButtonHolder.SelectedIndex = -1;
-			}
-		}
-		private void ListViewOBItem_SelectOBItem(object sender, RoutedEventArgs e)
+        }
+
+		private void SelectOBItem(object sender, RoutedEventArgs e)
 		{
-			if (sender is ListViewItem viewItem)
-			{
+
 				object objectBrowserSelectedItem = ObjectBrowser.SelectedItem;
 				if (objectBrowserSelectedItem is TreeViewItem item)
 				{
@@ -119,10 +111,10 @@ namespace Spedit.UI
 						ChangeObjectBrowserToDrives();
 					}
 				}
-				viewItem.IsSelected = false;
-				ObjectBrowserButtonHolder.SelectedIndex = -1;
-			}
+                //ObjectBrowserButtonHolder.SelectedIndex = -1;
+			
 		}
+
 
 		private void ChangeObjectBrowserToDirectory(string dir)
 		{
@@ -152,7 +144,7 @@ namespace Spedit.UI
                 return;
             }
 			CurrentObjectBrowserDirectory = dir;
-			Program.OptionsObject.Program_ObjectBrowserDirectory = CurrentObjectBrowserDirectory;
+			Program.Options.Program_ObjectBrowserDirectory = CurrentObjectBrowserDirectory;
 
 			using (Dispatcher?.DisableProcessing())
 			{
@@ -174,7 +166,7 @@ namespace Spedit.UI
 
 		private void ChangeObjectBrowserToDrives()
 		{
-			Program.OptionsObject.Program_ObjectBrowserDirectory = "0:";
+			Program.Options.Program_ObjectBrowserDirectory = "0:";
 			DriveInfo[] drives = DriveInfo.GetDrives();
 			using (Dispatcher?.DisableProcessing())
 			{

@@ -7,22 +7,20 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
 using Spedit.Interop;
 using Spedit.UI.Components;
 using Spedit.Utils;
-using static Spedit.Program;
+
 namespace Spedit.UI
 {
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow
     {
         private List<string> compiledFiles = new List<string>();
         private List<string> nonUploadedFiles = new List<string>();
         private List<string> compiledFileNames = new List<string>();
 
         private bool InCompiling;
-        private async void Compile_SPScripts(bool All = true)
+        private void Compile_SPScripts(bool All = true)
         {
             if (InCompiling) { return; }
             Command_SaveAll();
@@ -55,7 +53,6 @@ namespace Spedit.UI
 						return;
                     }
 
-                    filesToCompile.AddRange(from editor in editors where CompileBox.IsChecked != null && CompileBox.IsChecked.Value select editor.FullFilePath);
                 }
                 else
                 {
@@ -89,7 +86,7 @@ namespace Spedit.UI
 						}
                         FileInfo fileInfo = new FileInfo(file);
                         stringOutput.AppendLine(fileInfo.Name);
-                        StatusLite_StatusText.Text = $"{Properties.Resources.Compiling} \"{fileInfo.Name}...\"";
+                        StatusLine_StatusText.Text = $"{Properties.Resources.Compiling} \"{fileInfo.Name}...\"";
                         ProcessUITasks();
                         if (fileInfo.Exists)
                         {
@@ -135,11 +132,11 @@ namespace Spedit.UI
                                 catch (Exception)
                                 {
                                     InCompiling = false;
-                                    StatusLite_StatusText.Text = "";
+                                    StatusLine_StatusText.Text = "";
                                 }
                                 if (!InCompiling) //cannot await in catch
                                 {
-                                    await this.ShowMessageAsync(Properties.Resources.SPCompNotStarted, Properties.Resources.Error, MessageDialogStyle.Affirmative, MetroDialogOptions);
+                                    MessageBox.Show(Properties.Resources.SPCompNotStarted, Properties.Resources.Error);
 									return;
                                 }
                                 if (File.Exists(errorFile))
@@ -185,7 +182,7 @@ namespace Spedit.UI
                     }
 					if (!PressedEscape)
 					{
-						CompileOutput.Text = stringOutput.ToString();
+						//CompileOutput.Text = stringOutput.ToString();
 						if (c.AutoCopy)
 						{
 							Copy_Plugins(true);
@@ -195,12 +192,12 @@ namespace Spedit.UI
 							CompileOutputRow.Height = new GridLength(200.0);
 						}
 					}
-                    StatusLite_StatusText.Text = "";
+                    StatusLine_StatusText.Text = "";
                 }
             }
             else
             {
-                await this.ShowMessageAsync(Properties.Resources.Error, Properties.Resources.SPCompNotFound, MessageDialogStyle.Affirmative, MetroDialogOptions);
+                MessageBox.Show(Properties.Resources.Error, Properties.Resources.SPCompNotFound);
             }
             InCompiling = false;
         }
@@ -246,11 +243,11 @@ namespace Spedit.UI
                     }
                     if (OvertakeOutString)
                     {
-                        CompileOutput.AppendText(stringOutput.ToString());
+                        //CompileOutput.AppendText(stringOutput.ToString());
                     }
                     else
                     {
-                        CompileOutput.Text = stringOutput.ToString();
+                        //CompileOutput.Text = stringOutput.ToString();
                     }
                     if (CompileOutputRow.Height.Value < 11.0)
                     {
@@ -309,7 +306,7 @@ namespace Spedit.UI
                 stringOutput.AppendLine($"{Properties.Resources.Details}: " + e.Message);
             }
             stringOutput.AppendLine(Properties.Resources.Done);
-            CompileOutput.Text = stringOutput.ToString();
+            //CompileOutput.Text = stringOutput.ToString();
             if (CompileOutputRow.Height.Value < 11.0)
             {
                 CompileOutputRow.Height = new GridLength(200.0);
@@ -370,19 +367,14 @@ namespace Spedit.UI
                 return;
             }
             ServerIsRunning = true;
-            Program.MainWindow.Dispatcher?.Invoke(() =>
-            {
-                EnableServerAnim.Begin();
-                UpdateWindowTitle();
-            });
+            Dispatcher?.Invoke(UpdateWindowTitle);
             ServerProcess.WaitForExit();
             ServerProcess.Dispose();
             ServerIsRunning = false;
-            Program.MainWindow.Dispatcher?.Invoke(() =>
+            Dispatcher?.Invoke(() =>
             {
-                if (Program.MainWindow.IsLoaded)
+                if (IsLoaded)
                 {
-                    DisableServerAnim.Begin();
                     UpdateWindowTitle();
                 }
             });

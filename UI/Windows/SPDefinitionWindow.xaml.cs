@@ -5,8 +5,6 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using MahApps.Metro;
-using MahApps.Metro.Controls;
 using SourcepawnCondenser.SourcemodDefinition;
 
 namespace Spedit.UI.Windows
@@ -14,7 +12,7 @@ namespace Spedit.UI.Windows
     /// <summary>
     /// Interaction logic for AboutWindow.xaml
     /// </summary>
-    public partial class SPDefinitionWindow : MetroWindow
+    public partial class SPDefinitionWindow : Window
     {
         SPDefEntry[] defArray;
         ListViewItem[] items;
@@ -24,9 +22,7 @@ namespace Spedit.UI.Windows
         {
             InitializeComponent();
 			Language_Translate();
-			if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
-			{ ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor), ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme)); }
-			errorSearchBoxBrush.Freeze();
+            errorSearchBoxBrush.Freeze();
             var def = Program.ConfigList.Current.GetSMDef();
             if (def == null)
             {
@@ -173,11 +169,10 @@ namespace Spedit.UI.Windows
 
 		private void Language_Translate()
 		{
-			TextBoxHelper.SetWatermark(SPSearchBox, Properties.Resources.Search);
-			/*if (Properties.Resources.IsDefault)
-			{
-				return;
-			}*/
+            /*if (Properties.Resources.IsDefault)
+            {
+                return;
+            }*/
 		}
 
 		private class SPDefEntry

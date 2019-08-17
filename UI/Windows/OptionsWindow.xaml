@@ -1,57 +1,35 @@
-﻿<controls:MetroWindow x:Class="Spedit.UI.Windows.OptionsWindow"
+﻿<Window x:Class="Spedit.UI.Windows.OptionsWindow"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:components="clr-namespace:Spedit.UI.Components"
+             
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:resx="clr-namespace:Spedit.Properties"
              xmlns:spedit="clr-namespace:Spedit"
+             xmlns:components="clr-namespace:Spedit.UI.Components"
              Width="680" Height="400" ResizeMode="NoResize" 
              WindowStartupLocation="CenterOwner" 
-             GlowBrush="{DynamicResource AccentColorBrush}"
-             Title="{x:Static resx:Resources.Options}" 
-             ShowTitleBar="False"
-             
-             >
-    <controls:MetroWindow.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Red.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </controls:MetroWindow.Resources>
-    <controls:MetroWindow.RightWindowCommands>
-        <controls:WindowCommands>
-            <Button Name="ResetButton" Content="Reset options" Click="RestoreButton_Clicked" />
-            <Label Name="StatusTextBlock" Foreground="LightGray" FontSize="15" />
-        </controls:WindowCommands>
-    </controls:MetroWindow.RightWindowCommands>
+             Title="{x:Static resx:Resources.Options}"
+>
+
     <Grid>
-        <controls:MetroAnimatedSingleRowTabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,15,0,0" controls:TabControlHelper.Underlined="SelectedTabItem">
-            <controls:MetroTabItem Name="ProgramHeader" Header="{x:Static resx:Resources.Program}">
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,15,0,0">
+            <TabItem Name="ProgramHeader" Header="{x:Static resx:Resources.Program}">
                 <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
                     <Grid>
                         <CheckBox Name="HardwareAcc" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Content="{x:Static resx:Resources.HardwareAcc}" Checked="HardwareAcc_Changed" Unchecked="HardwareAcc_Changed"/>
-                        <CheckBox Name="UIAnimation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,30,0,0" Content="{x:Static resx:Resources.UIAnim}" Checked="UIAnimation_Changed" Unchecked="UIAnimation_Changed" />
                         <CheckBox Name="OpenIncludes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,55,0,0" Content="{x:Static resx:Resources.OpenInc}" Checked="AutoOpenInclude_Changed" Unchecked="AutoOpenInclude_Changed" />
                         <CheckBox Name="OpenIncludesRecursive" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,80,0,0" Content="{x:Static resx:Resources.OpenIncRec}" Checked="OpenIncludeRecursively_Changed" Unchecked="OpenIncludeRecursively_Changed" />
                         <CheckBox Name="AutoUpdate" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,105,0,0" Content="{x:Static resx:Resources.AutoUpdate}" Checked="AutoUpdate_Changed" Unchecked="AutoUpdate_Changed" />
-                        <CheckBox Name="ShowToolBar" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,130,0,0" Content="{x:Static resx:Resources.ShowToolbar}" Checked="ShowToolbar_Changed" Unchecked="ShowToolbar_Changed" />
                         <CheckBox Name="DynamicISAC" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,155,0,0" Content="{x:Static resx:Resources.DynamicISAC}" Checked="DynamicISAC_Changed" Unchecked="DynamicISAC_Changed" />
-                        <CheckBox Name="DarkTheme" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,180,0,0" Content="{x:Static resx:Resources.DarkTheme}" Checked="DarkTheme_Changed" Unchecked="DarkTheme_Changed" />
                         <Label Name="ThemeColorLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,230,0,0" Content="{x:Static resx:Resources.ThemeColor}" />
-                        <ComboBox Name="AccentColor" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,230,0,0" Width="200" SelectionChanged="AccentColor_Changed" />
                         <Label Name="LanguageLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,260,0,0" Content="{x:Static resx:Resources.LanguageStr}" />
                         <ComboBox Name="LanguageBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,260,0,0" Width="200" SelectionChanged="LanguageBox_Changed" >
                         </ComboBox>
                     </Grid>
                 </ScrollViewer>
-            </controls:MetroTabItem>
-            <controls:MetroTabItem Name="EditorHeader" Header="{x:Static resx:Resources.Editor}">
+            </TabItem>
+            <TabItem Name="EditorHeader" Header="{x:Static resx:Resources.Editor}">
                 <ScrollViewer Margin="0,0,-41,-903">
                     <Grid>
                         <Label  Name="FontSizeBlock" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Content="{x:Static resx:Resources.FontSize}" IsHitTestVisible="False" />
@@ -136,7 +114,7 @@
                         </Grid>
                     </Grid>
                 </ScrollViewer>
-            </controls:MetroTabItem>
-        </controls:MetroAnimatedSingleRowTabControl>
+            </TabItem>
+        </TabControl>
     </Grid>
-</controls:MetroWindow>
+</Window>
