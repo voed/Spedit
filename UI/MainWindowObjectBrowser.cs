@@ -144,7 +144,7 @@ namespace Spedit.UI
                 return;
             }
 			CurrentObjectBrowserDirectory = dir;
-			Program.Options.Program_ObjectBrowserDirectory = CurrentObjectBrowserDirectory;
+			Program.Options.ObjectBrowserDirectory = CurrentObjectBrowserDirectory;
 
 			using (Dispatcher?.DisableProcessing())
 			{
@@ -166,7 +166,7 @@ namespace Spedit.UI
 
 		private void ChangeObjectBrowserToDrives()
 		{
-			Program.Options.Program_ObjectBrowserDirectory = "0:";
+			Program.Options.ObjectBrowserDirectory = "0:";
 			DriveInfo[] drives = DriveInfo.GetDrives();
 			using (Dispatcher?.DisableProcessing())
 			{

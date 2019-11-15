@@ -142,25 +142,12 @@ namespace Spedit.UI
             ToggleSearchField();
         }
 
-        private void Menu_CompileAll(object sender, RoutedEventArgs e)
-        {
-            Compile_SPScripts();
-        }
 
         private void Menu_Compile(object sender, RoutedEventArgs e)
         {
-            Compile_SPScripts(false);
+            Compile_SPScript();
         }
 
-        private void Menu_CopyPlugin(object sender, RoutedEventArgs e)
-        {
-            Copy_Plugins();
-        }
-
-        private void Menu_FTPUpload(object sender, RoutedEventArgs e)
-        {
-            FTPUpload_Plugins();
-        }
 
         private void Menu_StartServer(object sender, RoutedEventArgs e)
         {

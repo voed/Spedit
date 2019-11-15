@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Windows.Media;
@@ -11,63 +13,58 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
     {
         private const string OptionsFile = "options.dat";
 
-        public bool Program_UseHardwareAcceleration = true;
+        #region Program
+        public bool UseHardwareAcceleration = true;
+        public string SelectedConfig = string.Empty;
+        public bool OpenCustomIncludes = false;
+        public bool OpenIncludesRecursively = false;
+        public bool DynamicIsac = true;
+        public string ObjectBrowserDirectory = string.Empty;
+		public double ObjectbrowserWidth = 300.0;
+        #endregion
 
-        public bool Program_CheckForUpdates = true;
+        #region Editor
+        public bool WordWrap = false;
+        public double FontSize = 16.0;
+        public string FontFamily = "Consolas";
+        public double ScrollLines = 4.0;
+        public bool AgressiveIndentation = true;
+        public bool ReformatLineAfterSemicolon = true;
+        public bool ReplaceTabsToWhitespace = false;
+        public bool AutoCloseBrackets = true;
+        public bool AutoCloseStringChars = true;
+        public bool ShowSpaces = false;
+        public bool ShowTabs = false;
+        public int IndentationSize = 4;
+        public bool AutoSave = false;
+        public int AutoSaveInterval = 5 * 60;
+        #endregion
 
-        public string Program_SelectedConfig = string.Empty;
-
-        public bool Program_OpenCustomIncludes = false;
-        public bool Program_OpenIncludesRecursively = false;
-
-		public bool Program_DynamicISAC = true;
-
-		public string Program_AccentColor = "Red";
-		public string Program_Theme = "BaseDark";
-
-		public string Program_ObjectBrowserDirectory = string.Empty;
-		public double Program_ObjectbrowserWidth = 300.0;
-
-        public bool UI_Animations = true;
-        public bool UI_ShowToolBar = false;
-
-        public bool Editor_WordWrap = false;
-        public double Editor_FontSize = 16.0;
-        public string Editor_FontFamily = "Consolas";
-        public double Editor_ScrollLines = 4.0;
-        public bool Editor_AgressiveIndentation = true;
-        public bool Editor_ReformatLineAfterSemicolon = true;
-        public bool Editor_ReplaceTabsToWhitespace = false;
-		public bool Editor_AutoCloseBrackets = true;
-		public bool Editor_AutoCloseStringChars = true;
-		public bool Editor_ShowSpaces = false;
-		public bool Editor_ShowTabs = false;
-		public int Editor_IndentationSize = 4;
-		public bool Editor_AutoSave = false;
-		public int Editor_AutoSaveInterval = 5 * 60;
 
 		public string[] LastOpenFiles = new string[0];
+        public bool HighlightDeprecateds = true;
+        public string Language = string.Empty;
 
-        public bool SH_HighlightDeprecateds = true;
+        public HighColors EditorColors = new HighColors
+        {
+            Comments = new SpColor(0x57, 0xA6, 0x49),
+            CommentsMarker = new SpColor(0xFF, 0x20, 0x20),
+            Strings = new SpColor(0xF4, 0x6B, 0x6C),
+            PreProcessor = new SpColor(0x7E, 0x7E, 0x7E),
+            Types = new SpColor(0x28, 0x90, 0xB0),
+            TypesValues = new SpColor(0x56, 0x9C, 0xD5),
+            Keywords = new SpColor(0x56, 0x9C, 0xD5),
+            ContextKeywords = new SpColor(0x56, 0x9C, 0xD5),
+            Chars = new SpColor(0xD6, 0x9C, 0x85),
+            UnkownFunctions = new SpColor(0x45, 0x85, 0xC5),
+            Numbers = new SpColor(0x97, 0x97, 0x97),
+            SpecialCharacters = new SpColor(0x8F, 0x8F, 0x8F),
+            Deprecated = new SpColor(0xFF, 0x00, 0x00),
+            Constants = new SpColor(0xBC, 0x62, 0xC5),
+            Functions = new SpColor(0x56, 0x9C, 0xD5),
+            Methods = new SpColor(0x3B, 0xC6, 0x7E)
+        };
 
-		public string Language = string.Empty;
-
-        public SerializeableColor SH_Comments = new SerializeableColor(0xFF, 0x57, 0xA6, 0x49);
-        public SerializeableColor SH_CommentsMarker = new SerializeableColor(0xFF, 0xFF, 0x20, 0x20);
-        public SerializeableColor SH_Strings = new SerializeableColor(0xFF, 0xF4, 0x6B, 0x6C);
-        public SerializeableColor SH_PreProcessor = new SerializeableColor(0xFF, 0x7E, 0x7E, 0x7E);
-        public SerializeableColor SH_Types = new SerializeableColor(0xFF, 0x28, 0x90, 0xB0); //56 9C D5
-        public SerializeableColor SH_TypesValues = new SerializeableColor(0xFF, 0x56, 0x9C, 0xD5);
-        public SerializeableColor SH_Keywords = new SerializeableColor(0xFF, 0x56, 0x9C, 0xD5);
-        public SerializeableColor SH_ContextKeywords = new SerializeableColor(0xFF, 0x56, 0x9C, 0xD5);
-        public SerializeableColor SH_Chars = new SerializeableColor(0xFF, 0xD6, 0x9C, 0x85);
-        public SerializeableColor SH_UnkownFunctions = new SerializeableColor(0xFF, 0x45, 0x85, 0xC5);
-        public SerializeableColor SH_Numbers = new SerializeableColor(0xFF, 0x97, 0x97, 0x97);
-        public SerializeableColor SH_SpecialCharacters = new SerializeableColor(0xFF, 0x8F, 0x8F, 0x8F);
-        public SerializeableColor SH_Deprecated = new SerializeableColor(0xFF, 0xFF, 0x00, 0x00);
-        public SerializeableColor SH_Constants = new SerializeableColor(0xFF, 0xBC, 0x62, 0xC5);
-        public SerializeableColor SH_Functions = new SerializeableColor(0xFF, 0x56, 0x9C, 0xD5);
-        public SerializeableColor SH_Methods = new SerializeableColor(0xFF, 0x3B, 0xC6, 0x7E);
 
         public static void Save()
         {
@@ -90,7 +87,7 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
                         return (OptionsControl)new BinaryFormatter().Deserialize(fileStream);
                     }
                 }
-                catch (FileNotFoundException)
+                catch (SerializationException)
                 {
                     return new OptionsControl();
                 }
@@ -107,22 +104,57 @@ namespace Spedit //leave this here instead of .Interop because of reasons...
     }
 
     [Serializable]
-    public class SerializeableColor
+    public class HighColors
     {
-        public byte A;
-        public byte R;
-        public byte G;
-        public byte B;
+        public SpColor Comments { get; set; }
+        public SpColor CommentsMarker { get; set; }
+        public SpColor Strings { get; set; }
+        public SpColor PreProcessor { get; set; }
+        public SpColor Types { get; set; }
+        public SpColor TypesValues { get; set; }
+        public SpColor Keywords { get; set; }
+        public SpColor ContextKeywords { get; set; }
+        public SpColor Chars { get; set; }
+        public SpColor UnkownFunctions { get; set; }
+        public SpColor Numbers { get; set; }
+        public SpColor SpecialCharacters { get; set; }
+        public SpColor Deprecated { get; set; }
+        public SpColor Constants { get; set; }
+        public SpColor Functions { get; set; }
+        public SpColor Methods { get; set; }
+    }
 
-        public SerializeableColor(byte a, byte r, byte g, byte b)
+
+    [Serializable]
+    public class SpColor
+    {
+        private readonly byte _a;
+        private readonly byte _r;
+        private readonly byte _g;
+        private readonly byte _b;
+
+        public SpColor(byte a, byte r, byte g, byte b)
         {
-            A = a; R = r; G = g; B = b;
+            _a = a; _r = r; _g = g; _b = b;
         }
 
-        public static implicit operator SerializeableColor(Color c)
-        { return new SerializeableColor(c.A, c.R, c.G, c.B ); }
-        public static implicit operator Color(SerializeableColor c)
-        { return Color.FromArgb(c.A, c.R, c.G, c.B); }
+        public SpColor(byte r, byte g, byte b)
+        {
+            _a = 0xFF;
+            _r = r;
+            _g = g;
+            _b = b;
+        }
+
+        public static implicit operator SpColor(Color c)
+        {
+            return new SpColor(c.A, c.R, c.G, c.B );
+        }
+
+        public static implicit operator Color(SpColor c)
+        {
+            return Color.FromArgb(c._a, c._r, c._g, c._b);
+        }
     }
 
 }

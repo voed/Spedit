@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -12,6 +13,7 @@ using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Rendering;
 using ICSharpCode.AvalonEdit.Utils;
+using Spedit.UI.Components.TextMarker;
 using Spedit.Utils.SPSyntaxTidy;
 using Xceed.Wpf.AvalonDock.Layout;
 using Timer = System.Timers.Timer;
@@ -24,12 +26,13 @@ namespace Spedit.UI.Components
     public partial class EditorElement : UserControl
     {
         public new LayoutDocument Parent;
-
+        public ITextMarkerService textMarkerService;
         public FoldingManager foldingManager;
         SPFoldingStrategy foldingStrategy;
         ColorizeSelection colorizeSelection;
         SPBracketSearcher bracketSearcher;
         BracketHighlightRenderer bracketHighlightRenderer;
+
 
         FileSystemWatcher fileWatcher;
 
@@ -90,6 +93,7 @@ namespace Spedit.UI.Components
         public EditorElement(string filePath, bool compileChecked, MainWindow main)
         {
             InitializeComponent();
+            InitializeTextMarkerService();
             CompileChecked = compileChecked;
             Main = main;
 			bracketSearcher = new SPBracketSearcher();
@@ -127,11 +131,11 @@ namespace Spedit.UI.Components
 			editor.Options.EnableEmailHyperlinks = false;
             editor.Options.HighlightCurrentLine = true;
             editor.Options.AllowScrollBelowDocument = false;
-			editor.Options.ShowSpaces = Program.Options.Editor_ShowSpaces;
-			editor.Options.ShowTabs = Program.Options.Editor_ShowTabs;
-			editor.Options.IndentationSize = Program.Options.Editor_IndentationSize;
+			editor.Options.ShowSpaces = Program.Options.ShowSpaces;
+			editor.Options.ShowTabs = Program.Options.ShowTabs;
+			editor.Options.IndentationSize = Program.Options.IndentationSize;
 			editor.TextArea.SelectionCornerRadius = 0.0;
-            editor.Options.ConvertTabsToSpaces = Program.Options.Editor_ReplaceTabsToWhitespace;
+            editor.Options.ConvertTabsToSpaces = Program.Options.ReplaceTabsToWhitespace;
 
 			Brush currentLineBackground = new SolidColorBrush(Color.FromArgb(0x20, 0x88, 0x88, 0x88));
 			Brush currentLinePenBrush = new SolidColorBrush(Color.FromArgb(0x30, 0x88, 0x88, 0x88));
@@ -142,9 +146,9 @@ namespace Spedit.UI.Components
 			editor.TextArea.TextView.CurrentLineBackground = currentLineBackground;
 			editor.TextArea.TextView.CurrentLineBorder = currentLinePen;
 
-            editor.FontFamily = new FontFamily(Program.Options.Editor_FontFamily);
-            editor.WordWrap = Program.Options.Editor_WordWrap;
-            UpdateFontSize(Program.Options.Editor_FontSize, false);
+            editor.FontFamily = new FontFamily(Program.Options.FontFamily);
+            editor.WordWrap = Program.Options.WordWrap;
+            UpdateFontSize(Program.Options.FontSize, false);
 			
 			colorizeSelection = new ColorizeSelection();
             editor.TextArea.TextView.LineTransformers.Add(colorizeSelection);
@@ -182,6 +186,16 @@ namespace Spedit.UI.Components
 
         }
 
+        private void InitializeTextMarkerService()
+        {
+            TextMarkerService textMarkerService = new TextMarkerService(editor.Document);
+            editor.TextArea.TextView.BackgroundRenderers.Add(textMarkerService);
+            editor.TextArea.TextView.LineTransformers.Add(textMarkerService);
+            IServiceContainer services = (IServiceContainer)editor.Document.ServiceProvider.GetService(typeof(IServiceContainer));
+            services?.AddService(typeof(ITextMarkerService), textMarkerService);
+            this.textMarkerService = textMarkerService;
+        }
+
 		private void AutoSaveTimer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			if (NeedsSave)
@@ -195,13 +209,13 @@ namespace Spedit.UI.Components
 
 		public void StartAutoSaveTimer()
 		{
-			if (Program.Options.Editor_AutoSave)
+			if (Program.Options.AutoSave)
 			{
 				if (AutoSaveTimer.Enabled)
 				{
 					AutoSaveTimer.Stop();
 				}
-				AutoSaveTimer.Interval = 1000.0 * Program.Options.Editor_AutoSaveInterval;
+				AutoSaveTimer.Interval = 1000.0 * Program.Options.AutoSaveInterval;
 				AutoSaveTimer.Start();
 			}
 		}
@@ -531,6 +545,7 @@ namespace Spedit.UI.Components
         {
             WantFoldingUpdate = true;
             NeedsSave = true;
+            textMarkerService.RemoveAll(m => true);//todo remove only edited line
         }
 
         private void Caret_PositionChanged(object sender, EventArgs e)
@@ -544,7 +559,7 @@ namespace Spedit.UI.Components
 
         private void TextArea_TextEntered(object sender, TextCompositionEventArgs e)
         {
-            if (Program.Options.Editor_ReformatLineAfterSemicolon)
+            if (Program.Options.ReformatLineAfterSemicolon)
             {
                 if (e.Text == ";")
                 {
@@ -564,14 +579,14 @@ namespace Spedit.UI.Components
             }
             else if (e.Text == "{")
 			{
-				if (Program.Options.Editor_AutoCloseBrackets)
+				if (Program.Options.AutoCloseBrackets)
 				{
 					editor.Document.Insert(editor.CaretOffset, "}");
 					editor.CaretOffset -= 1;
 				}
 				foldingStrategy.UpdateFoldings(foldingManager, editor.Document);
             }
-			else if (Program.Options.Editor_AutoCloseBrackets)
+			else if (Program.Options.AutoCloseBrackets)
 			{
 				if (e.Text == "(")
 				{
@@ -584,7 +599,7 @@ namespace Spedit.UI.Components
 					editor.CaretOffset -= 1;
 				}
 			}
-			if (Program.Options.Editor_AutoCloseStringChars)
+			if (Program.Options.AutoCloseStringChars)
 			{
 				if (e.Text == "\"")
 				{
@@ -633,7 +648,7 @@ namespace Spedit.UI.Components
                 {
                     LineHeight = editor.TextArea.TextView.DefaultLineHeight;
                 }
-                editor.ScrollToVerticalOffset(editor.VerticalOffset - (Math.Sign((double)e.Delta) * LineHeight * Program.Options.Editor_ScrollLines));
+                editor.ScrollToVerticalOffset(editor.VerticalOffset - (Math.Sign((double)e.Delta) * LineHeight * Program.Options.ScrollLines));
                 //editor.ScrollToVerticalOffset(editor.VerticalOffset - ((double)e.Delta * editor.FontSize * Program.OptionsObject.Editor_ScrollSpeed));
                 e.Handled = true;
             }

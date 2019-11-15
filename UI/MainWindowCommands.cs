@@ -45,7 +45,7 @@ namespace Spedit.UI
                     Filter = "AMXXPawn Files|*.sma;*.inc;*.cfg;*.json;*.txt;*.ini|All Files (*.*)|*.*",
                     Multiselect = true, Title = Properties.Resources.OpenNewFile
                 };
-                var result = ofd.ShowDialog();//this);
+                var result = ofd.ShowDialog();
 
                 if (result.Value)
                 {
@@ -98,17 +98,9 @@ namespace Spedit.UI
 
         private void Command_SaveAll()
         {
-            EditorElement[] editors = GetAllEditorElements();
-            if (editors == null)
+            foreach (var editor in GetAllEditorElements())
             {
-                return;
-            }
-            if (editors.Length > 0)
-            {
-                foreach (var editor in editors)
-                {
-                    editor.Save();
-                }
+                editor.Save();
             }
         }
 
@@ -121,10 +113,6 @@ namespace Spedit.UI
         private void Command_CloseAll()
         {
             EditorElement[] editors = GetAllEditorElements();
-            if (editors == null)
-            {
-                return;
-            }
             if (editors.Length > 0)
             {
                 bool unsavedEditorsExisting = editors.Aggregate(false, (current, t) => current | t.NeedsSave);

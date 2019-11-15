@@ -59,7 +59,7 @@ namespace Spedit.UI
 		{
 			while (true)
 			{
-				while (Program.Options.Program_DynamicISAC)
+				while (Program.Options.DynamicIsac)
 				{
 					Thread.Sleep(5000);
 					var ee = GetAllEditorElements();

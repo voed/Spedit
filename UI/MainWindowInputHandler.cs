@@ -57,10 +57,7 @@ namespace Spedit.UI
                 switch (e.Key)
                 {
                     case Key.F3: { Search(); e.Handled = true; break; }
-                    case Key.F5: { Compile_SPScripts(); e.Handled = true; break; }
-                    case Key.F6: { Compile_SPScripts(false); e.Handled = true; break; }
-                    case Key.F7: { Copy_Plugins(); e.Handled = true; break; } //copy
-                    case Key.F8: { FTPUpload_Plugins(); e.Handled = true; break; } //ftp upload
+                    case Key.F5: { Compile_SPScript(); e.Handled = true; break; }
                     case Key.F9: { Server_Start(); e.Handled = true; break; }
                     case Key.Escape:
 						{

@@ -34,7 +34,7 @@
                 </Border>
             </Grid>
             <Border Name="ACBorder" Grid.Column="0"  VerticalAlignment="Top" BorderThickness="1" Height="0">
-                <Grid>
+                <Grid Background="White">
                     <ListBox Name="AutoCompleteBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="0" Width="0"
                          Height="175" Background="Transparent" Opacity="1" 
                          ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" />

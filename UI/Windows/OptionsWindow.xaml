@@ -1,6 +1,5 @@
 ﻿<Window x:Class="Spedit.UI.Windows.OptionsWindow"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,28 +8,28 @@
              xmlns:components="clr-namespace:Spedit.UI.Components"
              Width="680" Height="400" ResizeMode="NoResize" 
              WindowStartupLocation="CenterOwner" 
-             Title="{x:Static resx:Resources.Options}"
->
-
+             Title="{x:Static resx:Resources.Options}">
     <Grid>
-        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,15,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150*"/>
+            <ColumnDefinition Width="187*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,15,0,0" Grid.ColumnSpan="2">
             <TabItem Name="ProgramHeader" Header="{x:Static resx:Resources.Program}">
                 <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
                     <Grid>
                         <CheckBox Name="HardwareAcc" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Content="{x:Static resx:Resources.HardwareAcc}" Checked="HardwareAcc_Changed" Unchecked="HardwareAcc_Changed"/>
-                        <CheckBox Name="OpenIncludes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,55,0,0" Content="{x:Static resx:Resources.OpenInc}" Checked="AutoOpenInclude_Changed" Unchecked="AutoOpenInclude_Changed" />
-                        <CheckBox Name="OpenIncludesRecursive" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,80,0,0" Content="{x:Static resx:Resources.OpenIncRec}" Checked="OpenIncludeRecursively_Changed" Unchecked="OpenIncludeRecursively_Changed" />
-                        <CheckBox Name="AutoUpdate" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,105,0,0" Content="{x:Static resx:Resources.AutoUpdate}" Checked="AutoUpdate_Changed" Unchecked="AutoUpdate_Changed" />
-                        <CheckBox Name="DynamicISAC" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,155,0,0" Content="{x:Static resx:Resources.DynamicISAC}" Checked="DynamicISAC_Changed" Unchecked="DynamicISAC_Changed" />
-                        <Label Name="ThemeColorLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,230,0,0" Content="{x:Static resx:Resources.ThemeColor}" />
-                        <Label Name="LanguageLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,260,0,0" Content="{x:Static resx:Resources.LanguageStr}" />
-                        <ComboBox Name="LanguageBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,260,0,0" Width="200" SelectionChanged="LanguageBox_Changed" >
+                        <CheckBox Name="OpenIncludes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,35,0,0" Content="{x:Static resx:Resources.OpenInc}" Checked="AutoOpenInclude_Changed" Unchecked="AutoOpenInclude_Changed" />
+                        <CheckBox Name="OpenIncludesRecursive" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="19,55,0,0" Content="{x:Static resx:Resources.OpenIncRec}" Checked="OpenIncludeRecursively_Changed" Unchecked="OpenIncludeRecursively_Changed" />
+                        <CheckBox Name="DynamicISAC" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,86,0,0" Content="{x:Static resx:Resources.DynamicISAC}" Checked="DynamicISAC_Changed" Unchecked="DynamicISAC_Changed" />
+                        <Label Name="LanguageLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,120,0,0" Content="{x:Static resx:Resources.LanguageStr}" />
+                        <ComboBox Name="LanguageBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,120,0,0" Width="200" SelectionChanged="LanguageBox_Changed" >
                         </ComboBox>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
             <TabItem Name="EditorHeader" Header="{x:Static resx:Resources.Editor}">
-                <ScrollViewer Margin="0,0,-41,-903">
+                <ScrollViewer Margin="0">
                     <Grid>
                         <Label  Name="FontSizeBlock" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Content="{x:Static resx:Resources.FontSize}" IsHitTestVisible="False" />
                         <Slider Name="FontSizeD" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,25,0,0" Width="280" Minimum="5" Maximum="30" AutoToolTipPlacement="TopLeft" TickFrequency="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" ValueChanged="FontSize_Changed" />
@@ -45,10 +44,10 @@
                         <CheckBox Name="AutoCloseStringChars" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="350,160,0,0" Content="{x:Static resx:Resources.AutoCloseStrChr}" Checked="AutoCloseStringChars_Changed" Unchecked="AutoCloseStringChars_Changed" />
                         <CheckBox Name="ShowSpaces" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="350,180,0,0" Content="{x:Static resx:Resources.ShowSpaces}" Checked="ShowSpaces_Changed" Unchecked="ShowSpaces_Changed" />
                         <CheckBox Name="ShowTabs" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="350,200,0,0" Content="{x:Static resx:Resources.ShowTabs}" Checked="ShowTabs_Changed" Unchecked="ShowTabs_Changed" />
-                        
+
                         <Label Name="IndentationSizeBlock" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,165,0,0" Content="{x:Static resx:Resources.IndentationSize}" IsHitTestVisible="False" />
                         <Slider Name="IndentationSize" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,185,0,0" Width="280" Minimum="1" Maximum="10" AutoToolTipPlacement="TopLeft" TickFrequency="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" ValueChanged="IndentationSize_Changed" />
-                        
+
                         <Label Name="FontFamilyTB" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,55,5,5" Content="{x:Static resx:Resources.FontFamily}" IsHitTestVisible="False" />
                         <ComboBox Name="FontFamilyCB" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,75,5,5" Width="250" xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase" ItemTemplate="{DynamicResource FontTemplate}" SelectionChanged="FontFamily_Changed">
                             <ComboBox.Resources>
@@ -83,7 +82,7 @@
                             <ComboBoxItem Content="10" />
                             <ComboBoxItem Content="15" />
                         </ComboBox>
-                        <Label Name="SyntaxHighBlock" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,238,0,0" Content="{x:Static resx:Resources.SyntaxHigh}" IsHitTestVisible="False" />
+                        <Label Name="SyntaxHighBlock" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5,229,538,0" Content="{x:Static resx:Resources.SyntaxHigh}" IsHitTestVisible="False" />
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,255,0,5">
 
                             <CheckBox Name="HighlightDeprecateds" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Content="{x:Static resx:Resources.HighDeprecat}" Checked="HighlightDeprecateds_Changed" Unchecked="HighlightDeprecateds_Changed" />

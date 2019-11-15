@@ -60,7 +60,7 @@ namespace Spedit.UI
 
                 Program.ConfigList.Current = config;
 
-                Program.Options.Program_SelectedConfig = name;
+                Program.Options.SelectedConfig = name;
 
                 foreach (EditorElement element in GetAllEditorElements())
                 {

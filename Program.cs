@@ -59,12 +59,12 @@ namespace Spedit
                         CultureInfo.DefaultThreadCurrentCulture = defCultureInfo;
 
                         ConfigList = ConfigLoader.Load();
-                        foreach (Config config in ConfigList.Configs.Where(config => config.Name == Options.Program_SelectedConfig))
+                        foreach (Config config in ConfigList.Configs.Where(config => config.Name == Options.SelectedConfig))
                         {
                             ConfigList.CurrentConfig = ConfigList.Configs.IndexOf(config);
                             break;
                         }
-                        if (!Options.Program_UseHardwareAcceleration)
+                        if (!Options.UseHardwareAcceleration)
                         {
                             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 						}
@@ -110,7 +110,7 @@ namespace Spedit
                         }
 #endif
                     app.Run(MainWindow);
-                        OptionsControl.Save();
+                    OptionsControl.Save();
 #if !DEBUG
                     }
                     catch (Exception e)

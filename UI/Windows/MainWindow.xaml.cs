@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using Spedit.UI.Components;
@@ -34,11 +35,11 @@ namespace Spedit.UI
             InitializeComponent();
 
 
-			ObjectBrowserColumn.Width = new GridLength(Program.Options.Program_ObjectbrowserWidth, GridUnitType.Pixel);
+			ObjectBrowserColumn.Width = new GridLength(Program.Options.ObjectbrowserWidth, GridUnitType.Pixel);
 			var heightDescriptor = DependencyPropertyDescriptor.FromProperty(ColumnDefinition.WidthProperty, typeof(ItemsControl));
 			heightDescriptor.AddValueChanged(EditorObjectBrowserGrid.ColumnDefinitions[1], EditorObjectBrowserGridRow_WidthChanged);
 			FillConfigMenu();
-            ChangeObjectBrowserToDirectory(Program.Options.Program_ObjectBrowserDirectory);
+            ChangeObjectBrowserToDirectory(Program.Options.ObjectBrowserDirectory);
 
             if (Program.Options.LastOpenFiles != null)
             {
@@ -93,7 +94,7 @@ namespace Spedit.UI
                         }
                     }
                     AddEditorElement(finalPath, fileInfo.Name, SelectMe);
-                    if (TryOpenIncludes && Program.Options.Program_OpenCustomIncludes)
+                    if (TryOpenIncludes && Program.Options.OpenCustomIncludes)
                     {
                         using (var textReader = fileInfo.OpenText())
                         {
@@ -115,7 +116,7 @@ namespace Spedit.UI
 
                                     fileName = Path.Combine(fileInfo.DirectoryName, fileName);
                                     TryLoadSourceFile(fileName, false,
-                                        Program.Options.Program_OpenIncludesRecursively);
+                                        Program.Options.OpenIncludesRecursively);
                                 }
                                 catch (PathTooLongException)
                                 {
@@ -211,13 +212,6 @@ namespace Spedit.UI
                 }
             }
             Program.Options.LastOpenFiles = lastOpenFiles.ToArray();
-#if !DEBUG
-            if (Program.UpdateStatus.IsAvailable)
-            {
-                UpdateWindow updateWin = new UpdateWindow(Program.UpdateStatus) { Owner = this };
-                updateWin.ShowDialog();
-            }
-#endif
         }
 
         private void MetroWindow_Drop(object sender, DragEventArgs e)
@@ -255,12 +249,7 @@ namespace Spedit.UI
                 return;
             }
             string fileName = row.file;
-            EditorElement[] editors = GetAllEditorElements();
-            if (editors == null)
-            {
-                return;
-            }
-            foreach (var editor in editors)
+            foreach (var editor in GetAllEditorElements())
             {
                 if (editor.FullFilePath == fileName)
                 {
@@ -285,7 +274,7 @@ namespace Spedit.UI
 		{
 			if (FullyInitialized)
 			{
-				Program.Options.Program_ObjectbrowserWidth = ObjectBrowserColumn.Width.Value;
+				Program.Options.ObjectbrowserWidth = ObjectBrowserColumn.Width.Value;
 			}
 		}
 
@@ -334,6 +323,12 @@ namespace Spedit.UI
         private ObservableCollection<string> actionButtonDict = new ObservableCollection<string> { Properties.Resources.Copy, Properties.Resources.FTPUp, Properties.Resources.StartServer };
         private ObservableCollection<string> findReplaceButtonDict = new ObservableCollection<string> { Properties.Resources.Replace, Properties.Resources.ReplaceAll };
 
-
+        private void ServerInput_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Server_SendCmd(ServerInput.Text);
+            }
+        }
     }
 }

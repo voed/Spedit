@@ -28,7 +28,7 @@ namespace Spedit.UI
                     stringOutput.AppendLine(serverInfo.Name);
                     using (var rcon = server.GetControl(c.RConPassword))
                     {
-                        string[] cmds = ReplaceRconCMDVaraibles(c.RConCommands).Split('\n');
+                        /*string[] cmds = ReplaceRconCMDVaraibles(c.RConCommands).Split('\n');
                         foreach (var cmd in cmds)
                         {
                             Task t = Task.Run(() =>
@@ -40,7 +40,7 @@ namespace Spedit.UI
                                 }
                             });
                             t.Wait();
-                        }
+                        }*/
                     }
                 }
                 stringOutput.AppendLine("Done");
@@ -56,7 +56,7 @@ namespace Spedit.UI
             }
         }
         //todo adapt to goldsrc
-        private string ReplaceRconCMDVaraibles(string input)
+/*        private string ReplaceRconCMDVaraibles(string input)
         {
             if (compiledFileNames.Count < 1)
                 return input;
@@ -95,7 +95,7 @@ namespace Spedit.UI
                 input = input.Replace("{plugins_unload}", replacement.ToString());
             }
             return input;
-        }
+        }*/
 
         private string StripSMXPostFix(string fileName)
         {

@@ -227,6 +227,7 @@ namespace Spedit.UI
 
         private void ReplaceAll()
         {
+
             int editorIndex = 0;
             EditorElement[] editors = GetEditorElementsForFRAction(out editorIndex);
             if (editors?.Length < 1)

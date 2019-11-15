@@ -141,6 +141,8 @@
     <Compile Include="UI\Components\EditorFoldingStrategy.cs" />
     <Compile Include="UI\Components\EditorIndetation.cs" />
     <Compile Include="UI\Components\IntelliSenseController.cs" />
+    <Compile Include="UI\Components\TextMarker\ITextMarker.cs" />
+    <Compile Include="UI\Components\TextMarker\TextMarkerService.cs" />
     <Compile Include="UI\Interop\LanguageChooserWindow.xaml.cs">
       <DependentUpon>LanguageChooserWindow.xaml</DependentUpon>
     </Compile>
@@ -355,6 +357,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>md ".\amxmodx"

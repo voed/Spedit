@@ -59,11 +59,7 @@
             </MenuItem>
 
             <MenuItem Name="MenuI_Build" Header="{x:Static resx:Resources.Build}">
-                <MenuItem Name="MenuI_CompileAll" Header="{x:Static resx:Resources.CompileAll}" Click="Menu_CompileAll" InputGestureText="F5" />
-                <MenuItem Name="MenuI_Compile" Header="{x:Static resx:Resources.Compile}" Click="Menu_Compile" InputGestureText="F6" />
-                <Separator/>
-                <MenuItem Name="MenuI_CopyPlugin" Header="{x:Static resx:Resources.CopyPlugin}" Click="Menu_CopyPlugin" InputGestureText="F7" />
-                <MenuItem Name="MenuI_FTPUpload" Header="{x:Static resx:Resources.FTPUp}" Click="Menu_FTPUpload" InputGestureText="F8" />
+                <MenuItem Name="MenuI_Compile" Header="{x:Static resx:Resources.Compile}" Click="Menu_Compile" InputGestureText="F5" />
                 <Separator/>
                 <MenuItem Name="MenuI_StartServer" Header="{x:Static resx:Resources.StartServer}" Click="Menu_StartServer" InputGestureText="F9" />
                 <MenuItem Name="MenuI_SendRCon" Header="{x:Static resx:Resources.SendRCon}" Click="Menu_SendRCon" InputGestureText="F10" />
@@ -115,9 +111,9 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition />
-                        <RowDefinition Name="CompileOutputRow" MinHeight="100" Height="150" />
+                        <RowDefinition Name="CompileOutputRow" MinHeight="100" Height="178" />
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Name="FindReplaceGrid" VerticalAlignment="Top"  KeyDown="FindReplaceGrid_KeyDown" Margin="3">
+                    <Grid Grid.Row="0" Name="FindReplaceGrid" VerticalAlignment="Top"  KeyDown="FindReplaceGrid_KeyDown" Margin="0" Height="0">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
@@ -190,14 +186,20 @@
                     </dock:DockingManager>
                     <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="3" />
                     <Grid Grid.Row="2" Margin="0,3,0,0">
-                        <TabControl TabStripPlacement="Bottom">
+                        <TabControl x:Name="CompOutTabControl" TabStripPlacement="Bottom">
                             <TabItem Header="Compiler output" >
                                 <TextBox Name="CompileOutput" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap"
                                          Margin="0" IsReadOnly="True" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Visible"></TextBox>
                             </TabItem>
                             <TabItem Header="Errors" >
-                                <DataGrid Name="ErrorResultGrid" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True"
-                                          SelectionMode="Single" AutoGenerateColumns="False" SelectionChanged="ErrorResultGrid_SelectionChanged">
+                                <DataGrid Name="ErrorResultGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True"
+                                          SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" SelectionChanged="ErrorResultGrid_SelectionChanged">
+                                    <DataGrid.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                        </Style>
+                                    </DataGrid.CellStyle>
                                     <DataGrid.Columns>
                                         <DataGridTextColumn x:Name="MenuC_FileName" Header="File Name" Width="7*" Binding="{Binding file}" />
                                         <DataGridTextColumn x:Name="MenuC_Line" Header="Line" Width="1*" Binding="{Binding line}" />
@@ -205,6 +207,19 @@
                                         <DataGridTextColumn x:Name="MenuC_Details" Header="Details" Width="9*" Binding="{Binding details}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
+                            </TabItem>
+                            <TabItem Header="Server output" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition Height="18"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <TextBox Grid.Row="0" Name="ServerOutput" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap"
+                                             Margin="0" IsReadOnly="True" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Visible">
+                                    </TextBox>
+                                    <TextBox Grid.Row="1" Name="ServerInput" KeyUp="ServerInput_KeyUp" ></TextBox>
+                                </Grid>
+
                             </TabItem>
                         </TabControl>
                     </Grid>
